@@ -1,233 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Smart Bin Sorter – Playable Game</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waste Segregation - 4 Bin Method</title>
 <style>
-  body{
-    margin:0;
-    font-family:'Segoe UI',Arial,sans-serif;
-    background:radial-gradient(circle at top,#e8f5e9,#a5d6a7);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
-  canvas{
-    display:block;
-    margin:20px auto;
-    background:linear-gradient(180deg,#f7fcff,#eef7ef);
-    border-radius:26px;
-    box-shadow:0 18px 45px rgba(0,0,0,.35), inset 0 3px 8px rgba(255,255,255,.6);
-  }
-  .overlay{
-    position:fixed;inset:0;
-    background:rgba(0,0,0,.75);
-    color:#fff;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-  }
-  button{
-    padding:14px 26px;
-    margin:10px;
-    font-size:17px;
-    border-radius:12px;
-    border:none;
-    cursor:pointer;
-    background:#4caf50;
-    color:white;
-  }
-  button:hover{opacity:.9}
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f4f9f4;
+        text-align: center;
+    }
+
+    header {
+        background: #2e7d32;
+        color: white;
+        padding: 20px;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .bin {
+        width: 250px;
+        padding: 20px;
+        border-radius: 12px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        transition: transform 0.3s;
+    }
+
+    .bin:hover {
+        transform: scale(1.05);
+    }
+
+    .dry { background: #1565c0; }
+    .wet { background: #388e3c; }
+    .sanitary { background: #c62828; }
+    .special { background: #6a1b9a; }
+
+    ul {
+        text-align: left;
+        margin-top: 10px;
+    }
+
+    footer {
+        background: #1b5e20;
+        color: white;
+        padding: 10px;
+        margin-top: 20px;
+    }
 </style>
 </head>
 <body>
+<<<<<<< HEAD
 <marquee>"Please Always Segregate"</marquee>
 <canvas id="game" width="360" height="600"></canvas>
+=======
 
-<div style="text-align:center">
-  <button id="langEn">English</button>
-  <button id="langHi">हिंदी</button>
-</div>
+<header>
+    <h1>Waste Segregation - 4 Bin Method</h1>
+    <p>Keep Our Environment Clean and Green 🌍</p>
+</header>
+>>>>>>> 1744f1bdbf07aa1c062c5abdff83267042a3f1a7
 
-<div id="intro" class="overlay">
-  <h1>♻️ Smart Bin Sorter</h1>
-  <p>Catch falling waste • Choose the right bin</p>
-  <button id="easyBtn">▶ Easy</button>
-  <button id="hardBtn">🔥 Hard</button>
-</div>
+<section class="container">
 
-<div id="gameover" class="overlay" style="display:none">
-  <h2>Game Over</h2>
-  <p id="final"></p>
-  <button id="restartBtn">🔁 Play Again</button>
-</div>
+    <div class="bin dry">
+        <h2>Dry Waste (Blue Bin)</h2>
+        <p>Recyclable waste items</p>
+        <ul>
+            <li>Paper & Newspapers</li>
+            <li>Plastic Bottles</li>
+            <li>Glass</li>
+            <li>Metal Cans</li>
+            <li>Cardboard</li>
+        </ul>
+    </div>
 
-<script>
-// ===== AUDIO =====
-let audioUnlocked = false;
-const dingSound = new Audio('https://actions.google.com/sounds/v1/cartoon/coin_collect.ogg');
-const noSound  = new Audio('https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg');
-document.addEventListener('pointerdown',()=>{audioUnlocked=true;},{once:true});
+    <div class="bin wet">
+        <h2>Wet Waste (Green Bin)</h2>
+        <p>Biodegradable waste</p>
+        <ul>
+            <li>Food Scraps</li>
+            <li>Vegetable Peels</li>
+            <li>Fruit Waste</li>
+            <li>Tea Leaves</li>
+            <li>Garden Waste</li>
+        </ul>
+    </div>
 
-const canvas = document.getElementById('game');
-const ctx = canvas.getContext('2d');
+    <div class="bin sanitary">
+        <h2>Sanitary Waste (Red Bin)</h2>
+        <p>Hygiene-related waste</p>
+        <ul>
+            <li>Used Masks</li>
+            <li>Diapers</li>
+            <li>Sanitary Pads</li>
+            <li>Bandages</li>
+            <li>Tissues</li>
+        </ul>
+    </div>
 
-let score = 0;
-let speed = 2.2;
-let running = false;
-let lang = 'en';
+    <div class="bin special">
+        <h2>Special Care Waste (Yellow Bin)</h2>
+        <p>Hazardous waste items</p>
+        <ul>
+            <li>Batteries</li>
+            <li>Expired Medicines</li>
+            <li>Paints</li>
+            <li>Light Bulbs</li>
+            <li>Chemicals</li>
+        </ul>
+    </div>
 
-let trashHeight = 0;
-const trashLimit = 140;
-let showDing = 0;
+</section>
 
-const bins = [
-  { n: 'Wet', e: '🗑️', c:'#4caf50' },
-  { n: 'Dry', e: '🗑️', c:'#2196f3' },
-  { n: 'Hazard', e: '☣️', c:'#f44336' },
-  { n: 'Medical', e: '🏥', c:'#ff9800' }
-];
+<footer>
+    <p>Reduce • Reuse • Recycle ♻</p>
+</footer>
 
-let selectedBin = 1;
-let binX = 120;
-
-const wastes = [
-  { t: 'Wet', e: '🍌', en: 'Banana Peel', hi: 'केले का छिलका' },
-  { t: 'Wet', e: '🍎', en: 'Apple Core', hi: 'सेब का बीज' },
-  { t: 'Wet', e: '🥬', en: 'Vegetable Waste', hi: 'सब्ज़ी कचरा' },
-
-  { t: 'Dry', e: '🧴', en: 'Plastic Bottle', hi: 'प्लास्टिक बोतल' },
-  { t: 'Dry', e: '📦', en: 'Cardboard Box', hi: 'कार्डबोर्ड डिब्बा' },
-  { t: 'Dry', e: '🥫', en: 'Metal Can', hi: 'धातु का डिब्बा' },
-
-  { t: 'Hazard', e: '🔋', en: 'Used Battery', hi: 'खराब बैटरी' },
-  { t: 'Hazard', e: '💡', en: 'Broken Bulb', hi: 'टूटा बल्ब' },
-
-  { t: 'Medical', e: '💉', en: 'Syringe', hi: 'सिरिंज' },
-  { t: 'Medical', e: '🩹', en: 'Bandage', hi: 'पट्टी' }
-];
-
-let waste = null;
-
-function spawnWaste(){
-  const r = wastes[Math.floor(Math.random()*wastes.length)];
-  waste = {...r, x: Math.random()*280 + 40, y: -40};
-}
-
-function startGame(mode){
-  speed = mode==='hard'?3.5:2.2;
-  score = 0;
-  trashHeight = 0;
-  selectedBin = 1;
-  binX = 120;
-  spawnWaste();
-  running = true;
-  document.getElementById('intro').style.display='none';
-}
-
-function endGame(){
-  running = false;
-  document.getElementById('final').innerText = `Score: ${score}\nTrash Overflowed!`;
-  document.getElementById('gameover').style.display='flex';
-}
-
-restartBtn.onclick = ()=>{
-  document.getElementById('gameover').style.display='none';
-  document.getElementById('intro').style.display='flex';
-};
-
-easyBtn.onclick = ()=>startGame('easy');
-hardBtn.onclick = ()=>startGame('hard');
-langEn.onclick = ()=>lang='en';
-langHi.onclick = ()=>lang='hi';
-
-addEventListener('keydown',e=>{
-  if(!running||!waste) return;
-  if(e.key>='1'&&e.key<='4') selectedBin=parseInt(e.key)-1;
-  if(e.key==='ArrowLeft') binX=Math.max(0,binX-25);
-  if(e.key==='ArrowRight') binX=Math.min(240,binX+25);
-});
-
-function drawTrashMountain(){
-  if(trashHeight<=0) return;
-  ctx.fillStyle='#8d6e63';
-  ctx.beginPath();
-  ctx.moveTo(0,600);
-  ctx.quadraticCurveTo(180,600-trashHeight-40,360,600);
-  ctx.fill();
-}
-
-function drawBin(){
-  ctx.fillStyle=bins[selectedBin].c;
-  ctx.beginPath();
-  ctx.roundRect(binX,470,120,90,18);
-  ctx.fill();
-
-  ctx.font='32px Apple Color Emoji, Segoe UI Emoji';
-  ctx.textAlign='center';
-  ctx.fillStyle='#fff';
-  ctx.fillText(bins[selectedBin].e,binX+60,505);
-
-  ctx.font='14px Arial';
-  ctx.fillText(bins[selectedBin].n+' Bin',binX+60,575);
-}
-
-function drawUI(){
-  ctx.fillStyle='#2e7d32';
-  ctx.font='18px Arial';
-  ctx.textAlign='left';
-  ctx.fillText('Smart Bin Sorter',20,30);
-  ctx.font='14px Arial';
-  ctx.fillText('Score: '+score,260,30);
-
-  if(showDing>0){
-    ctx.font='18px Arial';
-    ctx.fillStyle='#ffeb3b';
-    ctx.textAlign='center';
-    ctx.fillText('ding, ding, ding, ding',180,70);
-    showDing--;
-  }
-}
-
-function loop(){
-  ctx.clearRect(0,0,360,600);
-  if(!running){ requestAnimationFrame(loop); return; }
-
-  drawTrashMountain();
-  drawUI();
-
-  waste.y += speed;
-  ctx.font='40px Apple Color Emoji, Segoe UI Emoji';
-  ctx.textAlign='center';
-  ctx.fillStyle='#000';
-  ctx.fillText(waste.e,waste.x,waste.y);
-
-  ctx.font='14px Arial';
-  ctx.fillStyle='#333';
-  ctx.fillText(lang==='en'?waste.en:waste.hi,waste.x,waste.y+22);
-
-  if(waste.y>500){
-    if(bins[selectedBin].n===waste.t){
-      score += 10;
-      showDing = 40;
-      if(audioUnlocked){ dingSound.currentTime=0; dingSound.play(); }
-    } else {
-      trashHeight += 30;
-      if(audioUnlocked){ noSound.currentTime=0; noSound.play(); }
-      if(trashHeight>=trashLimit){ endGame(); }
-    }
-    spawnWaste();
-  }
-
-  drawBin();
-  requestAnimationFrame(loop);
-}
-
-spawnWaste();
-loop();
-</script>
 </body>
 </html>
