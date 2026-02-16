@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mr. Segregator — Wet Waste</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================
+   VARIABLES (same as main)
+========================= */
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+  --success: #00ff9d;
+}
+
+/* =========================
+   RESET & BODY
+========================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* =========================
+   HEADER
+========================= */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  font-size: 1.3rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.back-btn {
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s;
+}
+
+.back-btn:hover {
+  color: var(--accent);
+}
+
+/* =========================
+   HERO
+========================= */
+.hero {
+  padding: 80px 16px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-emoji {
+  font-size: 4.8rem;
+  margin-bottom: 16px;
+  display: block;
+  animation: float 3s ease-in-out infinite;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* =========================
+   CONTENT SECTION
+========================= */
+.content-section {
+  padding: 40px 16px 80px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title::before {
+  content: "🌱";
+  font-size: 1.4rem;
+}
+
+.info-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 28px;
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,255,208,0.15);
+}
+
+.info-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 14px;
+  color: var(--success);
+}
+
+.info-card ul {
+  list-style: none;
+}
+
+.info-card li {
+  padding: 8px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.info-card li::before {
+  content: "✓";
+  color: var(--accent);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* =========================
+   TIP BAR
+========================= */
+.tip-bar {
+  background: linear-gradient(135deg, #1a2142, var(--bg-mid));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 40px 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.tip-bar::before {
+  content: "💡";
+  position: absolute;
+  top: -30px;
+  right: 30px;
+  font-size: 6rem;
+  opacity: 0.1;
+}
+
+.tip-title {
+  font-size: 1.3rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.tip-text {
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-emoji, .info-card, .tip-bar { animation: none; }
+}
+
+/* =========================
+   TABLET+
+========================= */
+@media (min-width: 768px) {
+  .hero { padding: 100px 16px 60px; }
+  .hero-title { font-size: 3.6rem; }
+  
+  .content-section {
+    padding: 60px 24px 100px;
+  }
+  
+  .info-card {
+    padding: 36px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+  <a href="index.html" class="back-btn">← Back to System</a>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-emoji">🌿</span>
+    <h1 class="hero-title">Wet Waste</h1>
+    <p class="hero-subtitle">
+      The living half of your trash — turning kitchen scraps into tomorrow's soil.
+    </p>
+  </div>
+</section>
+
+<div class="content-section">
+  
+  <!-- WHAT IS IT -->
+  <div class="info-card">
+    <h3>What is Wet Waste?</h3>
+    <p>Wet waste is any organic, biodegradable material that contains moisture. It's the stuff that breaks down naturally and becomes compost — the foundation of a healthy planet.</p>
+  </div>
+
+  <!-- EXAMPLES -->
+  <div class="info-card">
+    <h3>Common Examples</h3>
+    <ul>
+      <li>Food scraps (vegetable peels, fruit rinds, leftover rice)</li>
+      <li>Tea leaves & coffee grounds</li>
+      <li>Eggshells & bones (crushed)</li>
+      <li>Garden waste (leaves, grass clippings, flowers)</li>
+      <li>Used tissue paper & napkins</li>
+      <li>Expired dairy & cooked food (non-oily)</li>
+    </ul>
+  </div>
+
+  <!-- WHY IT MATTERS -->
+  <div class="info-card">
+    <h3>Why Segregate It?</h3>
+    <ul>
+      <li>Prevents methane emissions from landfills</li>
+      <li>Creates nutrient-rich compost for your garden or community farms</li>
+      <li>Reduces the load on municipal waste systems by 60%</li>
+      <li>Turns waste into wealth — literally soil for food security</li>
+    </ul>
+  </div>
+
+  <!-- HOW TO HANDLE -->
+  <div class="info-card">
+    <h3>How to Handle Wet Waste</h3>
+    <ul>
+      <li>Drain excess liquid before throwing</li>
+      <li>Use a separate wet bin with a breathable lid</li>
+      <li>Line with newspaper or dry leaves to absorb moisture</li>
+      <li>Compost at home or drop at your local collection point</li>
+      <li>Never mix with dry waste — it contaminates everything</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- TIP BAR -->
+<div class="tip-bar">
+  <div class="tip-title">PRO TIP</div>
+  <div class="tip-text">
+    Turn your wet waste into <strong>gold dust</strong> — start a balcony compost bin and watch your plants thrive in 30 days.
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="dry.html">Dry Waste</a>
+    <a href="sanitary.html">Sanitary</a>
+    <a href="special.html">Special</a>
+  </div>
+  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
+</footer>
+
+</body>
+</html>

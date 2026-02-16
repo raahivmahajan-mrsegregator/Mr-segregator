@@ -57,6 +57,15 @@ header {
   -webkit-text-fill-color: transparent;
 }
 
+.subcategory-section {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
 /* =========================
    CIRCULAR SYSTEM
 ========================= */
@@ -129,6 +138,8 @@ header {
 /* Individual Orbit Nodes */
 .orbit {
   position: absolute;
+  text-decoration: none;
+  color: inherit;
   width: var(--orbit-size);
   height: var(--orbit-size);
   border-radius: 50%;
@@ -224,7 +235,8 @@ header {
 <header>MR.SEGREGATOR</header>
 
 <section class="categories-section">
-  <h2 class="categories-title">Segregate - get to Zeros Waste!!</h2>
+  <h2 class="categories-title">Segregate</h2>
+  <h5 class="subcategory-section">Get to ZERO Waste!!</h5>
 
   <div class="circular-wrapper">
     <div class="center-circle">
@@ -232,7 +244,7 @@ header {
     </div>
 
     <div class="orbit-ring">
-      <div class="orbit wet"><span>🌿</span><p>WET</p></div>
+      <a class="orbit wet" href="wet.html"><span>🌿</span><p>WET</p></a>
       <div class="orbit dry"><span>📦</span><p>DRY</p></div>
       <div class="orbit sanitary"><span>🩹</span><p>SANITARY</p></div>
       <div class="orbit special"><span>⚠️</span><p>SPECIAL</p></div>
