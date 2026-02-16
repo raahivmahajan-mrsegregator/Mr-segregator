@@ -1,126 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Waste Segregation - 4 Bin Method</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mr. Segregator — Circular System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #f4f9f4;
-        text-align: center;
-    }
+/* =========================
+   VARIABLES
+========================= */
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+}
 
-    header {
-        background: #2e7d32;
-        color: white;
-        padding: 20px;
-    }
+/* =========================
+   RESET & BODY
+========================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    h1 {
-        margin: 0;
-    }
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+}
 
-    .container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 20px;
-        gap: 20px;
-    }
+/* =========================
+   HEADER & SECTION
+========================= */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
-    .bin {
-        width: 250px;
-        padding: 20px;
-        border-radius: 12px;
-        color: white;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        transition: transform 0.3s;
-    }
+.categories-section {
+  padding: 20px 16px 64px;
+  text-align: center;
+}
 
-    .bin:hover {
-        transform: scale(1.05);
-    }
+.categories-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-    .dry { background: #1565c0; }
-    .wet { background: #388e3c; }
-    .sanitary { background: #c62828; }
-    .special { background: #6a1b9a; }
+/* =========================
+   CIRCULAR SYSTEM
+========================= */
+.circular-wrapper {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  margin: 0 auto;
 
-    ul {
-        text-align: left;
-        margin-top: 10px;
-    }
+  /* Uniform orbital variables */
+  --orbit-size: 86px;
+  --offset: 28px;
+}
 
-    footer {
-        background: #1b5e20;
-        color: white;
-        padding: 10px;
-        margin-top: 20px;
-    }
+/* Guide ring */
+.circular-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px dashed rgba(255,255,255,0.15);
+  opacity: 0.4;
+}
+
+/* CENTER CIRCLE — SHARPENED WITHOUT BORDER */
+.center-circle {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: #ffffff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Reduced & optimized shadows for sharper edges */
+  box-shadow:
+    0 0 24px var(--accent-soft),           /* softer outer glow, less blur */
+    inset 0 0 6px rgba(255,255,255,0.35);  /* very subtle inset – removes most edge softening */
+
+  animation: center-breathe 6s ease-in-out infinite;
+
+  /* Force sharper rendering */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.center-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  /* Sharpen logo rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  filter: contrast(1.08) saturate(1.12) brightness(1.02);
+}
+
+/* Orbit Ring (rotates) */
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: orbit-rotate 40s linear infinite;
+}
+
+/* Individual Orbit Nodes */
+.orbit {
+  position: absolute;
+  width: var(--orbit-size);
+  height: var(--orbit-size);
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  animation: orbit-counter 40s linear infinite;
+}
+
+.orbit span { font-size: 1.7rem; }
+.orbit p {
+  font-size: 0.6rem;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+}
+
+/* ========================
+   POSITIONING (UNIFORM & RESPONSIVE)
+======================== */
+.wet     { top: calc(-1 * var(--offset)); left: calc(50% - (var(--orbit-size) / 2)); }
+.dry     { right: calc(-1 * var(--offset)); top: calc(50% - (var(--orbit-size) / 2)); }
+.sanitary{ bottom: calc(-1 * var(--offset)); left: calc(50% - (var(--orbit-size) / 2)); }
+.special { left: calc(-1 * var(--offset)); top: calc(50% - (var(--orbit-size) / 2)); }
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes orbit-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes orbit-counter {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+@keyframes center-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .orbit-ring, .orbit { animation: none; }
+}
+
+/* =========================
+   TABLET
+========================= */
+@media (min-width: 768px) {
+  .circular-wrapper {
+    width: 440px;
+    height: 440px;
+    --orbit-size: 120px;
+    --offset: 41px;
+  }
+  .center-circle {
+    width: 210px;
+    height: 210px;
+  }
+  .orbit { width: 120px; height: 120px; }
+  .orbit span { font-size: 2.4rem; }
+  .orbit p { font-size: 0.8rem; }
+}
+
+/* =========================
+   DESKTOP
+========================= */
+@media (min-width: 1024px) {
+  .circular-wrapper {
+    width: 520px;
+    height: 520px;
+    --orbit-size: 140px;
+    --offset: 47px;
+  }
+  .center-circle {
+    width: 260px;
+    height: 260px;
+  }
+  .orbit { width: 140px; height: 140px; }
+}
 </style>
 </head>
+
 <body>
 
-<canvas id="game" width="360" height="600"></canvas>
+<header>MR.SEGREGATOR</header>
 
-<section class="container">
+<section class="categories-section">
+  <h2 class="categories-title">Waste Segregation</h2>
 
-    <div class="bin dry">
-        <h2>Dry Waste (Blue Bin)</h2>
-        <p>Recyclable waste items</p>
-        <ul>
-            <li>Paper & Newspapers</li>
-            <li>Plastic Bottles</li>
-            <li>Glass</li>
-            <li>Metal Cans</li>
-            <li>Cardboard</li>
-        </ul>
+  <div class="circular-wrapper">
+    <div class="center-circle">
+      <img src="centImg.png" alt="Mr Segregator">
     </div>
 
-    <div class="bin wet">
-        <h2>Wet Waste (Green Bin)</h2>
-        <p>Biodegradable waste</p>
-        <ul>
-            <li>Food Scraps</li>
-            <li>Vegetable Peels</li>
-            <li>Fruit Waste</li>
-            <li>Tea Leaves</li>
-            <li>Garden Waste</li>
-        </ul>
+    <div class="orbit-ring">
+      <div class="orbit wet"><span>🌿</span><p>WET</p></div>
+      <div class="orbit dry"><span>📦</span><p>DRY</p></div>
+      <div class="orbit sanitary"><span>🩹</span><p>SANITARY</p></div>
+      <div class="orbit special"><span>⚠️</span><p>SPECIAL</p></div>
     </div>
-
-    <div class="bin sanitary">
-        <h2>Sanitary Waste (Red Bin)</h2>
-        <p>Hygiene-related waste</p>
-        <ul>
-            <li>Used Masks</li>
-            <li>Diapers</li>
-            <li>Sanitary Pads</li>
-            <li>Bandages</li>
-            <li>Tissues</li>
-        </ul>
-    </div>
-
-    <div class="bin special">
-        <h2>Special Care Waste (Yellow Bin)</h2>
-        <p>Hazardous waste items</p>
-        <ul>
-            <li>Batteries</li>
-            <li>Expired Medicines</li>
-            <li>Paints</li>
-            <li>Light Bulbs</li>
-            <li>Chemicals</li>
-        </ul>
-    </div>
-
+  </div>
 </section>
-
-<footer>
-    <p>Reduce • Reuse • Recycle ♻</p>
-</footer>
 
 </body>
 </html>
