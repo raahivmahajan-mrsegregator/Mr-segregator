@@ -19,6 +19,13 @@
   --border: rgba(255,255,255,0.18);
   --text: #f4f6ff;
   --muted: #aab0d4;
+  --glow-green: #00ff9d; /* For recycle symbol glow */
+
+  /* New hue colors – increased opacity for vibrancy */
+  --hue-wet: rgba(0, 255, 128, 0.5);      /* Vibrant green for wet */
+  --hue-dry: rgba(0, 128, 255, 0.5);      /* Vibrant blue for dry */
+  --hue-sanitary: rgba(255, 105, 180, 0.5); /* Vibrant pink for sanitary */
+  --hue-special: rgba(255, 0, 0, 0.5);     /* Vibrant red for special */
 }
 
 /* =========================
@@ -90,24 +97,22 @@ header {
   opacity: 0.4;
 }
 
-/* CENTER CIRCLE — SHARPENED WITHOUT BORDER */
+/* CENTER CIRCLE — BLENDED & GLOWY (NO WHITE BG) */
 .center-circle {
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 150px;
-  height: 150px;
+  width: 130px; /* Smaller now */
+  height: 130px;
   border-radius: 50%;
-  background: #ffffff;
+  background: transparent; /* Blends into dark background */
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  /* Reduced & optimized shadows for sharper edges */
-  box-shadow:
-    0 0 24px var(--accent-soft),           /* softer outer glow, less blur */
-    inset 0 0 6px rgba(255,255,255,0.35);  /* very subtle inset – removes most edge softening */
+  /* Outer glow for the area */
+  box-shadow: 0 0 32px var(--accent-soft);
 
   animation: center-breathe 6s ease-in-out infinite;
 
@@ -116,15 +121,19 @@ header {
   backface-visibility: hidden;
 }
 
-.center-circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.recycle-symbol {
+  font-size: 7rem; /* Adjusted for smaller circle */
+  color: var(--glow-green); /* Brighter green for eco theme */
+  line-height: 1;
+  transform: rotate(-15deg); /* Slight rotation for dynamic look */
 
-  /* Sharpen logo rendering */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  filter: contrast(1.08) saturate(1.12) brightness(1.02);
+  /* Glowy effect on the symbol itself */
+  text-shadow: 
+    0 0 8px var(--glow-green),
+    0 0 16px var(--accent-soft),
+    0 0 24px var(--accent-soft);
+
+  animation: symbol-glow 4s ease-in-out infinite alternate; /* Pulsing glow */
 }
 
 /* Orbit Ring (rotates) */
@@ -152,6 +161,12 @@ header {
   justify-content: center;
   gap: 4px;
   animation: orbit-counter 40s linear infinite;
+  cursor: pointer; /* Hand cursor for all clickable orbits */
+  transition: box-shadow 0.3s ease; /* Smooth hover */
+}
+
+.orbit:hover {
+  box-shadow: 0 0 20px var(--accent-soft); /* Glow on hover */
 }
 
 .orbit span { font-size: 1.7rem; }
@@ -159,6 +174,23 @@ header {
   font-size: 0.6rem;
   letter-spacing: 0.6px;
   color: var(--muted);
+}
+
+/* Add color hues via inset shadow – increased blur for vibrancy */
+.orbit.wet {
+  box-shadow: inset 0 0 28px var(--hue-wet);
+}
+
+.orbit.dry {
+  box-shadow: inset 0 0 28px var(--hue-dry);
+}
+
+.orbit.sanitary {
+  box-shadow: inset 0 0 28px var(--hue-sanitary);
+}
+
+.orbit.special {
+  box-shadow: inset 0 0 28px var(--hue-special);
 }
 
 /* ========================
@@ -187,6 +219,11 @@ header {
   50% { transform: scale(1.06); }
 }
 
+@keyframes symbol-glow {
+  0% { text-shadow: 0 0 8px var(--glow-green), 0 0 16px var(--accent-soft), 0 0 24px var(--accent-soft); }
+  100% { text-shadow: 0 0 12px var(--glow-green), 0 0 24px var(--accent-soft), 0 0 36px var(--accent-soft); }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .orbit-ring, .orbit { animation: none; }
@@ -203,8 +240,11 @@ header {
     --offset: 41px;
   }
   .center-circle {
-    width: 210px;
-    height: 210px;
+    width: 180px; /* Smaller */
+    height: 180px;
+  }
+  .recycle-symbol {
+    font-size: 9.5rem; /* Adjusted */
   }
   .orbit { width: 120px; height: 120px; }
   .orbit span { font-size: 2.4rem; }
@@ -222,8 +262,11 @@ header {
     --offset: 47px;
   }
   .center-circle {
-    width: 260px;
-    height: 260px;
+    width: 220px; /* Smaller */
+    height: 220px;
+  }
+  .recycle-symbol {
+    font-size: 11.5rem; /* Adjusted */
   }
   .orbit { width: 140px; height: 140px; }
 }
@@ -240,14 +283,14 @@ header {
 
   <div class="circular-wrapper">
     <div class="center-circle">
-      <img src="centImg.png" alt="Mr Segregator">
+      <span class="recycle-symbol">♻️</span>
     </div>
 
     <div class="orbit-ring">
       <a class="orbit wet" href="wet.html"><span>🌿</span><p>WET</p></a>
-      <div class="orbit dry"><span>📦</span><p>DRY</p></div>
-      <div class="orbit sanitary"><span>🩹</span><p>SANITARY</p></div>
-      <div class="orbit special"><span>⚠️</span><p>SPECIAL</p></div>
+      <a class="orbit dry" href="dry.html"><span>📦</span><p>DRY</p></a>
+      <a class="orbit sanitary" href="sanitary.html"><span>🩹</span><p>SANITARY</p></a>
+      <a class="orbit special" href="special.html"><span>⚠️</span><p>SPECIAL</p></a>
     </div>
   </div>
 </section>
