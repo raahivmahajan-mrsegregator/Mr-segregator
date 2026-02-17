@@ -42,12 +42,22 @@ body {
 }
 
 /* =========================
-   HEADER & SECTION
+   HEADER
 ========================= */
 header {
   padding: 14px 18px;
   font-weight: 700;
   letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  font-size: 1.3rem;
+  color: var(--accent);
+  text-decoration: none;
 }
 
 .categories-section {
@@ -102,8 +112,8 @@ header {
   position: absolute;
   inset: 0;
   margin: auto;
-  width: 130px; /* Smaller now */
-  height: 130px;
+  width: 110px; /* Smaller now */
+  height: 110px;
   border-radius: 50%;
   background: transparent; /* Blends into dark background */
   overflow: hidden;
@@ -114,7 +124,7 @@ header {
   /* Outer glow for the area */
   box-shadow: 0 0 32px var(--accent-soft);
 
-  animation: center-breathe 6s ease-in-out infinite;
+  animation: heartbeat 3s ease-in-out infinite; /* Gentler: longer duration, single pulse */
 
   /* Force sharper rendering */
   transform: translateZ(0);
@@ -122,7 +132,7 @@ header {
 }
 
 .recycle-symbol {
-  font-size: 7rem; /* Adjusted for smaller circle */
+  font-size: 6rem; /* Adjusted for smaller circle */
   color: var(--glow-green); /* Brighter green for eco theme */
   line-height: 1;
   transform: rotate(-15deg); /* Slight rotation for dynamic look */
@@ -214,9 +224,9 @@ header {
   to   { transform: rotate(-360deg); }
 }
 
-@keyframes center-breathe {
+@keyframes heartbeat {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
+  50% { transform: scale(1.04); } /* Gentler: single pulse, reduced scale */
 }
 
 @keyframes symbol-glow {
@@ -240,11 +250,11 @@ header {
     --offset: 41px;
   }
   .center-circle {
-    width: 180px; /* Smaller */
-    height: 180px;
+    width: 160px; /* Smaller */
+    height: 160px;
   }
   .recycle-symbol {
-    font-size: 9.5rem; /* Adjusted */
+    font-size: 8.5rem; /* Adjusted */
   }
   .orbit { width: 120px; height: 120px; }
   .orbit span { font-size: 2.4rem; }
@@ -262,21 +272,50 @@ header {
     --offset: 47px;
   }
   .center-circle {
-    width: 220px; /* Smaller */
-    height: 220px;
+    width: 200px; /* Smaller */
+    height: 200px;
   }
   .recycle-symbol {
-    font-size: 11.5rem; /* Adjusted */
+    font-size: 10.5rem; /* Adjusted */
   }
   .orbit { width: 140px; height: 140px; }
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
 }
 </style>
 </head>
 
 <body>
-
-<header>MR.SEGREGATOR</header>
-
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+</header>
 <section class="categories-section">
   <h2 class="categories-title">Segregate</h2>
   <h5 class="subcategory-section">Get to ZERO Waste!!</h5>
@@ -294,6 +333,10 @@ header {
     </div>
   </div>
 </section>
+
+<footer>
+  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
+</footer>
 
 </body>
 </html>
