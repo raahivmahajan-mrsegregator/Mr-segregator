@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mr. Segregator — Wet Waste</title>
+<title>Mr. Segregator — Sanitary Waste</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 /* =========================
-   VARIABLES (same as main)
+   VARIABLES (same as main + pink accent for sanitary)
 ========================= */
 :root {
   --bg-dark: #0b0f1a;
@@ -19,7 +19,7 @@
   --border: rgba(255,255,255,0.18);
   --text: #f4f6ff;
   --muted: #aab0d4;
-  --success: #00ff9d;
+  --success: #ff69b4; /* Vibrant pink for sanitary theme */
 }
 
 /* =========================
@@ -113,11 +113,11 @@ header {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
-  /* Green hue/glow around text */
+  /* Pink hue/glow around text */
   text-shadow: 
-    0 0 8px rgba(0,255,157,0.6),
-    0 0 16px rgba(0,255,157,0.4),
-    0 0 24px rgba(0,255,157,0.2);
+    0 0 8px rgba(255,105,180,0.6),
+    0 0 16px rgba(255,105,180,0.4),
+    0 0 24px rgba(255,105,180,0.2);
 }
 
 .hero-subtitle {
@@ -147,7 +147,7 @@ header {
 }
 
 .section-title::before {
-  content: "🌱";
+  content: "🩹";
   font-size: 1.4rem;
 }
 
@@ -293,10 +293,10 @@ footer {
 
 <section class="hero">
   <div class="hero-content">
-    <span class="hero-emoji">🌿</span>
-    <h1 class="hero-title">Wet Waste</h1>
+    <span class="hero-emoji">🩹</span>
+    <h1 class="hero-title">Sanitary Waste</h1>
     <p class="hero-subtitle">
-      The living half of your trash — turning kitchen scraps into tomorrow's soil.
+      Personal hygiene waste that requires careful handling to protect health and the environment.
     </p>
   </div>
 </section>
@@ -305,20 +305,20 @@ footer {
   
   <!-- WHAT IS IT -->
   <div class="info-card">
-    <h3>What is Wet Waste?</h3>
-    <p>Wet waste is any organic, biodegradable material that contains moisture. It's the stuff that breaks down naturally and becomes compost — the foundation of a healthy planet.</p>
+    <h3>What is Sanitary Waste?</h3>
+    <p>Sanitary waste includes used personal hygiene products that may contain bodily fluids. These items are non-recyclable and need special care to prevent contamination and health risks.</p>
   </div>
 
   <!-- EXAMPLES -->
   <div class="info-card">
     <h3>Common Examples</h3>
     <ul>
-      <li>Food scraps (vegetable peels, fruit rinds, leftover rice)</li>
-      <li>Tea leaves & coffee grounds</li>
-      <li>Eggshells & bones (crushed)</li>
-      <li>Garden waste (leaves, grass clippings, flowers)</li>
-      <li>Used tissue paper & napkins</li>
-      <li>Expired dairy & cooked food (non-oily)</li>
+      <li>Sanitary napkins, pads & tampons</li>
+      <li>Baby diapers & adult diapers</li>
+      <li>Condoms & intimate hygiene products</li>
+      <li>Bandages, gauze & cotton with blood</li>
+      <li>Medical gloves & masks (household use)</li>
+      <li>Wet wipes & tissues with fluids</li>
     </ul>
   </div>
 
@@ -326,22 +326,34 @@ footer {
   <div class="info-card">
     <h3>Why Segregate It?</h3>
     <ul>
-      <li>Prevents methane emissions from landfills</li>
-      <li>Creates nutrient-rich compost for your garden or community farms</li>
-      <li>Reduces the load on municipal waste systems by 60%</li>
-      <li>Turns waste into wealth — literally soil for food security</li>
+      <li>Prevents spread of infections and diseases</li>
+      <li>Avoids contaminating recyclable dry waste</li>
+      <li>Reduces environmental pollution from plastics</li>
+      <li>Ensures safe disposal through proper incineration or treatment</li>
+    </ul>
+  </div>
+
+  <!-- HEALTH RISKS -->
+  <div class="info-card">
+    <h3>Health Risks of Improper Handling</h3>
+    <ul>
+      <li>Exposure to bloodborne pathogens like hepatitis B, C, or HIV from contaminated items</li>
+      <li>Respiratory infections from mishandled masks or tissues carrying viruses</li>
+      <li>Skin irritations or bacterial infections (e.g., E. coli, Salmonella) for waste handlers</li>
+      <li>Groundwater contamination leading to community health issues if landfilled untreated</li>
+      <li>Increased risk of vector-borne diseases if mixed waste attracts pests</li>
     </ul>
   </div>
 
   <!-- HOW TO HANDLE -->
   <div class="info-card">
-    <h3>How to Handle Wet Waste</h3>
+    <h3>How to Handle Sanitary Waste</h3>
     <ul>
-      <li>Drain excess liquid before throwing</li>
-      <li>Use a separate wet bin with a breathable lid</li>
-      <li>Line with newspaper or dry leaves to absorb moisture</li>
-      <li>Compost at home or drop at your local collection point</li>
-      <li>Never mix with dry waste — it contaminates everything</li>
+      <li>Wrap each item securely in newspaper or a black bag</li>
+      <li>Never flush — it clogs drains and harms waterways</li>
+      <li>Use a separate sealed sanitary bin</li>
+      <li>Hand over only to designated collectors</li>
+      <li>Never mix with wet or dry waste</li>
     </ul>
   </div>
 
@@ -351,14 +363,14 @@ footer {
 <div class="tip-bar">
   <div class="tip-title">PRO TIP</div>
   <div class="tip-text">
-    Turn your wet waste into <strong>gold dust</strong> — start a balcony compost bin and watch your plants thrive in 30 days.
+    Always wrap sanitary products properly before disposal — it maintains dignity, hygiene, and helps waste collectors.
   </div>
 </div>
 
 <footer>
   <div class="footer-links">
+    <a href="wet.html">Wet Waste</a>
     <a href="dry.html">Dry Waste</a>
-    <a href="sanitary.html">Sanitary</a>
     <a href="special.html">Special</a>
   </div>
   <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
