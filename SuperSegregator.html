@@ -150,6 +150,7 @@ header {
   justify-content: center;
   gap: 12px;
   margin-top: 16px;
+  align-items: center;
 }
 
 .nav-btn {
@@ -164,6 +165,49 @@ header {
 
 .nav-btn.active {
   background: var(--accent);
+}
+
+.pause-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 0.9rem;
+}
+
+.pause-btn:hover {
+  background: var(--accent-soft);
+}
+
+/* Prev/Next Buttons */
+.prev-btn, .next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: var(--text);
+  font-size: 2rem;
+  padding: 10px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+.prev-btn {
+  left: 10px;
+}
+
+.next-btn {
+  right: 10px;
+}
+
+.prev-btn:hover, .next-btn:hover {
+  opacity: 1;
 }
 
 /* Profile in Slide */
@@ -367,6 +411,8 @@ footer {
 
 <div class="slider-section">
   <div class="slider">
+    <button class="prev-btn">&#10094;</button>
+    <button class="next-btn">&#10095;</button>
     <!-- Slide 1: January -->
     <div class="slide active" id="slide-1">
       <div class="month-display">January 2026</div>
@@ -454,6 +500,7 @@ footer {
     <label class="nav-btn active" for="radio1"></label>
     <label class="nav-btn" for="radio2"></label>
     <label class="nav-btn" for="radio3"></label>
+    <button class="pause-btn">Pause</button>
   </div>
 </div>
 
@@ -471,13 +518,26 @@ footer {
   // Simple JS for slider with auto-advance
   const slides = document.querySelectorAll('.slide');
   const navBtns = document.querySelectorAll('.nav-btn');
+  const prevBtn = document.querySelector('.prev-btn');
+  const nextBtn = document.querySelector('.next-btn');
+  const pauseBtn = document.querySelector('.pause-btn');
+  const slider = document.querySelector('.slider');
   let currentSlide = 0;
+  let intervalId;
+  let isAutoPlaying = true;
 
   function showSlide(index) {
     slides.forEach(slide => slide.classList.remove('active'));
     navBtns.forEach(b => b.classList.remove('active'));
     slides[index].classList.add('active');
     navBtns[index].classList.add('active');
+  }
+
+  function startAutoPlay() {
+    intervalId = setInterval(() => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }, 5000);
   }
 
   navBtns.forEach((btn, index) => {
@@ -487,14 +547,67 @@ footer {
     });
   });
 
-  // Show first slide on load
-  showSlide(currentSlide);
+  prevBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  });
 
-  // Auto-advance every 5 seconds
-  setInterval(() => {
+  nextBtn.addEventListener('click', () => {
     currentSlide = (currentSlide + 1) % slides.length;
     showSlide(currentSlide);
-  }, 5000);
+  });
+
+  pauseBtn.addEventListener('click', () => {
+    isAutoPlaying = !isAutoPlaying;
+    pauseBtn.textContent = isAutoPlaying ? 'Pause' : 'Play';
+    if (isAutoPlaying) {
+      startAutoPlay();
+    } else {
+      clearInterval(intervalId);
+    }
+  });
+
+  // Pause on hover (desktop)
+  slider.addEventListener('mouseenter', () => {
+    if (isAutoPlaying) {
+      clearInterval(intervalId);
+    }
+  });
+
+  slider.addEventListener('mouseleave', () => {
+    if (isAutoPlaying) {
+      startAutoPlay();
+    }
+  });
+
+  // Swipe gestures for touch devices
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  slider.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    if (isAutoPlaying) {
+      clearInterval(intervalId);
+    }
+  });
+
+  slider.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    if (touchStartX - touchEndX > 50) { // Swipe left to next
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    } else if (touchEndX - touchStartX > 50) { // Swipe right to prev
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+    if (isAutoPlaying) {
+      startAutoPlay();
+    }
+  });
+
+  // Show first slide on load and start auto-play
+  showSlide(currentSlide);
+  startAutoPlay();
 </script>
 
 </body>
