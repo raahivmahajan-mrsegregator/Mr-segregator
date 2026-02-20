@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mr. Segregator — Circular System</title>
+<title>Mr. Segregator — Flat Infographic</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -16,16 +16,20 @@
   --bg-mid: #141a2f;
   --accent: #00ffd0;
   --accent-soft: rgba(0,255,208,0.35);
-  --border: rgba(255,255,255,0.18);
+  --border: rgba(255,255,255,0.12); /* More transparent border */
   --text: #f4f6ff;
   --muted: #aab0d4;
   --glow-green: #00ff9d; /* For recycle symbol glow */
 
-  /* New hue colors – increased opacity for vibrancy */
-  --hue-wet: rgba(0, 255, 128, 0.5);      /* Vibrant green for wet */
-  --hue-dry: rgba(0, 128, 255, 0.5);      /* Vibrant blue for dry */
-  --hue-sanitary: rgba(255, 105, 180, 0.5); /* Vibrant pink for sanitary */
-  --hue-special: rgba(255, 0, 0, 0.5);     /* Vibrant red for special */
+  /* Adjusted hue colors to match darker tones in the reference image */
+  --hue-wet: rgba(0, 100, 50, 0.85);        /* Darker green for wet */
+  --hue-dry: rgba(0, 50, 150, 0.85);        /* Darker blue for dry */
+  --hue-sanitary: rgba(150, 0, 100, 0.85);  /* Darker magenta/purple for sanitary */
+  --hue-special: rgba(150, 0, 0, 0.85);     /* Darker red for special */
+  --hue-ewaste: rgba(200, 100, 0, 0.85);    /* Orange for e-waste */
+  --hue-cnd: rgba(100, 50, 0, 0.85);        /* Brown for C&D waste */
+  --hue-resin: rgba(100, 0, 150, 0.85);     /* Purple for resin codes */
+  --hue-how: rgba(0, 100, 200, 0.85);       /* Blue for how to segregate */
 }
 
 /* =========================
@@ -39,6 +43,8 @@ body {
               linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
   color: var(--text);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* =========================
@@ -63,8 +69,10 @@ header {
 .categories-section {
   padding: 20px 16px 64px;
   text-align: center;
+  flex-grow: 1; /* Improved layout for modern UX */
 }
 
+/* Modern title styling */
 .categories-title {
   font-size: 2.2rem;
   font-weight: 700;
@@ -72,6 +80,7 @@ header {
   background: linear-gradient(90deg, #00ffd0, #6ddcff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }
 
 .subcategory-section {
@@ -84,201 +93,148 @@ header {
 }
 
 /* =========================
-   CIRCULAR SYSTEM
+   FLAT INFOGRAPHIC TILES
 ========================= */
-.circular-wrapper {
-  position: relative;
-  width: 340px;
-  height: 340px;
-  margin: 56px auto 0;
-
-  /* Uniform orbital variables */
-  --orbit-size: 86px;
-  --offset: 28px;
-}
-
-/* Guide ring */
-.circular-wrapper::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px dashed rgba(255,255,255,0.15);
-  opacity: 0.4;
-}
-
-/* CENTER CIRCLE — BLENDED & GLOWY (NO WHITE BG) */
-.center-circle {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 110px; /* Smaller now */
-  height: 110px;
-  border-radius: 50%;
-  background: transparent; /* Blends into dark background */
-  overflow: hidden;
+.tiles-wrapper {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
-
-  /* Outer glow for the area */
-  box-shadow: 0 0 32px var(--accent-soft);
-
-  animation: heartbeat 3s ease-in-out infinite; /* Gentler: longer duration, single pulse */
-
-  /* Force sharper rendering */
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  gap: 20px; /* Increased gap to prevent overlap/cutting on hover */
+  max-width: 800px;
+  margin: 56px auto 0;
+  overflow-x: auto; /* Allow scrolling on small screens */
+  padding: 0 16px; /* Added padding for better mobile UX */
+  scrollbar-width: thin; /* Modern scrollbar */
+  scrollbar-color: var(--accent-soft) transparent;
 }
 
-.recycle-symbol {
-  font-size: 6rem; /* Adjusted for smaller circle */
-  color: var(--glow-green); /* Brighter green for eco theme */
-  line-height: 1;
-  transform: rotate(-15deg); /* Slight rotation for dynamic look */
-
-  /* Glowy effect on the symbol itself */
-  text-shadow: 
-    0 0 8px var(--glow-green),
-    0 0 16px var(--accent-soft),
-    0 0 24px var(--accent-soft);
-
-  animation: symbol-glow 4s ease-in-out infinite alternate; /* Pulsing glow */
-}
-
-/* Orbit Ring (rotates) */
-.orbit-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  animation: orbit-rotate 40s linear infinite;
-}
-
-/* Individual Orbit Nodes */
-.orbit {
-  position: absolute;
+/* Individual Tiles - Enhanced Modern Glass Effect with More Transparency */
+.tile {
   text-decoration: none;
   color: inherit;
-  width: var(--orbit-size);
-  height: var(--orbit-size);
-  border-radius: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.03));
-  backdrop-filter: blur(8px);
+  width: 120px;
+  height: 120px;
+  border-radius: 20px; /* More rounded for modern feel */
+  background: rgba(255, 255, 255, 0.03); /* Increased transparency */
+  backdrop-filter: blur(16px); /* Stronger blur for premium glass effect */
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  animation: orbit-counter 40s linear infinite;
-  cursor: pointer; /* Hand cursor for all clickable orbits */
-  transition: box-shadow 0.3s ease; /* Smooth hover */
+  gap: 6px;
+  cursor: pointer;
+  transition: box-shadow 0.4s ease, background 0.4s ease; /* Removed transform to avoid layout issues */
+  position: relative;
+  flex-shrink: 0; /* Prevent shrinking */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Lighter always-on shadow */
+  /* Removed overflow: hidden to prevent content cutting on scale */
 }
 
-.orbit:hover {
-  box-shadow: 0 0 20px var(--accent-soft); /* Glow on hover */
+.tile:hover {
+  box-shadow: 0 0 20px var(--hue-color); /* Alternative: Colored glow shadow on hover */
+  background: rgba(255, 255, 255, 0.05); /* Slight background change on hover */
+  z-index: 10; /* Bring to front to prevent cutting */
 }
 
-.orbit span { font-size: 1.7rem; }
-.orbit p {
-  font-size: 0.6rem;
+.tile span { 
+  font-size: 2.5rem; 
+  transition: transform 0.4s ease, filter 0.4s ease; /* Alternative: Blur and rotate for dynamic effect */
+}
+
+.tile:hover span {
+  transform: rotate(10deg); /* Slight rotation for alternative animation */
+  filter: brightness(1.2); /* Brighten icon on hover */
+}
+
+.tile p {
+  font-size: 0.75rem;
+  font-weight: 600;
   letter-spacing: 0.6px;
-  color: var(--muted);
+  color: var(--accent); /* Changed to cyan for matching reference image */
+  text-transform: uppercase;
+  transition: text-shadow 0.4s ease; /* Simplified transition */
 }
 
-/* Add color hues via inset shadow – increased blur for vibrancy */
-.orbit.wet {
-  box-shadow: inset 0 0 28px var(--hue-wet);
+.tile:hover p {
+  text-shadow: 0 0 12px var(--accent); /* Stronger glow on text */
 }
 
-.orbit.dry {
-  box-shadow: inset 0 0 28px var(--hue-dry);
+/* Color overlays - increased transparency */
+.tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--hue-color);
+  opacity: 0.3; /* More transparent tint */
+  border-radius: 20px;
+  transition: opacity 0.4s ease;
 }
 
-.orbit.sanitary {
-  box-shadow: inset 0 0 28px var(--hue-sanitary);
+.tile:hover::before {
+  opacity: 0.6; /* Stronger tint on hover for alternative effect */
 }
 
-.orbit.special {
-  box-shadow: inset 0 0 28px var(--hue-special);
-}
+.tile.wet { --hue-color: var(--hue-wet); }
+.tile.dry { --hue-color: var(--hue-dry); }
+.tile.sanitary { --hue-color: var(--hue-sanitary); }
+.tile.special { --hue-color: var(--hue-special); }
+.tile.ewaste { --hue-color: var(--hue-ewaste); }
+.tile.cnd { --hue-color: var(--hue-cnd); }
+.tile.resin { --hue-color: var(--hue-resin); }
+.tile.how { --hue-color: var(--hue-how); }
 
-/* ========================
-   POSITIONING (UNIFORM & RESPONSIVE)
-======================== */
-.wet     { top: calc(-1 * var(--offset)); left: calc(50% - (var(--orbit-size) / 2)); }
-.dry     { right: calc(-1 * var(--offset)); top: calc(50% - (var(--orbit-size) / 2)); }
-.sanitary{ bottom: calc(-1 * var(--offset)); left: calc(50% - (var(--orbit-size) / 2)); }
-.special { left: calc(-1 * var(--offset)); top: calc(50% - (var(--orbit-size) / 2)); }
+/* Updated icons to better match the reference image */
+.tile.wet span { content: '🌱'; } /* Leaf for wet */
+.tile.dry span { content: '📦'; } /* Box for dry */
+.tile.sanitary span { content: '💊'; } /* Pill for sanitary */
+.tile.special span { content: '⚠️'; } /* Warning for special */
 
 /* =========================
-   ANIMATIONS
+   RESPONSIVE IMPROVEMENTS
 ========================= */
-@keyframes orbit-rotate {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-@keyframes orbit-counter {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(-360deg); }
-}
-
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); } /* Gentler: single pulse, reduced scale */
-}
-
-@keyframes symbol-glow {
-  0% { text-shadow: 0 0 8px var(--glow-green), 0 0 16px var(--accent-soft), 0 0 24px var(--accent-soft); }
-  100% { text-shadow: 0 0 12px var(--glow-green), 0 0 24px var(--accent-soft), 0 0 36px var(--accent-soft); }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .orbit-ring, .orbit { animation: none; }
-}
-
-/* =========================
-   TABLET
-========================= */
-@media (min-width: 768px) {
-  .circular-wrapper {
-    width: 440px;
-    height: 440px;
-    --orbit-size: 120px;
-    --offset: 41px;
+/* Mobile: Smaller tiles for better fit, allow wrap if needed */
+@media (max-width: 480px) {
+  .tiles-wrapper {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-around;
+    overflow-x: visible;
   }
-  .center-circle {
-    width: 160px; /* Smaller */
+  .tile {
+    width: 100px;
+    height: 100px;
+  }
+  .tile span { font-size: 2rem; }
+  .tile p { font-size: 0.65rem; }
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .tiles-wrapper {
+    gap: 24px;
+    flex-wrap: wrap; /* Revert to wrap for multiple rows */
+  }
+  .tile {
+    width: 140px;
+    height: 140px;
+  }
+  .tile span { font-size: 3rem; }
+  .tile p { font-size: 0.85rem; }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .tiles-wrapper {
+    gap: 28px;
+  }
+  .tile {
+    width: 160px;
     height: 160px;
   }
-  .recycle-symbol {
-    font-size: 8.5rem; /* Adjusted */
-  }
-  .orbit { width: 120px; height: 120px; }
-  .orbit span { font-size: 2.4rem; }
-  .orbit p { font-size: 0.8rem; }
-}
-
-/* =========================
-   DESKTOP
-========================= */
-@media (min-width: 1024px) {
-  .circular-wrapper {
-    width: 520px;
-    height: 520px;
-    --orbit-size: 140px;
-    --offset: 47px;
-  }
-  .center-circle {
-    width: 200px; /* Smaller */
-    height: 200px;
-  }
-  .recycle-symbol {
-    font-size: 10.5rem; /* Adjusted */
-  }
-  .orbit { width: 140px; height: 140px; }
+  .tile span { font-size: 3.5rem; }
+  .tile p { font-size: 0.95rem; }
 }
 
 /* =========================
@@ -290,6 +246,7 @@ footer {
   border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 0.85rem;
+  margin-top: auto; /* Push footer to bottom */
 }
 
 .footer-links {
@@ -320,17 +277,15 @@ footer {
   <h2 class="categories-title">Segregate</h2>
   <h5 class="subcategory-section">Get to ZERO Waste!!</h5>
 
-  <div class="circular-wrapper">
-    <div class="center-circle">
-      <span class="recycle-symbol">♻️</span>
-    </div>
-
-    <div class="orbit-ring">
-      <a class="orbit wet" href="wet.html"><span>🌿</span><p>WET</p></a>
-      <a class="orbit dry" href="dry.html"><span>📦</span><p>DRY</p></a>
-      <a class="orbit sanitary" href="sanitary.html"><span>🩹</span><p>SANITARY</p></a>
-      <a class="orbit special" href="special.html"><span>⚠️</span><p>SPECIAL</p></a>
-    </div>
+  <div class="tiles-wrapper">
+    <a class="tile wet" href="wet.html"><span>🌱</span><p>WET/ORGANIC</p></a>
+    <a class="tile dry" href="dry.html"><span>📦</span><p>DRY/RECYCLABLE</p></a>
+    <a class="tile sanitary" href="sanitary.html"><span>🩸🧼</span><p>SANITARY</p></a>
+    <a class="tile special" href="special.html"><span>⚠️💊</span><p>SPECIAL</p></a>
+    <a class="tile ewaste" href="e-waste.html"><span>📱</span><p>E-WASTE</p></a>
+    <a class="tile cnd" href="cnd-waste.html"><span>🏗️</span><p>C & D WASTE</p></a>
+    <a class="tile resin" href="resin-codes.html"><span>♺ 7</span><p>RESIN CODES</p></a>
+    <a class="tile how" href="how-to-segregate.html"><span>❓</span><p>HOW DO I SEGREGATE?</p></a>
   </div>
 </section>
 
