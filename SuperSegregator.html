@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mr. Segregator — Super Segregator of the Month</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================
+   VARIABLES (same as main pages)
+========================= */
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+  --success: #00ff9d; /* Optional success color, can adjust */
+}
+
+/* =========================
+   RESET & BODY
+========================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* =========================
+   HEADER
+========================= */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  font-size: 1.3rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.back-btn {
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s;
+}
+
+.back-btn:hover {
+  color: var(--accent);
+}
+
+/* =========================
+   HERO / MAIN SECTION
+========================= */
+.hero {
+  padding: 28px 16px 20px; /* Reduced bottom padding */
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 2.2rem; /* Reduced size */
+  font-weight: 700;
+  margin-bottom: 2px;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================
+   SLIDER SECTION
+========================= */
+.slider-section {
+  padding: 0 16px 80px; /* Reduced top padding */
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.slider {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 0 24px var(--accent-soft);
+  border: 1px solid var(--border);
+}
+
+.slide {
+  display: none;
+  padding: 28px;
+  animation: slide-in 0.5s ease-in-out;
+}
+
+.slide.active {
+  display: block;
+}
+
+/* Month Display on Top */
+.month-display {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Slider Navigation */
+.slider-nav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.nav-btn {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.nav-btn.active {
+  background: var(--accent);
+}
+
+/* Profile in Slide */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .profile-section {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 36px;
+  }
+}
+
+.profile-image {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative; /* For aura positioning */
+  border: 1px solid var(--border);
+  background: transparent; /* For cutout effect; assume PNG image with transparency */
+}
+
+.profile-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  filter: drop-shadow(0 0 20px rgba(0,255,208,0.7)); /* Increased glow for cutout */
+}
+
+/* Glowy aura effect – more vibrant */
+.profile-image::before {
+  content: "";
+  position: absolute;
+  inset: -15px; /* Larger extension for bigger aura */
+  border-radius: 30px; /* Softer edges */
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  filter: blur(25px); /* Increased blur for vibrancy */
+  opacity: 0.9; /* Higher opacity */
+  z-index: -1;
+  animation: aura-pulse 5s ease-in-out infinite;
+}
+
+.profile-image::after {
+  content: "";
+  position: absolute;
+  inset: -25px;
+  border-radius: 40px;
+  background: radial-gradient(circle, #6ddcff 0%, transparent 80%);
+  filter: blur(35px); /* Increased blur */
+  opacity: 0.7; /* Higher opacity */
+  z-index: -2;
+  animation: aura-pulse 7s ease-in-out infinite reverse;
+}
+
+/* Aura pulse animation – amplified for vibrancy */
+@keyframes aura-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; } /* Increased scale and opacity change */
+}
+
+.profile-bio {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+}
+
+.profile-bio h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.profile-bio p {
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.profile-bio ul {
+  list-style: none;
+}
+
+.profile-bio li {
+  padding: 4px 0;
+  color: var(--muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.profile-bio li::before {
+  content: "🌟";
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* =========================
+   VIDEO SECTION
+========================= */
+.video-section {
+  padding: 0 16px 80px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.video-section h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 0 24px var(--accent-soft);
+  border: 1px solid var(--border);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Slide in animation */
+@keyframes slide-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (min-width: 768px) {
+  .hero { padding: 40px 16px 20px; } /* Reduced bottom padding */
+  .hero-title { font-size: 2.8rem; } /* Reduced size */
+  
+  .slider-section { padding: 0 24px 100px; } /* Reduced top padding */
+  .video-section { padding: 0 24px 100px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+  <a href="index.html" class="back-btn">← Back to Home</a>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">Super Segregator of the Month</h1>
+  </div>
+</section>
+
+<div class="slider-section">
+  <div class="slider">
+    <!-- Slide 1: January -->
+    <div class="slide active" id="slide-1">
+      <div class="month-display">January 2026</div>
+      <div class="profile-section">
+        <div class="profile-image">
+          <img src="Jan.jpeg" alt="January Super Segregator" />
+        </div>
+        <div class="profile-bio">
+          <h2>Raahiv The Super Segregator</h2>
+          <p>Raahiv Mahajan, an 11-year-old from Gurugram, has been our Super Segregator this month! He follows all segregation rules diligently, turning his home into a zero-waste zone. His passion for the environment started with a school project, and now he inspires his entire neighborhood.</p>
+          <ul>
+            <li>Age: 11</li>
+            <li>Location: Gurugram, India</li>
+            <li>Achievement: Reduced family waste by 50% through composting and recycling</li>
+            <li>Favorite Tip: "Always rinse recyclables before tossing them in the dry bin!"</li>
+            <li>Community Outreach: Articles in Magazines, Workshops, Video Games on Waste Segregation. </li>
+          </ul>
+        </div>
+      </div>
+      <div class="video-section">
+        <h3>Raahiv's Segregation Techniques</h3>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/video-id-jan" title="January Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: February -->
+    <div class="slide" id="slide-2">
+      <div class="month-display">February 2026</div>
+      <div class="profile-section">
+        <div class="profile-image">
+          <img src="nextSS.png" alt="February Super Segregator" />
+        </div>
+        <div class="profile-bio">
+          <h2>Will you be the Waste Wizard ?</h2>
+          <p>Will you encourage your family, school and community to segrgeate waste ?</p>
+          <ul>
+            <li>More About you..</li>
+            <!-- <li>Location: Mumbai, India</li> 
+            <li>Achievement: Organized a school waste drive collecting 200kg of recyclables</li>
+            <li>Favorite Tip: "Use color-coded bins to make sorting fun!"</li>
+            <li>Hobbies: Drawing cartoons about recycling and playing soccer</li>-->
+          </ul>
+        </div>
+      </div>
+      <div class="video-section">
+        <h3>Sophia's Segregation Techniques</h3>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/video-id-feb" title="February Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: March (Add more as needed) -->
+    <div class="slide" id="slide-3">
+      <div class="month-display">March 2026</div>
+      <div class="profile-section">
+        <div class="profile-image">
+          <img src="nextSS.png" alt="March Super Segregator" />
+        </div>
+        <div class="profile-bio">
+          <h2>Will you be The Recycle Ranger</h2>
+          <p>Will you use more recycled materials and share tips on social media ?</p>
+          <ul>
+            <li>More About you..</li>
+           <!---<li>Location: Bangalore, India</li>
+            <li>Achievement: Converted 100kg of wet waste into compost for community garden</li>
+            <li>Favorite Tip: "Turn food scraps into plant food – compost!"</li>
+            <li>Hobbies: Coding apps for eco-tracking and cycling</li>-->
+          </ul>
+        </div>
+      </div>
+      <div class="video-section">
+        <h3>Rahul's Segregation Techniques</h3>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/video-id-mar" title="March Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slider Navigation Dots -->
+  <div class="slider-nav">
+    <label class="nav-btn active" for="radio1"></label>
+    <label class="nav-btn" for="radio2"></label>
+    <label class="nav-btn" for="radio3"></label>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="wet.html">Wet Waste</a>
+    <a href="dry.html">Dry Waste</a>
+    <a href="sanitary.html">Sanitary</a>
+    <a href="special.html">Special</a>
+  </div>
+  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
+</footer>
+
+<script>
+  // Simple JS for slider with auto-advance
+  const slides = document.querySelectorAll('.slide');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  let currentSlide = 0;
+
+  function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove('active'));
+    navBtns.forEach(b => b.classList.remove('active'));
+    slides[index].classList.add('active');
+    navBtns[index].classList.add('active');
+  }
+
+  navBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      currentSlide = index;
+      showSlide(currentSlide);
+    });
+  });
+
+  // Show first slide on load
+  showSlide(currentSlide);
+
+  // Auto-advance every 5 seconds
+  setInterval(() => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }, 5000);
+</script>
+
+</body>
+</html>
