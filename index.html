@@ -96,24 +96,20 @@ header {
    FLAT INFOGRAPHIC TILES
 ========================= */
 .tiles-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 12px; /* Increased gap to prevent overlap/cutting on hover */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
   max-width: 800px;
   margin: 56px auto 0;
-  padding: 0 16px; /* Added padding for better mobile UX */
-  scrollbar-width: thin; /* Modern scrollbar */
-  scrollbar-color: var(--accent-soft) transparent;
+  padding: 0 16px;
 }
 
 /* Individual Tiles - Enhanced Modern Glass Effect with More Transparency */
 .tile {
   text-decoration: none;
   color: inherit;
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   border-radius: 20px; /* More rounded for modern feel */
   background: rgba(255, 255, 255, 0.03); /* Increased transparency */
   backdrop-filter: blur(16px); /* Stronger blur for premium glass effect */
@@ -126,7 +122,6 @@ header {
   cursor: pointer;
   transition: box-shadow 0.4s ease, background 0.4s ease; /* Removed transform to avoid layout issues */
   position: relative;
-  flex-shrink: 0; /* Prevent shrinking */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Lighter always-on shadow */
   /* Removed overflow: hidden to prevent content cutting on scale */
 }
@@ -154,6 +149,8 @@ header {
   color: var(--accent); /* Changed to cyan for matching reference image */
   text-transform: uppercase;
   transition: text-shadow 0.4s ease; /* Simplified transition */
+  text-align: center;
+  padding: 0 4px;
 }
 
 .tile:hover p {
@@ -184,24 +181,14 @@ header {
 .tile.resin { --hue-color: var(--hue-resin); }
 .tile.how { --hue-color: var(--hue-how); }
 
-/* Updated icons to better match the reference image */
-.tile.wet span { content: '🌱'; } /* Leaf for wet */
-.tile.dry span { content: '📦'; } /* Box for dry */
-.tile.sanitary span { content: '💊'; } /* Pill for sanitary */
-.tile.special span { content: '⚠️'; } /* Warning for special */
-
 /* =========================
    RESPONSIVE IMPROVEMENTS
 ========================= */
 /* Tablet */
 @media (min-width: 768px) {
   .tiles-wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 24px;
-    flex-wrap: wrap; /* Revert to wrap for multiple rows */
-  }
-  .tile {
-    width: 140px;
-    height: 140px;
   }
   .tile span { font-size: 3rem; }
   .tile p { font-size: 0.85rem; }
@@ -210,11 +197,8 @@ header {
 /* Desktop */
 @media (min-width: 1024px) {
   .tiles-wrapper {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 28px;
-  }
-  .tile {
-    width: 160px;
-    height: 160px;
   }
   .tile span { font-size: 3.5rem; }
   .tile p { font-size: 0.95rem; }
