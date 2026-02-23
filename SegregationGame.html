@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Waste Sorting Game</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding: 0;
+  overflow: hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background: transparent;
+  text-align:center;
+}
+
+/* GAME CARD */
+#game{
+  width:320px;
+  height:520px;
+  margin:0 auto;
+  background:linear-gradient(180deg,#f8fbff,#e6f2ff);
+  border-radius:22px;
+  position:relative;
+  overflow:hidden;
+  touch-action: manipulation;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.15),
+    inset 0 1px 0 rgba(255,255,255,.7);
+}
+
+#game::before{
+  content:"DROP THE ITEM INTO THE CORRECT BIN";
+  position:absolute;
+  top:76px;
+  left:50%;
+  transform:translateX(-50%);
+
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-align:center;
+
+  padding:6px 14px;
+  border-radius:999px;
+
+  color:#2c6fb2;
+
+  background:linear-gradient(
+    90deg,
+    rgba(79,172,254,.18),
+    rgba(0,198,255,.28),
+    rgba(79,172,254,.18)
+  );
+
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.06);
+
+  pointer-events:none;
+}
+
+
+/* SCORE CHIP */
+#score{
+  margin:10px auto;
+  display:inline-block;
+  padding:6px 14px;
+  background:#ffffffcc;
+  border-radius:999px;
+  font-weight:700;
+  font-size:14px;
+  box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+/* WASTE */
+#wasteContainer{
+  position:absolute;
+  top:40px;
+  left:0;
+  transform:none;
+  will-change: transform;
+}
+
+#waste{
+  font-size:44px;
+}
+#wasteLabel{
+  margin-top:6px;
+  padding:4px 10px;
+  font-size:12px;
+  font-weight:700;
+  border-radius:999px;
+  color:#333;
+  background:#ffffff;
+  box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+#wasteContainer.sucking{
+  transition:top .3s ease,transform .3s ease;
+}
+
+/* BINS */
+/* ===== CLEAN BIN DESIGN ===== */
+#bins{
+  position:absolute;
+  z-index:10;
+  bottom:56px;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  padding:0 8px;
+
+}
+
+.bin-wrapper{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* BIN BASE */
+.bin{
+  width:66px;
+  height:72px;
+  border-radius:14px;
+  position:relative;
+  cursor:pointer;
+  transition:.2s ease;
+  box-shadow:0 14px 24px rgba(0,0,0,.35);
+  overflow:hidden;
+
+  /* hide emoji text */
+  font-size:0;
+  background-image:none;
+}
+
+
+/* BIN OPENING */
+.bin::before{
+  content:"";
+  position:absolute;
+  top:12px;
+  left:10px;
+  right:10px;
+  height:10px;
+  z-index:0;
+  border-radius:6px;
+  background:rgba(0,0,0,.55);
+}
+
+/* BIN BODY DEPTH */
+.bin::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:0;
+  box-shadow: inset 0 -6px 0 rgba(0,0,0,.18);
+}
+
+/* FORCE BIN COLORS (OVERRIDE GREY) */
+.bin.emoji-green { background:#2ecc71 !important; }
+.bin.emoji-blue  { background:#3498db !important; }
+.bin.emoji-pink  { background:#ff69b4 !important; }
+.bin.emoji-red   { background:#e74c3c !important; }
+
+/* INTERACTION */
+.bin:hover{
+  transform:translateY(-4px);
+}
+
+.bin.selected{
+  transform:scale(1.15) translateY(-6px);
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,.9),
+    0 20px 36px rgba(0,0,0,.45);
+}
+
+.bin-label{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  line-height:1.05;
+}
+
+.bin{
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,.35) 0 10px,
+      transparent 10px);
+}
+
+.bin-wrapper{
+  gap:2px;
+}
+
+.bin{
+  position:relative;
+}
+
+.bin-text{
+  position:absolute;
+  bottom:6px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:2;
+  bottom:6px;
+  transform:translate(-50%, -8px);
+
+  font-size:9px;
+  font-weight:900;
+  line-height:1.05;
+  text-align:center;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+
+  color:#111;
+  background:rgba(255,255,255,.92);
+  padding:4px 6px;
+  border-radius:6px;
+
+  box-shadow:0 1px 3px rgba(0,0,0,.25);
+  pointer-events:none;
+}
+
+
+/* Garbage Mountain (Delhi-style) */
+#garbage{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:10px;
+  z-index:2;
+
+  /* Garbage texture */
+  background:
+    radial-gradient(circle at 20% 30%, #6b4a2b 0%, transparent 40%),
+    radial-gradient(circle at 70% 40%, #5a3a1e 0%, transparent 45%),
+    linear-gradient(#7a4a24, #4a2e16);
+
+  border-top-left-radius:60% 20px;
+  border-top-right-radius:60% 20px;
+
+  transition:
+    height .3s ease,
+    box-shadow .3s ease,
+    filter .3s ease;
+}
+
+/* 🟡 Early warning */
+.garbage-warn {
+  box-shadow: 0 -10px 25px rgba(241,196,15,.6);
+}
+
+/* 🟠 Danger */
+.garbage-danger {
+  box-shadow: 0 -14px 35px rgba(230,126,34,.8);
+}
+
+/* 🔴 Critical */
+.garbage-critical {
+  box-shadow:
+    0 -18px 45px rgba(231,76,60,.95),
+    0 0 25px rgba(231,76,60,.8);
+  filter: saturate(1.3);
+}
+
+/* OVERLAYS */
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(6px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
+}
+.overlay.hidden{display:none}
+.overlay-content{
+  background:#ffffff;
+  color:#333;
+  padding:22px;
+  border-radius:20px;
+  width:88%;
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+}
+.overlay-content h2{
+  margin-top:0;
+}
+.overlay button{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  font-size:16px;
+  font-weight:700;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(#4facfe,#00c6ff);
+  color:#fff;
+  box-shadow:0 8px 18px rgba(0,0,0,.25);
+  cursor:pointer;
+}
+.overlay button:active{
+  transform:scale(.98);
+}
+
+/* PASS OVERLAY SPECIAL */
+#passOverlay .overlay-content{
+  background:linear-gradient(180deg,#e8fff3,#ffffff);
+  border:3px solid #2ecc71;
+}
+
+@keyframes garbageShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+/* Landfill Label */
+#landfillLabel{
+  position:absolute;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:6px 14px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1px;
+  border-radius:6px;
+  border:2px solid #111;
+  z-index:5;
+  pointer-events:none;
+  text-transform:uppercase;
+
+  /* Striped caution background */
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #f1c40f,
+      #f1c40f 8px,
+      #111 8px,
+      #111 16px
+    );
+
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.35),
+    inset 0 0 0 1px rgba(255,255,255,.25);
+
+  /* TEXT FIX */
+  color:#111;
+}
+
+/* ✨ TEXT PLATE for readability */
+#landfillLabel::after{
+  content:attr(data-text);
+  position:absolute;
+  inset:3px;
+  background:rgba(255,255,255,.92);
+  border-radius:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  letter-spacing:1px;
+  z-index:-1;
+}
+
+/* ===== GARBAGE SMOKE & HAZE ===== */
+#garbage {
+  position: absolute;
+  overflow: hidden;
+}
+
+/* Base haze */
+#garbage::after {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(160,160,160,.45), transparent 60%),
+    radial-gradient(circle at 60% 40%, rgba(130,130,130,.4), transparent 65%),
+    radial-gradient(circle at 80% 70%, rgba(100,100,100,.35), transparent 70%);
+  filter: blur(22px);
+  opacity: .4;
+  transition: opacity .5s ease;
+  pointer-events: none;
+}
+
+
+/* Activate haze early */
+.garbage-warn::after { opacity: .6; }
+.garbage-danger::after { opacity: .8; }
+.garbage-critical::after { opacity: 1; }
+
+/* Smoke puff */
+.smoke {
+  position: absolute;
+  bottom: 0;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle,
+    rgba(160,160,160,.75) 0%,
+    rgba(120,120,120,.55) 40%,
+    rgba(80,80,80,.25) 70%,
+    transparent 75%
+  );
+  border-radius: 50%;
+  filter: blur(10px);
+  animation: smokeRise 4.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes smokeRise {
+  0% {
+    transform: translate(0, 0) scale(.8);
+    opacity: .8;
+  }
+  40% {
+    transform: translate(-10px, -60px) scale(1.2);
+    opacity: .6;
+  }
+  100% {
+    transform: translate(20px, -180px) scale(2);
+    opacity: 0;
+  }
+}
+
+/* ===== SWIPE INTRO ===== */
+.swiper {
+  overflow: hidden;
+  margin-top: 10px;
+  overscroll-behavior: contain;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.slides {
+  display: flex;
+  transition: transform .35s ease;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: grab;
+}
+
+.slides:active{
+  cursor: grabbing;
+}
+
+.slide {
+  min-width: 100%;
+  text-align: center;
+  padding: 10px 14px;
+  outline: none;
+}
+
+.slide h3{
+  margin:8px 0 4px;
+  font-size:16px;
+  font-weight:800;
+}
+
+.slide .desc{
+  font-size:13px;
+  line-height:1.4;
+  margin:6px 0;
+  color:#333;
+}
+
+.slide .examples{
+  font-size:12px;
+  color:#555;
+  background:#f4f7fb;
+  padding:6px 10px;
+  border-radius:10px;
+}
+
+.slide p {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.slide .tip{
+  margin-top:8px;
+  font-size:12px;
+  color:#2c3e50;
+  background:#fff8e1;
+  padding:6px 10px;
+  border-radius:10px;
+  border-left:4px solid #f1c40f;
+}
+
+.swipe-hint{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin:10px 0 6px;
+
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.4px;
+
+  color:#2c6fb2;
+  opacity:.85;
+
+  animation: hintPulse 1.8s ease-in-out infinite;
+  pointer-events:none;
+}
+
+.swipe-hint .arrow{
+  font-size:14px;
+  animation: arrowMove 1.2s ease-in-out infinite;
+}
+
+@keyframes arrowMove{
+  0%,100%{ transform:translateX(0); }
+  50%{ transform:translateX(4px); }
+}
+
+@keyframes hintPulse{
+  0%,100%{ opacity:.5; }
+  50%{ opacity:1; }
+}
+
+
+/* Bin visual */
+.bin-demo {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto;
+  border-radius: 12px;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(0,0,0,.25);
+}
+
+.green { background:#2ecc71; }
+.blue  { background:#3498db; }
+.pink  { background:#ff69b4; }
+.red   { background:#e74c3c; }
+
+/* Dots */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.dot.active {
+  background: #3498db;
+}
+
+</style>
+</head>
+
+<body>
+<div id="game">
+
+<!-- START -->
+<div id="startOverlay" class="overlay">
+  <div class="overlay-content">
+    <h2>🗑️ Waste Sorting Game</h2>
+
+    <button id="playBtn">▶ Play</button>
+
+    <button onclick="showHowToPlay()">🎮 How to Play</button>
+
+    <button onclick="showInstructions()">📘 Instructions</button>
+  </div>
+</div>
+
+<!-- HOW TO PLAY -->
+<div id="howToPlayOverlay" class="overlay hidden">
+  <div class="overlay-content">
+    <h2>How to Play ?</h2>
+    <p style="text-align:left;font-size:14px;line-height:1.5">
+      • Waste items fall from the top.<br>
+      • Read the item name carefully.<br>
+      • Tap the correct bin to collect it.<br>
+      • Correct choices increase your score.<br>
+      • Wrong or missed items grow the garbage mountain.<br>
+      <b>🏆 Pass by scoring 50 points!<br>
+      <i>The game ends when garbage mountain reaches the bins.</i></b><br>
+      <p style="text-align: center;"> Best of luck! 💪</p>
+    <button onclick="hideHowToPlay()">⬅ Back</button>
+  </div>
+</div>
+
+<!-- INSTRUCTIONS -->
+<div id="instructionsOverlay" class="overlay hidden">
+  <div class="overlay-content">
+    <h2>How to Segregate Waste ?</h2>
+
+    <div class="swiper">
+      <div class="slides">
+
+        <!-- 🟢 WET WASTE -->
+        <div class="slide">
+          <div class="bin-icon green">🟢</div>
+          <h3>Wet Waste</h3>
+          <p class="desc">
+            Food and kitchen waste that can rot or decompose naturally.
+          </p>
+          <p class="examples">
+            Examples: 🍌 Banana Peels, 🍎 Fruit Scraps, 🥕 Vegetable Waste, 🍚 Leftover Food
+          </p>
+          <p class="tip">
+            💡 Tip: Throw compostable bags and garden waste in this bin too.
+          </p>
+        </div>
+
+        <!-- 🔵 DRY WASTE -->
+        <div class="slide">
+          <div class="bin-icon blue">🔵</div>
+          <h3>Dry Waste</h3>
+          <p class="desc">
+            Clean and dry waste that can often be recycled.
+          </p>
+          <p class="examples">
+            Examples: 📄 Paper, 📦 Cardboard, 🧴 Plastic Bottles, 🥫 Metal Cans
+          </p>
+          <p class="tip">
+            💡 Tip: Rinse containers before throwing them in this bin.
+          </p>
+        </div>
+
+        <!-- 🩷 SANITARY WASTE -->
+        <div class="slide">
+          <div class="bin-icon pink">🩷</div>
+          <h3>Sanitary Waste</h3>
+          <p class="desc">
+            Personal hygiene waste that can spread germs and must be handled carefully.
+          </p>
+          <p class="examples">
+            Examples: 😷 Masks, 🧤 Gloves, 🩲 Diapers, 🧻 Used Tissues
+          </p>
+          <p class="tip">
+            💡 Tip: Wrap sanitary waste in paper before disposing.
+          </p>
+        </div>
+
+        <!-- 🔴 SPECIAL CARE WASTE -->
+        <div class="slide">
+          <div class="bin-icon red">🔴</div>
+          <h3>Special Care Waste</h3>
+          <p class="desc">
+            Dangerous waste that can harm people or the environment if not disposed properly.
+          </p>
+          <p class="examples">
+            Examples: 🔋 Batteries, 💊 Medicines, 💉 Syringes, 🧲 Magnets
+          </p>
+          <p class="tip">
+            💡 Tip: Never mix this waste with regular household trash.
+          </p>
+        </div>
+
+      </div> <!-- .slides -->
+    </div> <!-- .swiper -->
+
+
+    <!--swipe hint-->
+    <div id="swipeHint" class="swipe-hint">
+      <span class="arrow">←</span>
+      <span class="hint-text">Swipe or use arrow keys</span>
+      <span class="arrow">→</span>
+    </div> <!-- swipe hint-->
+
+
+    <div class="dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <button onclick="hideInstructions()">⬅ Back</button>
+  </div> <!-- .overlay-content -->
+</div>
+
+<!-- GAME OVER -->
+<div id="gameOverOverlay" class="overlay hidden">
+  <div class="overlay-content">
+    <h2>🏔️ Garbage Overload!</h2>
+    <p>The garbage mountain reached the bins.</p>
+    <button onclick="showReport()">📋 View Report</button>
+  </div>
+</div>
+
+<!-- REPORT -->
+<div id="reportOverlay" class="overlay hidden">
+  <div class="overlay-content">
+    <h2>📋 Sorting Report</h2>
+    <div id="reportContent"></div>
+    <button onclick="reloadGame()">🔁 Play Again</button>
+  </div>
+</div>
+
+<!-- PASS OVERLAY (ADDED) -->
+<div id="passOverlay" class="overlay hidden">
+  <div class="overlay-content">
+    <h2>🎉 Congratulations!</h2>
+    <p>You passed the game with a score above 50!</p>
+    <p><b>Final Score:</b> <span id="finalScore"></span></p>
+    <button onclick="reloadGame()">🔁 Play Again</button>
+  </div>
+</div>
+
+<div id="score">Score: 0</div>
+
+<div id="wasteContainer">
+  <div id="waste">🍌</div>
+  <div id="wasteLabel">Banana Peel</div>
+</div>
+
+<!-- BINS -->
+<div id="bins">
+  <div class="bin emoji-green" data-type="wet">
+    <div class="bin-text">WET<br>WASTE</div>
+  </div>
+  <div class="bin emoji-blue" data-type="dry">
+    <div class="bin-text">DRY<br>WASTE</div>
+  </div>
+  <div class="bin emoji-pink" data-type="sanitary">
+    <div class="bin-text">SANITARY<br>WASTE</div> 
+  </div>
+  <div class="bin emoji-red" data-type="hazard">
+    <div class="bin-text">SPECIAL<br>CARE</div>
+  </div>
+</div>
+
+
+<div id="landfillLabel">⚠️ LANDFILL ZONE</div>
+<div id="garbage"></div>
+</div>
+
+<!-- AUDIO -->
+<audio id="sndClick" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+<audio id="sndCorrect" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"></audio>
+<audio id="sndWrong" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/950/950-preview.mp3"></audio>
+<audio id="sndSmoke" preload="auto" loop src="https://opengameart.org/sites/default/files/fire.wav"></audio>
+<audio id="sndLandfill" preload="auto" src="https://shorrkar.com/wp-content/uploads/2026/02/whooshGarbage.wav"></audio>
+<audio id="sndFail" preload="auto" src="https://shorrkar.com/wp-content/uploads/2026/02/sadGameOver.wav  "></audio>
+<audio id="sndPass" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3"></audio>
+<audio id="bgMusic" preload="auto" loop src="https://shorrkar.com/wp-content/uploads/2026/02/StartGameSound.mp3"></audio>
+
+<script>
+
+/* 🔊 VOICE WARNING (SAFE) */
+let lastWarningTime = 0;
+
+// Intro Helper Slides
+let slideIndex = 0;
+const swiper = document.querySelector(".swiper");
+const slides = document.querySelector(".slides");
+const dots = document.querySelectorAll(".dot");
+
+function updateSlides(){
+  slides.style.transform = `translateX(-${slideIndex * 100}%)`;
+  dots.forEach((d,i)=>d.classList.toggle("active", i===slideIndex));
+}
+
+let startX = 0;
+let isTouching = false;
+
+/* ===== TOUCH (iOS SAFE) ===== */
+swiper.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+  isTouching = true;
+}, { passive: true });
+
+swiper.addEventListener("touchmove", e => {
+  if(!isTouching) return;
+  e.preventDefault(); // 🔑 THIS STOPS iOS BACK-SWIPE
+}, { passive: false });
+
+swiper.addEventListener("touchend", e => {
+  if(!isTouching) return;
+  isTouching = false;
+
+  const endX = e.changedTouches[0].clientX;
+  handleSwipe(endX - startX);
+});
+
+/* ===== MOUSE (PC) ===== */
+swiper.addEventListener("mousedown", e => {
+  startX = e.clientX;
+  isTouching = true;
+});
+
+document.addEventListener("mouseup", e => {
+  if(!isTouching) return;
+  isTouching = false;
+  handleSwipe(e.clientX - startX);
+});
+
+/* ===== KEYBOARD ===== */
+document.addEventListener("keydown", e => {
+  const visible =
+    !document.getElementById("instructionsOverlay")
+      .classList.contains("hidden");
+
+  if(!visible) return;
+
+  if(e.key === "ArrowRight") handleSwipe(-100);
+  if(e.key === "ArrowLeft")  handleSwipe(100);
+});
+
+/* ===== SHARED ===== */
+function handleSwipe(diff){
+  const threshold = 40;
+
+  if(diff > threshold && slideIndex > 0){
+    slideIndex--;
+  }
+  else if(diff < -threshold && slideIndex < dots.length - 1){
+    slideIndex++;
+  }
+
+  updateSlides();
+}
+
+
+
+function speakWarning(text){
+  const now = Date.now();
+
+  // prevent spam (1 warning per 2 seconds)
+  if(now - lastWarningTime < 2000) return;
+  lastWarningTime = now;
+
+  if(!("speechSynthesis" in window)) return;
+
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "en-US";
+  utter.rate = 0.95;
+  utter.pitch = 1;
+  utter.volume = 1;
+
+  window.speechSynthesis.cancel(); // stop overlap
+  window.speechSynthesis.speak(utter);
+}
+
+function shakeGarbage(){
+  let i = 0;
+  const shakes = 6;
+
+  function step(){
+    if(i >= shakes){
+      garbageEl.style.transform = "translateX(0)";
+      return;
+    }
+    garbageEl.style.transform = `translateX(${i % 2 === 0 ? -6 : 6}px)`;
+    i++;
+    requestAnimationFrame(step);
+  }
+  step();
+}
+
+function playSound(id){
+  const audio=document.getElementById(id);
+  if(!audio) return;
+  audio.cloneNode().play().catch(()=>{});
+}
+
+let smokeAudioStarted = false;
+
+function startSmokeAudio(){
+  const a = document.getElementById("sndSmoke");
+  if(!a || smokeAudioStarted) return;
+
+  a.volume = 0.15;
+  a.play().then(()=> smokeAudioStarted = true).catch(()=>{});
+}
+
+function setSmokeIntensity(level){
+  const a = document.getElementById("sndSmoke");
+  if(!a) return;
+
+  if(level === "warn") a.volume = 0.2;
+  if(level === "danger") a.volume = 0.35;
+  if(level === "critical") a.volume = 0.5;
+}
+
+function stopSmokeAudio(){
+  const a = document.getElementById("sndSmoke");
+  if(!a) return;
+  a.pause();
+  a.currentTime = 0;
+  smokeAudioStarted = false;
+}
+
+
+/* INSTRUCTIONS */
+function showInstructions(){
+  playSound("sndClick");
+  startOverlay.classList.add("hidden");
+  instructionsOverlay.classList.remove("hidden");
+}
+function hideInstructions(){
+  playSound("sndClick");
+  instructionsOverlay.classList.add("hidden");
+  startOverlay.classList.remove("hidden");
+}
+
+/* HOW TO PLAY */
+function showHowToPlay(){
+  playSound("sndClick");
+  startOverlay.classList.add("hidden");
+  howToPlayOverlay.classList.remove("hidden");
+}
+
+function hideHowToPlay(){
+  playSound("sndClick");
+  howToPlayOverlay.classList.add("hidden");
+  startOverlay.classList.remove("hidden");
+}
+
+/* REPORT LABEL FIX (ONLY ADDITION) */
+function prettyBin(type){
+    const map = {
+    wet: "Wet Waste",
+    dry: "Dry Waste",
+    sanitary: "Sanitary Waste",
+    hazard: "Special Care Waste"
+  };
+
+  return map[type] || type;
+}
+
+/* DATABASE + GAME (UNCHANGED) */
+const wasteDB={
+  wet:[["🍌","Banana Peel"],["🍎","Apple Core"],["🍊","Orange Peel"],["🍉","Watermelon Rind"],["🍇","Grapes Waste"],["🍍","Pineapple Peel"],["🥭","Mango Peel"],["🥝","Kiwi Peel"],["🍅","Tomato"],["🥒","Cucumber Peel"],["🥬","Vegetable Leaves"],["🥕","Carrot Peel"],["🍞","Bread"],["🥖","Bread Crust"],["🍚","Leftover Rice"],["🍛","Cooked Food"],["🍲","Food Scraps"],["🍳","Cooked Egg"],["🥚","Egg Shells"],["🧀","Cheese Waste"]],
+  dry:[["📄","Paper"],["📰","Newspaper"],["📦","Cardboard Box"],["📘","Book"],["📕","Notebook"],["📙","Magazine"],["🧾","Receipt"],["📃","Loose Paper"],["📁","File Folder"],["📂","Documents"],["🧴","Plastic Bottle"],["🥤","Disposable Cup"],["🪣","Plastic Bucket"],["📮","Envelope"],["🧻","Paper Roll"]],
+  sanitary:[["🩸","Blood Waste"],["🩹","Bandage"],["🤧","Used Tissue"],["🧼","Soap Bar"],["🪥","Toothbrush"],["🪒","Razor"],["😷","Face Mask"],["🧤","Disposable Gloves"],["🧽","Cleaning Sponge"],["🚽","Toilet Waste"],["🩲","Used Diaper"]],
+  hazard:[["🔋","Battery"],["🪫","Dead Battery"],["💊","Medicine"],["💉","Syringe"],["🧪","Chemical Liquid"],["☠️","Toxic Waste"],["🔌","Broken Wire"],["🧯","Fire Extinguisher"],["🛢️","Oil Drum"],["🧨","Explosive Waste"],["🔥","Burnt Material"],["🪓","Sharp Tool"],["🔪","Knife"],["🧲","Magnets"]]
+};
+
+let gameRunning=false,sucking=false;
+let wasteY=40,score=0,garbageHeight=10;
+let currentType,currentItem;
+const mistakes=[];
+
+const wasteContainer=document.getElementById("wasteContainer");
+const wasteIcon=document.getElementById("waste");
+const wasteLabel=document.getElementById("wasteLabel");
+const scoreEl=document.getElementById("score");
+const garbageEl=document.getElementById("garbage");
+const bins=document.querySelectorAll(".bin");
+const binsEl=document.getElementById("bins");
+
+function centerWaste(){
+  const gameRect = document.getElementById("game").getBoundingClientRect();
+  const wasteRect = wasteContainer.getBoundingClientRect();
+
+  const x = (gameRect.width - wasteRect.width) / 2;
+  wasteContainer.style.left = x + "px";
+}
+
+function spawn(){
+  const types=Object.keys(wasteDB);
+  currentType=types[Math.floor(Math.random()*types.length)];
+  currentItem=wasteDB[currentType][Math.floor(Math.random()*wasteDB[currentType].length)];
+  wasteIcon.textContent=currentItem[0];
+  wasteLabel.textContent=currentItem[1];
+  wasteY=40;
+  wasteContainer.style.top=wasteY+"px";
+  centerWaste();
+}
+
+playBtn.onclick=()=>{
+  playSound("sndClick");
+  playSound("bgMusic");
+  startOverlay.classList.add("hidden");
+  gameRunning=true;
+};
+
+bins.forEach(bin=>{
+  bin.onclick=()=>{
+    if(!gameRunning||sucking) return;
+    playSound("sndClick");
+    bins.forEach(b=>b.classList.remove("selected"));
+    bin.classList.add("selected");
+    suck(bin.dataset.type,bin);
+  };
+});
+
+function suck(chosen, bin){
+  sucking = true;
+  wasteContainer.classList.add("sucking");
+
+  const binRect = bin.getBoundingClientRect();
+  const gameRect = document.getElementById("game").getBoundingClientRect();
+  const wasteRect = wasteContainer.getBoundingClientRect();
+
+  const targetX =
+    binRect.left - gameRect.left +
+    (binRect.width - wasteRect.width) / 2;
+
+  wasteContainer.style.top = "420px";
+  wasteContainer.style.left = targetX + "px";
+  wasteContainer.style.transform = "scale(.2)";
+
+  setTimeout(() => {
+    // existing logic stays EXACTLY the same
+    if(chosen === currentType){
+      score++;
+      playSound("sndCorrect");
+
+      if(score >= 50){
+        scoreEl.textContent = "Score: " + score;
+        gameRunning = false;
+        document.getElementById("finalScore").textContent = score;
+        playSound("sndPass");
+        document.getElementById("passOverlay").classList.remove("hidden");
+        return;
+      }
+    } else {
+      playSound("sndWrong");
+      mistakes.push({name:currentItem[1], chosen, correct:currentType});
+      growGarbage();
+    }
+
+    scoreEl.textContent = "Score: " + score;
+    resetWaste();
+    spawn();
+    sucking = false;
+  }, 300);
+}
+
+
+function spawnSmoke(count = 1){
+  for(let i=0;i<count;i++){
+    const puff = document.createElement("div");
+    puff.className = "smoke";
+
+    puff.style.left = (Math.random()*110 - 5) + "%";
+    puff.style.animationDuration = (3 + Math.random()*2.5) + "s";
+
+    garbageEl.appendChild(puff);
+    setTimeout(()=>puff.remove(),6000);
+  }
+}
+
+function growGarbage(){
+  garbageHeight += 40;
+  garbageEl.style.height = garbageHeight + "px";
+
+  const maxHeight = binsEl.offsetTop;
+  const level = garbageHeight / maxHeight;
+
+  // Clear previous glow states
+  garbageEl.classList.remove(
+    "garbage-warn",
+    "garbage-danger",
+    "garbage-critical"
+  );
+
+  /* 🔔 EARLY WARNING (very soon) */
+  if(level > 0.15){
+    garbageEl.classList.add("garbage-warn");
+  }
+
+  /* ⚠️ DANGER */
+  if(level > 0.35){
+    garbageEl.classList.add("garbage-danger");
+  }
+
+  /* ☢️ CRITICAL */
+  if(level > 0.6){
+    garbageEl.classList.add("garbage-critical");
+  }
+
+    /* SMOKE INTENSITY BASED ON DANGER */
+  if(garbageEl.classList.contains("garbage-warn")){
+    spawnSmoke(2);
+  }
+
+  if(garbageEl.classList.contains("garbage-danger")){
+    spawnSmoke(4);
+  }
+
+  if(garbageEl.classList.contains("garbage-critical")){
+    spawnSmoke(7);
+  }
+
+  startSmokeAudio();
+
+  if(garbageHeight > 120){
+    setSmokeIntensity("warn");
+  }
+  if(garbageHeight > 220){
+    setSmokeIntensity("danger");
+  }
+  if(garbageHeight > 320){
+    setSmokeIntensity("critical");
+  }
+
+  if(520 - garbageHeight <= binsEl.offsetTop){
+    endGame();
+  }
+}
+
+function resetWaste(){
+  wasteContainer.classList.remove("sucking");
+  wasteContainer.style.transform = "scale(1)";
+}
+
+function endGame(){
+  gameRunning=false;
+  playSound("sndFail");   
+  gameOverOverlay.classList.remove("hidden");
+}
+
+function showReport(){
+  playSound("sndClick");
+  gameOverOverlay.classList.add("hidden");
+
+  /* PASSING CRITERIA (ONLY ADDITION) */
+  if(score > 50){
+    document.getElementById("finalScore").textContent = score;
+    document.getElementById("passOverlay").classList.remove("hidden");
+    return;
+  }
+
+  reportContent.innerHTML = mistakes.length
+    ? mistakes.map(m=>`
+        <p>
+          ❌ <b>${m.name}</b><br>
+          You chose: ${prettyBin(m.chosen)}<br>
+          Correct: <b>${prettyBin(m.correct)}</b>
+        </p><hr>`).join("")
+    : "<p>🎉 Perfect! You sorted everything correctly.</p>";
+
+  reportOverlay.classList.remove("hidden");
+}
+
+function reloadGame(){
+  playSound("sndClick");
+  location.reload();
+}
+
+function loop(){
+  if(gameRunning&&!sucking){
+    wasteY+=0.5;
+    wasteContainer.style.top=wasteY+"px";
+    if(wasteY>360){
+      playSound("sndLandfill");   // 🔊 landfill warning sound
+      mistakes.push({name:currentItem[1],chosen:"No bin selected",correct:currentType});
+      growGarbage();
+      spawn();
+    }
+  }
+  requestAnimationFrame(loop);
+}
+
+spawn();loop();
+</script>
+</body>
+</html>
