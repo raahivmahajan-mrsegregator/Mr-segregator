@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mr. Segregator — Resin Codes Guide</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* HEADER */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo { font-size: 1.3rem; color: var(--accent); text-decoration: none; }
+.back-btn { font-size: 0.95rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+.back-btn:hover { color: var(--accent); }
+
+/* HERO */
+.hero {
+  padding: 28px 16px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -100px; left: 50%;
+  transform: translateX(-50%);
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* MAIN */
+.resin-section {
+  padding: 0 16px 80px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.intro {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.resin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 30px var(--accent-soft);
+}
+
+.card-number {
+  width: 64px; height: 64px;
+  background: var(--accent);
+  color: #000;
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  box-shadow: 0 0 20px rgba(0,255,208,0.6);
+}
+
+.product-images {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.product-images img {
+  width: 72px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.recyclable {
+  background: #00ff9d;
+  color: #000;
+  font-size: 0.82rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.not-recyclable {
+  background: #ff4d4d;
+  color: #fff;
+  font-size: 0.82rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+/* FOOTER */
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--accent); }
+
+@media (min-width: 768px) {
+  .hero { padding: 40px 16px 20px; }
+  .hero-title { font-size: 2.8rem; }
+  .resin-section { padding: 0 24px 100px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+  <a href="index.html" class="back-btn">← Back to Home</a>
+</header>
+
+<section class="hero">
+  <h1 class="hero-title">Resin Codes Guide</h1>
+</section>
+
+<div class="resin-section">
+
+  <div class="intro">
+    <p>Plastic resin codes are numbers (1–7) found inside the recycling triangle symbol on plastic products.<br>
+    They tell you exactly what type of plastic it is and how it should be sorted and recycled.</p>
+  </div>
+
+  <div class="resin-grid">
+
+    <!-- 1 -->
+    <div class="card">
+      <div class="card-number">1</div>
+      <h3>PET / PETE</h3>
+      <p><strong>Polyethylene Terephthalate</strong></p>
+      <p>Water bottles, soft drink bottles, food jars.</p>
+      <div class="product-images">
+        <img src="images/resin1.jpg" alt="PET examples">
+      </div>
+      <span class="recyclable">Widely Recyclable</span>
+    </div>
+
+    <!-- 2 -->
+    <div class="card">
+      <div class="card-number">2</div>
+      <h3>HDPE</h3>
+      <p><strong>High-Density Polyethylene</strong></p>
+      <p>Milk jugs, detergent bottles, shampoo containers.</p>
+      <div class="product-images">
+        <img src="images/resin2.jpg" alt="HDPE examples">
+      </div>
+      <span class="recyclable">Widely Recyclable</span>
+    </div>
+
+    <!-- 3 -->
+    <div class="card">
+      <div class="card-number">3</div>
+      <h3>PVC</h3>
+      <p><strong>Polyvinyl Chloride</strong></p>
+      <p>Pipes, cling wrap, some packaging.</p>
+      <div class="product-images">
+        <img src="images/resin3.jpg" alt="PVC examples">
+      </div>
+      <span class="not-recyclable">Rarely Recyclable</span>
+    </div>
+
+    <!-- 4 -->
+    <div class="card">
+      <div class="card-number">4</div>
+      <h3>LDPE</h3>
+      <p><strong>Low-Density Polyethylene</strong></p>
+      <p>Grocery bags, bread bags, squeeze bottles.</p>
+      <div class="product-images">
+        <img src="images/resin4.jpg" alt="LDPE examples">
+      </div>
+      <span class="recyclable">Increasingly Recyclable</span>
+    </div>
+
+    <!-- 5 -->
+    <div class="card">
+      <div class="card-number">5</div>
+      <h3>PP</h3>
+      <p><strong>Polypropylene</strong></p>
+      <p>Yogurt containers, bottle caps, food storage.</p>
+      <div class="product-images">
+        <img src="images/resin5.jpg" alt="PP examples">
+      </div>
+      <span class="recyclable">Commonly Recyclable</span>
+    </div>
+
+    <!-- 6 -->
+    <div class="card">
+      <div class="card-number">6</div>
+      <h3>PS</h3>
+      <p><strong>Polystyrene</strong></p>
+      <p>Foam cups, takeout containers, packing peanuts.</p>
+      <div class="product-images">
+        <img src="images/resin6.jpg" alt="PS examples">
+      </div>
+      <span class="not-recyclable">Difficult to Recycle</span>
+    </div>
+
+    <!-- 7 -->
+    <div class="card">
+      <div class="card-number">7</div>
+      <h3>Other</h3>
+      <p><strong>Mixed / Miscellaneous</strong></p>
+      <p>Polycarbonate, bioplastics, multi-layer plastics.</p>
+      <div class="product-images">
+        <img src="images/resin7.jpg" alt="Other examples">
+      </div>
+      <span class="not-recyclable">Varies by Facility</span>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="wet.html">Wet Waste</a>
+    <a href="dry.html">Dry Waste</a>
+    <a href="sanitary.html">Sanitary</a>
+    <a href="special.html">Special</a>
+    <a href="game.html">Play Game</a>
+  </div>
+  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
+</footer>
+
+</body>
+</html>
