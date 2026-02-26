@@ -8,37 +8,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* =========================
-   VARIABLES
-========================= */
 :root {
   --bg-dark: #0b0f1a;
   --bg-mid: #141a2f;
   --accent: #00ffd0;
   --accent-soft: rgba(0,255,208,0.35);
-  --border: rgba(255,255,255,0.12); /* More transparent border */
+  --border: rgba(255,255,255,0.12);
   --text: #f4f6ff;
   --muted: #aab0d4;
-  --glow-green: #00ff9d; /* For recycle symbol glow */
-
-  /* Adjusted hue colors to match darker tones in the reference image */
-  --hue-wet: rgba(0, 100, 50, 0.85);        /* Darker green for wet */
-  --hue-dry: rgba(0, 50, 150, 0.85);        /* Darker blue for dry */
-  --hue-sanitary: rgba(150, 0, 100, 0.85);  /* Darker magenta/purple for sanitary */
-  --hue-special: rgba(150, 0, 0, 0.85);     /* Darker red for special */
-  --hue-ewaste: rgba(200, 100, 0, 0.85);    /* Orange for e-waste */
-  --hue-cnd: rgba(100, 50, 0, 0.85);        /* Brown for C&D waste */
-  --hue-resin: rgba(100, 0, 150, 0.85);     /* Purple for resin codes */
-  --hue-how: rgba(0, 100, 200, 0.85);       /* Blue for how to segregate */
-  --hue-textile: rgba(50, 100, 150, 0.85);  /* Blueish for textile */
-  --hue-super: rgba(200, 0, 100, 0.85);     /* Pinkish for super segregator */
-  --hue-bags: rgba(0, 150, 100, 0.85);      /* Greenish for trash bags */
-  --hue-cans: rgba(150, 100, 0, 0.85);      /* Brownish for trash cans */
 }
 
-/* =========================
-   RESET & BODY
-========================= */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -51,72 +30,84 @@ body {
   flex-direction: column;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* Header + Search */
 header {
-  padding: 14px 18px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  padding: 16px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border);
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .header-logo {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   color: var(--accent);
   text-decoration: none;
 }
 
-.categories-section {
-  padding: 20px 16px 64px;
-  text-align: center;
-  flex-grow: 1; /* Improved layout for modern UX */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  max-width: 560px;
+  min-width: 280px;
 }
 
-/* Modern title styling */
-.categories-title {
-  font-size: 2.2rem;
+#segregateSearch {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid var(--accent-soft);
+  color: white;
+  padding: 14px 20px;
+  border-radius: 50px;
+  font-size: 15.5px;
+  outline: none;
+}
+
+#segregateSearch:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(0,255,208,0.15);
+}
+
+#segregateSearch::placeholder { color: var(--muted); }
+
+.search-btn {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 14px 26px;
+  border-radius: 50px;
   font-weight: 700;
-  margin-bottom: 10px;
-  background: linear-gradient(90deg, #00ffd0, #6ddcff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  cursor: pointer;
 }
 
-.subcategory-section {
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 20px;
-}
+.search-btn:hover { background: #00ff9d; transform: scale(1.05); }
 
-/* =========================
-   FLAT INFOGRAPHIC TILES
-========================= */
+/* Categories & Tiles (unchanged) */
+.categories-section { padding: 20px 16px 64px; text-align: center; flex-grow: 1; }
+.categories-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; background: linear-gradient(90deg, #00ffd0, #6ddcff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subcategory-section { font-size: 1rem; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+
 .tiles-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 12px;
   max-width: 800px;
-  margin: 56px auto 0;
+  margin: 40px auto 0;
   padding: 0 16px;
 }
 
-/* Individual Tiles - Enhanced Modern Glass Effect with More Transparency */
 .tile {
   text-decoration: none;
   color: inherit;
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 20px; /* More rounded for modern feel */
-  background: rgba(255, 255, 255, 0.03); /* Increased transparency */
-  backdrop-filter: blur(16px); /* Stronger blur for premium glass effect */
+  border-radius: 20px;
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -124,122 +115,112 @@ header {
   justify-content: center;
   gap: 6px;
   cursor: pointer;
-  transition: box-shadow 0.4s ease, background 0.4s ease; /* Removed transform to avoid layout issues */
+  transition: all 0.4s;
   position: relative;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* Lighter always-on shadow */
-  /* Removed overflow: hidden to prevent content cutting on scale */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
 .tile:hover {
-  box-shadow: 0 0 20px var(--hue-color); /* Alternative: Colored glow shadow on hover */
-  background: rgba(255, 255, 255, 0.05); /* Slight background change on hover */
-  z-index: 10; /* Bring to front to prevent cutting */
+  box-shadow: 0 0 25px var(--hue-color);
+  background: rgba(255,255,255,0.05);
 }
 
-.tile span { 
-  font-size: 2rem; 
-  transition: transform 0.4s ease, filter 0.4s ease; /* Alternative: Blur and rotate for dynamic effect */
-}
-
-.tile:hover span {
-  transform: rotate(10deg); /* Slight rotation for alternative animation */
-  filter: brightness(1.2); /* Brighten icon on hover */
-}
+.tile span { font-size: 2rem; }
+.tile:hover span { transform: rotate(10deg); filter: brightness(1.2); }
 
 .tile p {
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.6px;
-  color: var(--accent); /* Changed to cyan for matching reference image */
+  color: var(--accent);
   text-transform: uppercase;
-  transition: text-shadow 0.4s ease; /* Simplified transition */
   text-align: center;
-  padding: 0 4px;
 }
 
-.tile:hover p {
-  text-shadow: 0 0 12px var(--accent); /* Stronger glow on text */
-}
-
-/* Color overlays - increased transparency */
 .tile::before {
   content: '';
   position: absolute;
   inset: 0;
   background-color: var(--hue-color);
-  opacity: 0.3; /* More transparent tint */
+  opacity: 0.3;
   border-radius: 20px;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.4s;
 }
 
-.tile:hover::before {
-  opacity: 0.6; /* Stronger tint on hover for alternative effect */
-}
+.tile:hover::before { opacity: 0.6; }
 
-.tile.wet { --hue-color: var(--hue-wet); }
-.tile.dry { --hue-color: var(--hue-dry); }
-.tile.sanitary { --hue-color: var(--hue-sanitary); }
-.tile.special { --hue-color: var(--hue-special); }
-.tile.ewaste { --hue-color: var(--hue-ewaste); }
-.tile.cnd { --hue-color: var(--hue-cnd); }
-.tile.resin { --hue-color: var(--hue-resin); }
-.tile.how { --hue-color: var(--hue-how); }
-.tile.textile { --hue-color: var(--hue-textile); }
-.tile.super { --hue-color: var(--hue-super); }
-.tile.bags { --hue-color: var(--hue-bags); }
-.tile.cans { --hue-color: var(--hue-cans); }
+.tile.wet { --hue-color: rgba(0,100,50,0.85); }
+.tile.dry { --hue-color: rgba(0,50,150,0.85); }
+.tile.sanitary { --hue-color: rgba(150,0,100,0.85); }
+.tile.special { --hue-color: rgba(150,0,0,0.85); }
+.tile.ewaste { --hue-color: rgba(200,100,0,0.85); }
+.tile.cnd { --hue-color: rgba(100,50,0,0.85); }
+.tile.resin { --hue-color: rgba(100,0,150,0.85); }
+.tile.how { --hue-color: rgba(0,100,200,0.85); }
+.tile.textile { --hue-color: rgba(50,100,150,0.85); }
+.tile.super { --hue-color: rgba(200,0,100,0.85); }
+.tile.bags { --hue-color: rgba(0,150,100,0.85); }
+.tile.cans { --hue-color: rgba(150,100,0,0.85); }
 
-/* =========================
-   RESPONSIVE IMPROVEMENTS
-========================= */
-/* Tablet */
+/* RESPONSIVE */
 @media (min-width: 768px) {
-  .tiles-wrapper {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 24px;
-  }
+  .tiles-wrapper { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; }
   .tile span { font-size: 3rem; }
   .tile p { font-size: 0.85rem; }
 }
 
-/* Desktop */
-@media (min-width: 1024px) {
-  .tiles-wrapper {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 28px;
-  }
-  .tile span { font-size: 3.5rem; }
-  .tile p { font-size: 0.95rem; }
+/* OVERLAY MODAL */
+#resultModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-/* =========================
-   FOOTER
-========================= */
+.modal-content {
+  background: rgba(20,26,47,0.98);
+  border: 2px solid var(--accent);
+  border-radius: 24px;
+  max-width: 720px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 30px 35px;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0,255,208,0.3);
+}
+
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 25px;
+  font-size: 32px;
+  color: var(--accent);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-btn:hover { color: #fff; transform: scale(1.2); }
+
+#modalResult {
+  line-height: 1.7;
+  font-size: 15.5px;
+  color: var(--text);
+}
+
+/* Footer */
 footer {
   padding: 40px 16px;
   text-align: center;
   border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 0.85rem;
-  margin-top: auto; /* Push footer to bottom */
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 16px;
-}
-
-.footer-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.footer-links a:hover {
-  color: var(--accent);
+  margin-top: auto;
 }
 </style>
 </head>
@@ -247,7 +228,12 @@ footer {
 <body>
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+  <div class="search-container">
+    <input type="text" id="segregateSearch" placeholder="Type any product... e.g. plastic bottle, diaper, old phone">
+    <button class="search-btn" onclick="getSegregationAdvice()">Segregate</button>
+  </div>
 </header>
+
 <section class="categories-section">
   <h2 class="categories-title">Segregate</h2>
   <h5 class="subcategory-section">Get to ZERO Waste!!</h5>
@@ -272,5 +258,73 @@ footer {
   <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
 </footer>
 
+<!-- OVERLAY MODAL -->
+<div id="resultModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeModal()">×</span>
+    <div id="modalResult"></div>
+  </div>
+</div>
+
+<script>
+// 🔥 PASTE YOUR GEMINI API KEY HERE
+const API_KEY = "AIzaSyBzVSxZdBBWg6PZQ_H5qM9m6KJO2_yapM8";
+
+async function getSegregationAdvice() {
+  const query = document.getElementById('segregateSearch').value.trim();
+  if (!query) return alert("Please type a product name 😊");
+
+  const modal = document.getElementById('resultModal');
+  const content = document.getElementById('modalResult');
+
+  content.innerHTML = `<p style="color:#aaa; text-align:center; padding:40px;">🤖 Mr. Segregator is thinking...</p>`;
+  modal.style.display = 'flex';
+
+const prompt = `You are Mr. Segregator - a straightforward, helpful expert on waste segregation in India.
+Be short, clear and practical. Never be poetic or long.
+
+For the item "${query}", answer using EXACTLY this format:
+
+ Category: WET/ORGANIC 🟢   or   DRY/RECYCLABLE 🔵   or   SANITARY 🔴   or   SPECIAL ⚫   or   E-WASTE 🟠   or   C & D WASTE 🟤   or   TEXTILE 🟣 etc.
+ How to segregate: (2-3 short points)
+ Which bin: (green wet bin, blue dry bin, red sanitary bin, or take to recycling centre)
+💡 Tip: (one short useful tip)
+
+Use the exact colored circle emojis shown above.`;
+
+  try {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    });
+    const data = await res.json();
+    const answer = data.candidates[0].content.parts[0].text;
+
+    content.innerHTML = `
+      <h3 style="color:var(--accent); margin-bottom:15px;">How to segregate <span style="color:#fff">${query}</span></h3>
+      <div style="white-space:pre-line; line-height:1.8;">${answer}</div>
+      <p style="text-align:center; margin-top:25px; font-size:13px; color:#666;">Powered by Gemini</p>
+    `;
+  } catch(e) {
+    content.innerHTML = `<p style="color:#ff6b6b; text-align:center;">Oops! Try again in a moment.</p>`;
+  }
+}
+
+function closeModal() {
+  document.getElementById('resultModal').style.display = 'none';
+  document.getElementById('segregateSearch').value = ''; // optional: clear input
+}
+
+// Close when clicking outside the modal content
+document.getElementById('resultModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Enter key
+document.getElementById('segregateSearch').addEventListener('keypress', e => {
+  if (e.key === 'Enter') getSegregationAdvice();
+});
+</script>
 </body>
 </html>
