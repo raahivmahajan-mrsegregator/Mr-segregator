@@ -30,30 +30,45 @@ body {
   flex-direction: column;
 }
 
-/* Header + Search */
+/* Header - only logo */
 header {
-  padding: 16px 18px;
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border);
-  gap: 20px;
-  flex-wrap: wrap;
 }
 
 .header-logo {
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   color: var(--accent);
   text-decoration: none;
 }
 
-.search-container {
+
+/* Hero Search Area */
+.hero-search {
+  text-align: center;
+  padding: 50px 20px 40px;
+}
+
+.hero-search h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-search-container {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 1;
-  max-width: 560px;
-  min-width: 280px;
+  gap: 14px;
+  max-width: 620px;
+  margin: 0 auto;
 }
 
 #segregateSearch {
@@ -61,15 +76,15 @@ header {
   background: rgba(255,255,255,0.08);
   border: 2px solid var(--accent-soft);
   color: white;
-  padding: 14px 20px;
+  padding: 18px 24px;
   border-radius: 50px;
-  font-size: 15.5px;
+  font-size: 17px;
   outline: none;
 }
 
 #segregateSearch:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(0,255,208,0.15);
+  box-shadow: 0 0 0 5px rgba(0,255,208,0.2);
 }
 
 #segregateSearch::placeholder { color: var(--muted); }
@@ -78,18 +93,17 @@ header {
   background: var(--accent);
   color: #000;
   border: none;
-  padding: 14px 26px;
+  padding: 18px 32px;
   border-radius: 50px;
   font-weight: 700;
+  font-size: 16px;
   cursor: pointer;
 }
 
 .search-btn:hover { background: #00ff9d; transform: scale(1.05); }
 
-/* Categories & Tiles (unchanged) */
-.categories-section { padding: 20px 16px 64px; text-align: center; flex-grow: 1; }
-.categories-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 10px; background: linear-gradient(90deg, #00ffd0, #6ddcff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.subcategory-section { font-size: 1rem; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+/* Tiles */
+.categories-section { padding: 0 16px 80px; text-align: center; flex-grow: 1; }
 
 .tiles-wrapper {
   display: grid;
@@ -135,6 +149,7 @@ header {
   color: var(--accent);
   text-transform: uppercase;
   text-align: center;
+  padding: 0 4px;
 }
 
 .tile::before {
@@ -162,14 +177,14 @@ header {
 .tile.bags { --hue-color: rgba(0,150,100,0.85); }
 .tile.cans { --hue-color: rgba(150,100,0,0.85); }
 
-/* RESPONSIVE */
+/* Responsive tiles */
 @media (min-width: 768px) {
   .tiles-wrapper { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; }
   .tile span { font-size: 3rem; }
   .tile p { font-size: 0.85rem; }
 }
 
-/* OVERLAY MODAL */
+/* Modal */
 #resultModal {
   display: none;
   position: fixed;
@@ -202,16 +217,11 @@ header {
   font-size: 32px;
   color: var(--accent);
   cursor: pointer;
-  line-height: 1;
 }
 
 .close-btn:hover { color: #fff; transform: scale(1.2); }
 
-#modalResult {
-  line-height: 1.7;
-  font-size: 15.5px;
-  color: var(--text);
-}
+#modalResult { line-height: 1.7; font-size: 15.5px; color: var(--text); }
 
 /* Footer */
 footer {
@@ -228,16 +238,19 @@ footer {
 <body>
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
-  <div class="search-container">
-    <input type="text" id="segregateSearch" placeholder="Type any product... e.g. plastic bottle, diaper, old phone">
-    <button class="search-btn" onclick="getSegregationAdvice()">Segregate</button>
-  </div>
 </header>
 
 <section class="categories-section">
-  <h2 class="categories-title">Segregate</h2>
-  <h5 class="subcategory-section">Get to ZERO Waste!!</h5>
+  <!-- Big Search Bar -->
+  <div class="hero-search">
+    <h2>Segregate</h2>
+    <div class="hero-search-container">
+      <input type="text" id="segregateSearch" placeholder="Type any product... e.g. plastic bottle, diaper, yoghurt">
+      <button class="search-btn" onclick="getSegregationAdvice()">Segregate Now</button>
+    </div>
+  </div>
 
+  <!-- Tiles -->
   <div class="tiles-wrapper">
     <a class="tile wet" href="wet.html"><span>🌱</span><p>WET/ORGANIC</p></a>
     <a class="tile dry" href="dry.html"><span>📦</span><p>DRY/RECYCLABLE</p></a>
@@ -258,7 +271,7 @@ footer {
   <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
 </footer>
 
-<!-- OVERLAY MODAL -->
+<!-- Modal -->
 <div id="resultModal">
   <div class="modal-content">
     <span class="close-btn" onclick="closeModal()">×</span>
@@ -267,8 +280,8 @@ footer {
 </div>
 
 <script>
-// 🔥 PASTE YOUR GEMINI API KEY HERE
-const API_KEY = "AIzaSyBzVSxZdBBWg6PZQ_H5qM9m6KJO2_yapM8";
+// 🔥 YOUR API KEY
+const API_KEY = "AIzaSyBTDfAUIblPpC_dB5OTO3gj292C9oTFGZ8";
 
 async function getSegregationAdvice() {
   const query = document.getElementById('segregateSearch').value.trim();
@@ -280,20 +293,20 @@ async function getSegregationAdvice() {
   content.innerHTML = `<p style="color:#aaa; text-align:center; padding:40px;">🤖 Mr. Segregator is thinking...</p>`;
   modal.style.display = 'flex';
 
-const prompt = `You are Mr. Segregator - a straightforward, helpful expert on waste segregation in India.
+  const prompt = `You are Mr. Segregator - a straightforward, helpful expert on waste segregation in India.
 Be short, clear and practical. Never be poetic or long.
 
 For the item "${query}", answer using EXACTLY this format:
 
- Category: WET/ORGANIC 🟢   or   DRY/RECYCLABLE 🔵   or   SANITARY 🔴   or   SPECIAL ⚫   or   E-WASTE 🟠   or   C & D WASTE 🟤   or   TEXTILE 🟣 etc.
- How to segregate: (2-3 short points)
- Which bin: (green wet bin, blue dry bin, red sanitary bin, or take to recycling centre)
+✅ Category: WET/ORGANIC 🟢   or   DRY/RECYCLABLE 🔵   or   SANITARY 🔴   or   SPECIAL ⚫   or   E-WASTE 🟠   or   C & D WASTE 🟤   or   TEXTILE 🟣 etc.
+♻️ How to segregate: (2-3 short points)
+🗑️ Which bin: (green wet bin, blue dry bin, red sanitary bin, or take to recycling centre)
 💡 Tip: (one short useful tip)
 
 Use the exact colored circle emojis shown above.`;
 
   try {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
@@ -313,15 +326,13 @@ Use the exact colored circle emojis shown above.`;
 
 function closeModal() {
   document.getElementById('resultModal').style.display = 'none';
-  document.getElementById('segregateSearch').value = ''; // optional: clear input
+  document.getElementById('segregateSearch').value = '';
 }
 
-// Close when clicking outside the modal content
 document.getElementById('resultModal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
-// Enter key
 document.getElementById('segregateSearch').addEventListener('keypress', e => {
   if (e.key === 'Enter') getSegregationAdvice();
 });
