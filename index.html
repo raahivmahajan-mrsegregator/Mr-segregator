@@ -89,18 +89,33 @@ header {
 
 #segregateSearch::placeholder { color: var(--muted); }
 
-.search-btn {
-  background: var(--accent);
-  color: #000;
-  border: none;
-  padding: 18px 32px;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
+/* Search with lens icon */
+.search-wrapper {
+  position: relative;
+  max-width: 620px;
+  margin: 0 auto;
 }
 
-.search-btn:hover { background: #00ff9d; transform: scale(1.05); }
+#segregateSearch {
+  width: 100%;
+  padding: 18px 50px 18px 24px;   /* extra padding on right for icon */
+  border-radius: 50px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.search-icon:hover {
+  color: #fff;
+}
 
 /* Tiles */
 .categories-section { padding: 0 16px 80px; text-align: center; flex-grow: 1; }
@@ -244,9 +259,9 @@ footer {
   <!-- Big Search Bar -->
   <div class="hero-search">
     <h2>Segregate</h2>
-    <div class="hero-search-container">
+    <div class="search-wrapper">
       <input type="text" id="segregateSearch" placeholder="Type any product... e.g. plastic bottle, diaper, yoghurt">
-      <button class="search-btn" onclick="getSegregationAdvice()">Segregate Now</button>
+      <span class="search-icon" onclick="getSegregationAdvice()">🔍</span>
     </div>
   </div>
 
@@ -306,7 +321,7 @@ For the item "${query}", answer using EXACTLY this format:
 Use the exact colored circle emojis shown above.`;
 
   try {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`, {
+      const res = await fetch(`https://i6788.mrsegregator.workers.dev/proxy`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
