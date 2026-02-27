@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mr. Segregator — Segregate Items Starting with P</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+  --success: #00ff9d;
+  --warning: #ff4d4d;
+  --wet: rgba(0,255,157,0.2); /* Green for Wet */
+  --dry: rgba(52,152,219,0.2); /* Blue for Dry */
+  --sanitary: rgba(255,105,180,0.2); /* Pink for Sanitary */
+  --special: rgba(231,76,60,0.2); /* Red for Special */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* HEADER */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  font-size: 1.3rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.back-btn {
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s;
+}
+
+.back-btn:hover {
+  color: var(--accent);
+}
+
+/* HERO */
+.hero {
+  padding: 28px 16px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 520px;
+  margin: 0 auto 24px;
+}
+
+/* TABLE SECTION */
+.table-section {
+  padding: 0 16px 80px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.segregate-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 30px var(--accent-soft);
+}
+
+.segregate-table th {
+  background: rgba(0,255,208,0.1);
+  color: var(--accent);
+  font-weight: 600;
+  padding: 16px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.segregate-table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.segregate-table tr:last-child td {
+  border-bottom: none;
+}
+
+.segregate-table td:nth-child(2) { background: var(--wet); color: #00ff9d; }
+.segregate-table td:nth-child(3) { background: var(--dry); color: #3498db; }
+.segregate-table td:nth-child(4) { background: var(--sanitary); color: #ff69b4; }
+.segregate-table td:nth-child(5) { background: var(--special); color: #e74c3c; }
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .segregate-table {
+    border: 0;
+  }
+  .segregate-table thead {
+    display: none;
+  }
+  .segregate-table tr {
+    display: block;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .segregate-table td {
+    display: block;
+    text-align: right;
+    position: relative;
+    padding: 10px 0;
+    border-bottom: none;
+  }
+  .segregate-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: left;
+  }
+}
+
+/* FOOTER */
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+/* RESPONSIVE */
+@media (min-width: 768px) {
+  .hero { padding: 40px 16px 30px; }
+  .hero-title { font-size: 2.8rem; }
+  .table-section { padding: 0 24px 100px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="segregate.html" class="header-logo">MR.SEGREGATOR</a>
+  <a href="segregate.html" class="back-btn">← Back to A-Z</a>
+</header>
+
+<section class="hero">
+  <h1 class="hero-title">Items Starting with P</h1>
+  <p class="hero-subtitle">Quick guide to segregate common waste items beginning with P.</p>
+</section>
+
+<div class="table-section">
+
+  <table class="segregate-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Wet/Organic</th>
+        <th>Dry/Recyclable</th>
+        <th>Sanitary</th>
+        <th>Special Care</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td data-label="Item">Paint Can</td>
+        <td data-label="Wet/Organic">No</td>
+        <td data-label="Dry/Recyclable">No</td>
+        <td data-label="Sanitary">No</td>
+        <td data-label="Special Care">Yes</td>
+      </tr>
+      <tr>
+        <td data-label="Item">Paper (Clean)</td>
+        <td data-label="Wet/Organic">No</td>
+        <td data-label="Dry/Recyclable">Yes</td>
+        <td data-label="Sanitary">No</td>
+        <td data-label="Special Care">No</td>
+      </tr>
+      <tr>
+        <td data-label="Item">Paper (Soiled with Food)</td>
+        <td data-label="Wet/Organic">Yes</td>
+        <td data-label="Dry/Recyclable">No</td>
+        <td data-label="Sanitary">No</td>
+        <td data-label="Special Care">No</td>
+      </tr>
+      <tr>
+        <td data-label="Item">Pizza Box (Clean)</td>
+        <td data-label="Wet/Organic">No</td>
+        <td data-label="Dry/Recyclable">Yes</td>
+        <td data-label="Sanitary">No</td>
+        <td data-label="Special Care">No</td>
+      </tr>
+      <tr>
+        <td data-label="Item">Pizza Leftovers</td>
+        <td data-label="Wet/Organic">Yes</td>
+        <td data-label="Dry/Recyclable">No</td>
+        <td data-label="Sanitary">No</td>
+        <td data-label="Special Care">No</td>
+      </tr>
+      <tr>
+        <td data-label="Item">Plastic Bottle</td>
+        <td data-label="Wet/Organic">No</td>
+        <td data-label="Dry/Recyclable">Yes</td>
+        <td data-label="Sanitary">No</td>
+        <td data-label="Special Care">No</td>
+      </tr>
+      <tr>
+        <td data-label="Item">Pad (Sanitary)</td>
+        <td data-label="Wet/Organic">No</td>
+        <td data-label="Dry/Recyclable">No</td>
+        <td data-label="Sanitary">Yes</td>
+        <td data-label="Special Care">No</td>
+      </tr>
+      <tr>
+        <td data-label="Item">Pesticide Container</td>
+        <td data-label="Wet/Organic">No</td>
+        <td data-label="Dry/Recyclable">No</td>
+        <td data-label="Sanitary">No</td>
+        <td data-label="Special Care">Yes</td>
+      </tr>
+      <!-- Add more items as needed -->
+    </tbody>
+  </table>
+
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="wet.html">Wet Waste</a>
+    <a href="dry.html">Dry Waste</a>
+    <a href="sanitary.html">Sanitary</a>
+    <a href="special.html">Special</a>
+  </div>
+  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
+</footer>
+
+</body>
+</html>

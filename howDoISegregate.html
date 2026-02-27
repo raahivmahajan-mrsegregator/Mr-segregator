@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mr. Segregator — How Do I Segregate?</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+  --success: #00ff9d;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* HEADER */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  font-size: 1.3rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.back-btn {
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s;
+}
+
+.back-btn:hover {
+  color: var(--accent);
+}
+
+/* HERO */
+.hero {
+  padding: 28px 16px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.hero-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 520px;
+  margin: 0 auto 24px;
+}
+
+/* A-Z TILES SECTION */
+.tiles-section {
+  padding: 0 16px 80px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 16px;
+}
+
+.tile {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0,255,208,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  transform: translateY(-6px);
+  box-shadow: 0 0 35px rgba(0,255,208,0.6);
+  color: #0b0f1a;
+}
+
+/* FOOTER */
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+/* RESPONSIVE */
+@media (min-width: 768px) {
+  .hero { padding: 40px 16px 30px; }
+  .hero-title { font-size: 2.8rem; }
+  .tiles-section { padding: 0 24px 100px; }
+  .tiles-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; }
+  .tile { font-size: 2.6rem; padding: 30px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+  <a href="index.html" class="back-btn">← Back to Home</a>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">How Do I Segregate?</h1>
+    <p class="hero-subtitle">Click a letter to see common items starting with it and how to segregate them.</p>
+  </div>
+</section>
+
+<div class="tiles-section">
+  <div class="tiles-grid">
+    <a href="segregate-a.html" class="tile">A</a>
+    <a href="segregate-b.html" class="tile">B</a>
+    <a href="segregate-c.html" class="tile">C</a>
+    <a href="segregate-d.html" class="tile">D</a>
+    <a href="segregate-e.html" class="tile">E</a>
+    <a href="segregate-f.html" class="tile">F</a>
+    <a href="segregate-g.html" class="tile">G</a>
+    <a href="segregate-h.html" class="tile">H</a>
+    <a href="segregate-i.html" class="tile">I</a>
+    <a href="segregate-j.html" class="tile">J</a>
+    <a href="segregate-k.html" class="tile">K</a>
+    <a href="segregate-l.html" class="tile">L</a>
+    <a href="segregate-m.html" class="tile">M</a>
+    <a href="segregate-n.html" class="tile">N</a>
+    <a href="segregate-o.html" class="tile">O</a>
+    <a href="segregate-p.html" class="tile">P</a>
+    <a href="segregate-q.html" class="tile">Q</a>
+    <a href="segregate-r.html" class="tile">R</a>
+    <a href="segregate-s.html" class="tile">S</a>
+    <a href="segregate-t.html" class="tile">T</a>
+    <a href="segregate-u.html" class="tile">U</a>
+    <a href="segregate-v.html" class="tile">V</a>
+    <a href="segregate-w.html" class="tile">W</a>
+    <a href="segregate-x.html" class="tile">X</a>
+    <a href="segregate-y.html" class="tile">Y</a>
+    <a href="segregate-z.html" class="tile">Z</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="wet.html">Wet Waste</a>
+    <a href="dry.html">Dry Waste</a>
+    <a href="sanitary.html">Sanitary</a>
+    <a href="special.html">Special</a>
+    <a href="resin.html">Resin Codes</a>
+  </div>
+  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
+</footer>
+
+</body>
+</html>
