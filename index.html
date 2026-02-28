@@ -247,6 +247,20 @@ footer {
   font-size: 0.85rem;
   margin-top: auto;
 }
+
+/* New style for the hero logo */
+.hero-logo {
+  max-width: 100%;
+  width: 600px; /* Adjust based on your image's aspect ratio; this fits a typical banner */
+  margin: 0 auto 20px;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .hero-logo {
+    width: 100%;
+  }
+}
 </style>
 </head>
 
@@ -258,7 +272,7 @@ footer {
 <section class="categories-section">
   <!-- Big Search Bar -->
   <div class="hero-search">
-    <h2>Segregate</h2>
+    <img src="mr_segregator_logo.png" alt="Mr. Segregator - Segregate! Get to Zero Waste" class="hero-logo">
     <div class="search-wrapper">
       <input type="text" id="segregateSearch" placeholder="Type any product... e.g. plastic bottle, diaper, yoghurt">
       <span class="search-icon" onclick="getSegregationAdvice()">🔍</span>
