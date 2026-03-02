@@ -251,9 +251,52 @@ footer {
 /* New style for the hero logo */
 .hero-logo {
   max-width: 100%;
-  width: 600px; /* Adjust based on your image's aspect ratio; this fits a typical banner */
+  width: 400px; /* Adjust based on your image's aspect ratio; this fits a typical banner */
   margin: 0 auto 20px;
   display: block;
+  position: relative;
+  z-index: 1;
+  border-radius: 50%; /* Circular shape */
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-logo img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%; /* Make the image circular */
+  filter: brightness(1.1); /* Slight brightness for energy */
+}
+
+/* Animated halo */
+.hero-logo::before,
+.hero-logo::after {
+  content: "";
+  position: absolute;
+  inset: -4%;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.hero-logo::before {
+  background: conic-gradient(from 0deg, rgba(0,255,208,0), rgba(0,255,208,0.7), rgba(0,255,208,0));
+  filter: blur(8px);
+  animation: halo-spin 6s linear infinite;
+}
+
+.hero-logo::after {
+  background: radial-gradient(circle, rgba(0,255,208,0.35), rgba(0,255,208,0) 65%);
+  filter: blur(10px);
+  animation: halo-pulse 3s ease-in-out infinite;
+}
+
+@keyframes halo-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes halo-pulse {
+  0%, 100% { transform: scale(0.98); opacity: 0.6; }
+  50% { transform: scale(1.04); opacity: 0.9; }
 }
 
 @media (max-width: 768px) {
@@ -272,7 +315,9 @@ footer {
 <section class="categories-section">
   <!-- Big Search Bar -->
   <div class="hero-search">
-    <img src="images/mr_segregator_logo.webp" alt="Mr. Segregator - Segregate! Get to Zero Waste" class="hero-logo">
+    <div class="hero-logo">
+      <img src="images/mr_segregator_logo.webp" alt="Mr. Segregator - Segregate! Get to Zero Waste">
+    </div>
     <div class="search-wrapper">
       <input type="text" id="segregateSearch" placeholder="Type any product... e.g. plastic bottle, diaper, yoghurt">
       <span class="search-icon" onclick="getSegregationAdvice()">🔍</span>
@@ -325,10 +370,10 @@ Be short, clear and practical. Never be poetic or long.
 
 For the item "${query}", answer using EXACTLY this format:
 
-✅ Category: WET/ORGANIC 🟢   or   DRY/RECYCLABLE 🔵   or   SANITARY 🔴   or   SPECIAL ⚫   or   E-WASTE 🟠   or   C & D WASTE 🟤   or   TEXTILE 🟣 etc.
-♻️ How to segregate: (2-3 short points)
-🗑️ Which bin: (green wet bin, blue dry bin, red sanitary bin, or take to recycling centre)
-💡 Tip: (one short useful tip)
+ Category: WET/ORGANIC 🟢   or   DRY/RECYCLABLE 🔵   or   SANITARY 🔴   or   SPECIAL ⚫   or   E-WASTE 🟠   or   C & D WASTE 🟤   or   TEXTILE 🟣 etc.
+ How to segregate: (2-3 short points). 
+ Which bin: (green wet bin, blue dry bin, red sanitary bin, or take to recycling centre)
+ Tip: (one short useful tip)
 
 Use the exact colored circle emojis shown above.`;
 
