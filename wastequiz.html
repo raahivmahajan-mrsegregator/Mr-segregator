@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mr. Segregator — Segregation Quiz</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+  --success: #00ff9d;
+  --warning: #ff4d4d;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  font-size: 1.2rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.back-btn {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+/* HERO */
+.hero {
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* QUIZ */
+.quiz-section {
+  flex: 1;
+  padding: 0 16px 120px;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quiz-image {
+  width: 100%;
+  max-width: 260px;
+  margin: 20px auto;
+  border-radius: 18px;
+  box-shadow: 0 0 20px var(--accent-soft);
+}
+
+/* MOBILE FIRST */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.option-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: 0.2s;
+  min-height: 60px;
+}
+
+.option-btn:active {
+  transform: scale(0.97);
+}
+
+.option-btn.correct {
+  background: rgba(0,255,157,0.2);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.option-btn.incorrect {
+  background: rgba(255,77,77,0.2);
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.option-btn.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.quiz-feedback {
+  margin-top: 14px;
+  font-size: 1rem;
+  min-height: 24px;
+}
+
+.quiz-score {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+
+/* Sticky Next Button */
+.quiz-next {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  background: var(--accent);
+  color: #0b0f1a;
+  border: none;
+  border-radius: 50px;
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: none;
+  box-shadow: 0 8px 20px var(--accent-soft);
+}
+
+.quiz-next:active {
+  transform: translateX(-50%) scale(0.98);
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+  <a href="index.html" class="back-btn">← Back</a>
+</header>
+
+<section class="hero">
+  <h1 class="hero-title">Segregation Quiz</h1>
+</section>
+
+<div class="quiz-section">
+  <img id="quizImage" class="quiz-image" src="" alt="Quiz Item">
+
+  <div class="options-grid">
+    <button class="option-btn" data-category="wet">🌱 WET</button>
+    <button class="option-btn" data-category="dry">📦 DRY</button>
+    <button class="option-btn" data-category="sanitary">🩸 SANITARY</button>
+    <button class="option-btn" data-category="special">⚠️ SPECIAL</button>
+  </div>
+
+  <p id="quizFeedback" class="quiz-feedback"></p>
+  <p id="quizScore" class="quiz-score">Score: 0</p>
+</div>
+
+<button id="nextBtn" class="quiz-next">Next Question</button>
+
+<script>
+
+const quizItems = [
+  { image: 'images/bulbs.png', category: 'special' },
+  { image: 'images/compostable-food-packaging.png', category: 'wet' },
+  { image: 'images/mercury-thermometer.png', category: 'special' },
+  { image: 'images/empty-chocolate-paper-box.png', category: 'dry' },
+  { image: 'images/mask.png', category: 'sanitary' },
+  { image: 'images/empty-glass-bottle.png', category: 'dry' },
+  { image: 'images/battery-cell.png', category: 'special' },
+  { image: 'images/empty-plastic-bottle.png', category: 'dry' },
+  { image: 'images/diaper.png', category: 'sanitary' },
+  { image: 'images/bandaid.png', category: 'sanitary' },
+  { image: 'images/empty-milk-carton.png', category: 'dry' },
+  { image: 'images/cleaning-agents.png', category: 'special' },
+  { image: 'images/cotton-ear-buds.png', category: 'sanitary' },
+  { image: 'images/paint-cans.png', category: 'special' },
+  { image: 'images/empty-medicine-pack.png', category: 'special' },
+  { image: 'images/aluminium-can.png', category: 'dry' },
+  { image: 'images/food-soiled-paper.png', category: 'wet' },
+  { image: 'images/medicines.png', category: 'special' },
+  { image: 'images/incontinence-sheet.png', category: 'sanitary' },
+  { image: 'images/leftover-roti.png', category: 'wet' },
+  { image: 'images/leftover-rice.png', category: 'wet' },
+  { image: 'images/compostable-cup.png', category: 'wet' },
+  { image: 'images/compostable-bag.png', category: 'wet' }
+];
+
+let score = 0;
+let currentIndex = -1;
+let answered = false;
+
+const quizImage = document.getElementById('quizImage');
+const options = document.querySelectorAll('.option-btn');
+const feedback = document.getElementById('quizFeedback');
+const scoreDisplay = document.getElementById('quizScore');
+const nextBtn = document.getElementById('nextBtn');
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+shuffle(quizItems);
+
+function loadNextItem() {
+  currentIndex++;
+
+  if (currentIndex >= quizItems.length) {
+    feedback.textContent = "Quiz Complete! Final Score: " + score;
+    quizImage.style.display = "none";
+    nextBtn.style.display = "none";
+    return;
+  }
+
+  const currentItem = quizItems[currentIndex];
+  quizImage.src = currentItem.image + "?v=" + Date.now();
+
+  feedback.textContent = "";
+  feedback.style.color = "";
+  scoreDisplay.textContent = `Score: ${score}`;
+
+  options.forEach(opt => {
+    opt.classList.remove('correct','incorrect','disabled');
+  });
+
+  answered = false;
+  nextBtn.style.display = 'none';
+}
+
+options.forEach(opt => {
+  opt.addEventListener('click', () => {
+    if (answered) return;
+
+    answered = true;
+    const currentItem = quizItems[currentIndex];
+    const selected = opt.dataset.category;
+
+    if (selected === currentItem.category) {
+      opt.classList.add('correct');
+      feedback.textContent = "Correct! Great job!";
+      feedback.style.color = "#00ff9d";
+      score++;
+    } else {
+      opt.classList.add('incorrect');
+      feedback.textContent = "Incorrect! Correct answer highlighted.";
+      feedback.style.color = "#ff4d4d";
+
+      options.forEach(button => {
+        if (button.dataset.category === currentItem.category) {
+          button.classList.add('correct');
+        }
+      });
+    }
+
+    scoreDisplay.textContent = `Score: ${score}`;
+    options.forEach(button => button.classList.add('disabled'));
+    nextBtn.style.display = 'block';
+  });
+});
+
+nextBtn.addEventListener('click', loadNextItem);
+
+loadNextItem();
+
+</script>
+
+</body>
+</html>
