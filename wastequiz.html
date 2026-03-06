@@ -20,7 +20,11 @@
   --warning: #ff4d4d;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: 'Poppins', sans-serif;
@@ -34,79 +38,108 @@ body {
 
 /* HEADER */
 header {
-  padding: 14px 18px;
-  font-weight: 700;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid var(--border);
 }
 
 .header-logo {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  font-weight: 700;
   color: var(--accent);
   text-decoration: none;
 }
 
 .back-btn {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--muted);
   text-decoration: none;
 }
 
 /* HERO */
 .hero {
-  padding: 20px 16px;
+  padding: 25px 15px 5px;
   text-align: center;
 }
 
 .hero-title {
-  font-size: 1.9rem;
+  font-size: clamp(1.6rem, 6vw, 2.6rem);
   font-weight: 700;
   background: linear-gradient(90deg, #00ffd0, #6ddcff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* QUIZ */
+/* QUIZ SECTION */
 .quiz-section {
   flex: 1;
-  padding: 0 16px 120px;
-  max-width: 500px;
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto;
+  padding: 15px;
   text-align: center;
 }
 
+/* IMAGE */
 .quiz-image {
-  width: 100%;
-  max-width: 260px;
+  width: 85%;
+  max-width: 300px;
   margin: 20px auto;
   border-radius: 18px;
   box-shadow: 0 0 20px var(--accent-soft);
+  display: block;
 }
 
-/* MOBILE FIRST */
+/* GRID */
 .options-grid {
   display: grid;
-  grid-template-columns: 1fr;
   gap: 14px;
   margin-top: 20px;
 }
 
+/* Mobile */
+@media (max-width: 600px) {
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1023px) {
+  .options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .options-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* OPTION BUTTONS */
 .option-btn {
   background: rgba(255,255,255,0.05);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 18px;
-  font-size: 1rem;
+  padding: 16px;
+  font-size: clamp(0.9rem, 3vw, 1.05rem);
   font-weight: 600;
   color: var(--text);
   cursor: pointer;
   transition: 0.2s;
-  min-height: 60px;
+  min-height: 55px;
 }
 
-.option-btn:active {
-  transform: scale(0.97);
+.option-btn:hover:not(.disabled) {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-soft);
 }
 
 .option-btn.correct {
@@ -126,46 +159,31 @@ header {
   opacity: 0.6;
 }
 
+/* TEXT */
 .quiz-feedback {
-  margin-top: 14px;
-  font-size: 1rem;
+  margin-top: 15px;
+  font-size: clamp(0.9rem, 3vw, 1.05rem);
   min-height: 24px;
 }
 
 .quiz-score {
-  margin-top: 10px;
-  font-size: 1.1rem;
+  margin-top: 8px;
+  font-size: 1rem;
   color: var(--accent);
 }
 
-/* Sticky Next Button */
+/* CENTERED NEXT BUTTON */
 .quiz-next {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 400px;
+  display: none;
+  margin: 25px auto 0 auto;
+  padding: 12px 26px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 40px;
+  border: none;
   background: var(--accent);
   color: #0b0f1a;
-  border: none;
-  border-radius: 50px;
-  padding: 16px;
-  font-size: 1rem;
-  font-weight: 600;
-  display: none;
-  box-shadow: 0 8px 20px var(--accent-soft);
-}
-
-.quiz-next:active {
-  transform: translateX(-50%) scale(0.98);
-}
-
-/* Desktop */
-@media (min-width: 768px) {
-  .options-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  cursor: pointer;
 }
 </style>
 </head>
@@ -193,116 +211,112 @@ header {
 
   <p id="quizFeedback" class="quiz-feedback"></p>
   <p id="quizScore" class="quiz-score">Score: 0</p>
+  <button id="nextBtn" class="quiz-next">Next Question</button>
 </div>
-
-<button id="nextBtn" class="quiz-next">Next Question</button>
 
 <script>
 
-const quizItems = [
-  { image: 'images/bulbs.png', category: 'special' },
-  { image: 'images/compostable-food-packaging.png', category: 'wet' },
-  { image: 'images/mercury-thermometer.png', category: 'special' },
-  { image: 'images/empty-chocolate-paper-box.png', category: 'dry' },
-  { image: 'images/mask.png', category: 'sanitary' },
-  { image: 'images/empty-glass-bottle.png', category: 'dry' },
-  { image: 'images/battery-cell.png', category: 'special' },
-  { image: 'images/empty-plastic-bottle.png', category: 'dry' },
-  { image: 'images/diaper.png', category: 'sanitary' },
-  { image: 'images/bandaid.png', category: 'sanitary' },
-  { image: 'images/empty-milk-carton.png', category: 'dry' },
-  { image: 'images/cleaning-agents.png', category: 'special' },
-  { image: 'images/cotton-ear-buds.png', category: 'sanitary' },
-  { image: 'images/paint-cans.png', category: 'special' },
-  { image: 'images/empty-medicine-pack.png', category: 'special' },
-  { image: 'images/aluminium-can.png', category: 'dry' },
-  { image: 'images/food-soiled-paper.png', category: 'wet' },
-  { image: 'images/medicines.png', category: 'special' },
-  { image: 'images/incontinence-sheet.png', category: 'sanitary' },
-  { image: 'images/leftover-roti.png', category: 'wet' },
-  { image: 'images/leftover-rice.png', category: 'wet' },
-  { image: 'images/compostable-cup.png', category: 'wet' },
-  { image: 'images/compostable-bag.png', category: 'wet' }
+const questions = [
+  { image: "banana.png", correct: "wet" },
+  { image: "apple-core.png", correct: "wet" },
+  { image: "vegetable-peels.png", correct: "wet" },
+  { image: "leftover-food.png", correct: "wet" },
+  { image: "tea-bag.png", correct: "wet" },
+  { image: "eggshell.png", correct: "wet" },
+
+  { image: "images/plastic-bottle.png", correct: "dry" },
+  { image: "images/newspaper.png", correct: "dry" },
+  { image: "images/cardboard-box.png", correct: "dry" },
+  { image: "images/chips-packet.png", correct: "dry" },
+  { image: "images/glass-bottle.png", correct: "dry" },
+  { image: "images/aluminum-can.png", correct: "dry" },
+
+  { image: "images/diaper.png", correct: "sanitary" },
+  { image: "images/sanitary-pad.png", correct: "sanitary" },
+  { image: "images/tissue-paper.png", correct: "sanitary" },
+  { image: "images/bandage.png", correct: "sanitary" },
+
+  { image: "images/battery.png", correct: "special" },
+  { image: "images/medicine-strip.png", correct: "special" },
+  { image: "images/light-bulb.png", correct: "special" },
+  { image: "images/paint-can.png", correct: "special" },
+  { image: "images/thermometer.png", correct: "special" }
 ];
 
+let currentIndex = 0;
 let score = 0;
-let currentIndex = -1;
-let answered = false;
+let strikes = 0;
+const maxStrikes = 3;
+const passingScore = 15;   // ⭐ CHANGE THIS IF YOU WANT
 
-const quizImage = document.getElementById('quizImage');
-const options = document.querySelectorAll('.option-btn');
-const feedback = document.getElementById('quizFeedback');
-const scoreDisplay = document.getElementById('quizScore');
-const nextBtn = document.getElementById('nextBtn');
+const quizImage = document.getElementById("quizImage");
+const buttons = document.querySelectorAll(".option-btn");
+const feedback = document.getElementById("quizFeedback");
+const scoreDisplay = document.getElementById("quizScore");
+const nextBtn = document.getElementById("nextBtn");
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
-shuffle(quizItems);
-
-function loadNextItem() {
-  currentIndex++;
-
-  if (currentIndex >= quizItems.length) {
-    feedback.textContent = "Quiz Complete! Final Score: " + score;
-    quizImage.style.display = "none";
-    nextBtn.style.display = "none";
-    return;
-  }
-
-  const currentItem = quizItems[currentIndex];
-  quizImage.src = currentItem.image + "?v=" + Date.now();
+function loadQuestion() {
+  const current = questions[currentIndex];
+  quizImage.src = current.image;
 
   feedback.textContent = "";
-  feedback.style.color = "";
-  scoreDisplay.textContent = `Score: ${score}`;
+  nextBtn.style.display = "none";
 
-  options.forEach(opt => {
-    opt.classList.remove('correct','incorrect','disabled');
+  buttons.forEach(btn => {
+    btn.classList.remove("correct", "incorrect", "disabled");
   });
-
-  answered = false;
-  nextBtn.style.display = 'none';
 }
 
-options.forEach(opt => {
-  opt.addEventListener('click', () => {
-    if (answered) return;
+function endGame() {
+  buttons.forEach(btn => btn.style.display = "none");
+  nextBtn.style.display = "none";
 
-    answered = true;
-    const currentItem = quizItems[currentIndex];
-    const selected = opt.dataset.category;
+  if (score >= passingScore) {
+    feedback.textContent = "🎉 You Passed! Great job saving the planet!";
+  } else {
+    feedback.textContent = "❌ You Failed. Try again and beat the garbage mountain!";
+  }
+}
 
-    if (selected === currentItem.category) {
-      opt.classList.add('correct');
-      feedback.textContent = "Correct! Great job!";
-      feedback.style.color = "#00ff9d";
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    const selected = button.dataset.category;
+    const correct = questions[currentIndex].correct;
+
+    buttons.forEach(btn => btn.classList.add("disabled"));
+
+    if (selected === correct) {
+      button.classList.add("correct");
+      feedback.textContent = "✅ Correct!";
       score++;
     } else {
-      opt.classList.add('incorrect');
-      feedback.textContent = "Incorrect! Correct answer highlighted.";
-      feedback.style.color = "#ff4d4d";
-
-      options.forEach(button => {
-        if (button.dataset.category === currentItem.category) {
-          button.classList.add('correct');
-        }
-      });
+      button.classList.add("incorrect");
+      feedback.textContent = "❌ Wrong!";
+      strikes++;
     }
 
-    scoreDisplay.textContent = `Score: ${score}`;
-    options.forEach(button => button.classList.add('disabled'));
-    nextBtn.style.display = 'block';
+    scoreDisplay.textContent = `Score: ${score} | Strikes: ${strikes}/3`;
+
+    if (strikes >= maxStrikes) {
+      feedback.textContent = "💀 3 Strikes! Game Over!";
+      setTimeout(endGame, 1500);
+      return;
+    }
+
+    if (currentIndex === questions.length - 1) {
+      setTimeout(endGame, 1500);
+    } else {
+      nextBtn.style.display = "block";
+    }
   });
 });
 
-nextBtn.addEventListener('click', loadNextItem);
+nextBtn.addEventListener("click", () => {
+  currentIndex++;
+  loadQuestion();
+});
 
-loadNextItem();
+loadQuestion();
 
 </script>
 
