@@ -258,7 +258,6 @@ footer {
   z-index: 1;
   border-radius: 50%; /* Circular shape */
   overflow: hidden;
-  isolation: isolate;
 }
 
 .hero-logo img {
@@ -268,36 +267,6 @@ footer {
   filter: brightness(1.1); /* Slight brightness for energy */
 }
 
-/* Animated halo */
-.hero-logo::before,
-.hero-logo::after {
-  content: "";
-  position: absolute;
-  inset: -4%;
-  border-radius: 50%;
-  z-index: -1;
-}
-
-.hero-logo::before {
-  background: conic-gradient(from 0deg, rgba(0,255,208,0), rgba(0,255,208,0.7), rgba(0,255,208,0));
-  filter: blur(8px);
-  animation: halo-spin 6s linear infinite;
-}
-
-.hero-logo::after {
-  background: radial-gradient(circle, rgba(0,255,208,0.35), rgba(0,255,208,0) 65%);
-  filter: blur(10px);
-  animation: halo-pulse 3s ease-in-out infinite;
-}
-
-@keyframes halo-spin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes halo-pulse {
-  0%, 100% { transform: scale(0.98); opacity: 0.6; }
-  50% { transform: scale(1.04); opacity: 0.9; }
-}
 
 @media (max-width: 768px) {
   .hero-logo {
