@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mr. Segregator — How Do I Segregate?</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,29 +16,17 @@
   --border: rgba(255,255,255,0.18);
   --text: #f4f6ff;
   --muted: #aab0d4;
-  --vh: 100vh; /* fallback */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
-html, body {
-  height: 100%;
-  overflow: hidden;
-}
 
 body {
   font-family: 'Poppins', system-ui, sans-serif;
   background: radial-gradient(800px 400px at top, #1a2142, transparent),
               linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
   color: var(--text);
-  min-height: 100vh;
-}
-
-/* Safe area support for iOS notch/home bar */
-@supports (padding-top: env(safe-area-inset-top)) {
-  header { padding-top: calc(14px + env(safe-area-inset-top)); }
-  footer { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
-  .carousel-container { padding-bottom: env(safe-area-inset-bottom); }
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* HEADER */
@@ -56,88 +44,90 @@ header {
 
 .header-logo { font-size: 1.3rem; color: var(--accent); text-decoration: none; }
 .back-btn { font-size: 0.95rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; }
-.back-btn:hover { color: var(--accent); }
 
 /* CAROUSEL */
 .carousel-container {
   position: relative;
-  height: calc(var(--vh) - 68px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  height: calc(100vh - 68px);
+  min-height: 300px;
   overflow: hidden;
-  touch-action: pan-y pinch-zoom; /* better gesture control */
+  pointer-events: none; /* prevent container capturing touches – arrows & swipe still work */
 }
 
 .carousel-wrapper {
   display: flex;
   width: 400%;
   height: 100%;
+  min-width: 100%; /* prevent collapse */
   transition: transform 0.6s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .carousel-slide {
   width: 25%;
   height: 100%;
+  min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   padding: 10px;
+  pointer-events: auto; /* allow interactions inside slides if needed */
 }
 
 .carousel-slide img {
-  max-height: clamp(60vh, 72vh, 82vh);
+  max-height: 80vh;
   max-width: 96%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   box-shadow: 0 10px 40px rgba(0, 255, 208, 0.22);
   border-radius: 16px;
 }
 
-/* Mobile tweaks */
-@media (max-width: 768px) {
-  header { padding: 12px 16px; }
-  .header-logo { font-size: 1.15rem; }
-  .back-btn { font-size: 0.9rem; }
-  .carousel-container { height: calc(var(--vh) - 60px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
-  .carousel-slide { padding: 15px 10px; }
-  .carousel-slide img { max-height: clamp(52vh, 62vh, 72vh); max-width: 94%; }
-  .carousel-arrow { 
-    width: 64px; 
-    height: 64px; 
-    font-size: 2.8rem; 
-    opacity: 0.9; 
-  }
-  .carousel-arrow.left { left: 10px; }
-  .carousel-arrow.right { right: 10px; }
-}
-
-@media (min-width: 1024px) {
-  .carousel-slide img { max-height: clamp(70vh, 80vh, 88vh); }
-}
-
-/* Arrows */
+/* Arrows – better spacing & mobile sizing */
 .carousel-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,255,208,0.2);
+  background: rgba(0,255,208,0.25);
   color: var(--accent);
   border: none;
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  font-size: 2.4rem;
+  font-size: 2.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 100;
-  box-shadow: 0 0 20px rgba(0,255,208,0.3);
+  box-shadow: 0 0 20px rgba(0,255,208,0.4);
   transition: all 0.3s;
+  pointer-events: auto; /* clicks work even if container has none */
 }
 
 .carousel-arrow:hover {
   background: var(--accent);
   color: #000;
   transform: translateY(-50%) scale(1.15);
+}
+
+.carousel-arrow.left { left: 16px; }
+.carousel-arrow.right { right: 16px; }
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  header { padding: 12px 16px; }
+  .carousel-container { height: calc(100vh - 60px); min-height: 400px; }
+  .carousel-slide { padding: 15px 10px; min-height: 400px; }
+  .carousel-slide img { max-height: 70vh; max-width: 94%; }
+  .carousel-arrow { 
+    width: 68px; 
+    height: 68px; 
+    font-size: 2.8rem; 
+  }
+  .carousel-arrow.left { left: 12px; }
+  .carousel-arrow.right { right: 12px; }
 }
 
 /* FOOTER */
@@ -162,23 +152,18 @@ footer {
 
 <div class="carousel-container" id="carouselContainer">
   <div class="carousel-wrapper" id="carouselWrapper">
-
     <div class="carousel-slide">
       <img src="images/guide/WetWasteGuide.png" alt="Wet Waste Guide">
     </div>
-
     <div class="carousel-slide">
       <img src="images/guide/DryWasteGuide.png" alt="Dry Waste Guide">
     </div>
-
     <div class="carousel-slide">
       <img src="images/guide/SanitaryWasteGuide.png" alt="Sanitary Waste Guide">
     </div>
-
     <div class="carousel-slide">
       <img src="images/guide/SpecialCareWasteGuide.png" alt="Special Care Waste Guide">
     </div>
-
   </div>
 
   <button class="carousel-arrow left" id="prevBtn">‹</button>
@@ -190,17 +175,6 @@ footer {
 </footer>
 
 <script>
-// Dynamic VH for mobile address bar
-function setVH() {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-setVH();
-window.addEventListener('resize', setVH);
-window.addEventListener('orientationchange', setVH);
-
-// Carousel
-const container = document.getElementById('carouselContainer');
 const wrapper = document.getElementById('carouselWrapper');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
@@ -222,34 +196,20 @@ nextBtn.addEventListener('click', () => {
   updateCarousel();
 });
 
-// Touch swipe - more sensitive
+// Touch swipe
 let touchStartX = 0;
-let touchStartY = 0;
-const swipeThreshold = 30; // even lower for quick response
+const container = document.getElementById('carouselContainer');
 
 container.addEventListener('touchstart', e => {
   touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
 }, { passive: true });
 
-container.addEventListener('touchmove', e => {
-  if (!e.touches.length) return;
-  const deltaX = Math.abs(e.touches[0].clientX - touchStartX);
-  const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
-  if (deltaX > deltaY && deltaX > 15) {
-    e.preventDefault(); // block vertical scroll/browser gestures during horizontal swipe
-  }
-}, { passive: false });
-
 container.addEventListener('touchend', e => {
-  if (!e.changedTouches.length) return;
-  const touchEndX = e.changedTouches[0].clientX;
-  const diffX = touchStartX - touchEndX;
-
-  if (Math.abs(diffX) > swipeThreshold) {
-    if (diffX > 0) { // left swipe → next
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 40) {
+    if (diff > 0) {
       current = (current + 1) % totalSlides;
-    } else { // right swipe → prev
+    } else {
       current = (current - 1 + totalSlides) % totalSlides;
     }
     updateCarousel();
