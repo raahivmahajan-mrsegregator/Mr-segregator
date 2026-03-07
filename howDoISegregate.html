@@ -1,236 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mr. Segregator — How Do I Segregate?</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mr. Segregator — How Do I Segregate?</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-:root {
-  --bg-dark: #0b0f1a;
-  --bg-mid: #141a2f;
-  --accent: #00ffd0;
-  --accent-soft: rgba(0,255,208,0.35);
-  --border: rgba(255,255,255,0.18);
-  --text: #f4f6ff;
-  --muted: #aab0d4;
-  --success: #00ff9d;
-}
+  <style>
+    :root {
+      --bg-dark: #0b0f1a;
+      --bg-mid: #141a2f;
+      --accent: #00ffd0;
+      --accent-soft: rgba(0,255,208,0.35);
+      --border: rgba(255,255,255,0.18);
+      --text: #f4f6ff;
+      --muted: #aab0d4;
+    }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-body {
-  font-family: 'Poppins', system-ui, sans-serif;
-  background: radial-gradient(800px 400px at top, #1a2142, transparent),
-              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
-  color: var(--text);
-  min-height: 100vh;
-  line-height: 1.6;
-}
+    body {
+      font-family: 'Poppins', system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+      color: var(--text);
+      height: 100dvh;          /* modern dynamic viewport height */
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
 
-/* HEADER */
-header {
-  padding: 14px 18px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-}
+    header {
+      padding: 1rem 1.2rem;
+      background: var(--bg-mid);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      z-index: 10;
+    }
 
-.header-logo {
-  font-size: 1.3rem;
-  color: var(--accent);
-  text-decoration: none;
-}
+    .header-logo {
+      font-size: 1.25rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
 
-.back-btn {
-  font-size: 0.95rem;
-  color: var(--muted);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: color 0.3s;
-}
+    .back-btn {
+      font-size: 0.95rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
-.back-btn:hover {
-  color: var(--accent);
-}
+    .back-btn:hover {
+      color: var(--accent);
+    }
 
-/* HERO */
-.hero {
-  padding: 28px 16px 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+    /* Main carousel takes remaining space */
+    .carousel-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  top: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
-  border-radius: 50%;
-  opacity: 0.6;
-  z-index: 0;
-}
+    .carousel-wrapper {
+      display: flex;
+      height: 100%;
+      width: 400%;                /* 4 slides × 100% */
+      transition: transform 0.5s ease-out;
+    }
 
-.hero-title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 2px;
-  background: linear-gradient(90deg, #00ffd0, #6ddcff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+    .carousel-slide {
+      width: 25%;                 /* 100% / 4 */
+      height: 100%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: transparent;
+    }
 
-.hero-subtitle {
-  font-size: 1.05rem;
-  color: var(--muted);
-  max-width: 520px;
-  margin: 0 auto 24px;
-}
+    .carousel-slide img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 255, 208, 0.2);
+    }
 
-/* A-Z TILES SECTION */
-.tiles-section {
-  padding: 0 16px 80px;
-  max-width: 800px;
-  margin: 0 auto;
-}
+    /* Arrows - larger touch targets on mobile */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 54px;
+      height: 54px;
+      background: rgba(0,255,208,0.18);
+      color: var(--accent);
+      border: none;
+      border-radius: 50%;
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: all 0.25s;
+      backdrop-filter: blur(4px);
+    }
 
-.tiles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 16px;
-}
+    .carousel-arrow:hover,
+    .carousel-arrow:active {
+      background: var(--accent);
+      color: #000;
+      transform: translateY(-50%) scale(1.1);
+    }
 
-.tile {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--accent);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(0,255,208,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .left  { left: 12px; }
+    .right { right: 12px; }
 
-.tile:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-  transform: translateY(-6px);
-  box-shadow: 0 0 35px rgba(0,255,208,0.6);
-  color: #0b0f1a;
-}
+    footer {
+      padding: 0.8rem;
+      text-align: center;
+      background: var(--bg-mid);
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+      z-index: 10;
+    }
 
-/* FOOTER */
-footer {
-  padding: 40px 16px;
-  text-align: center;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.footer-links a:hover {
-  color: var(--accent);
-}
-
-/* RESPONSIVE */
-@media (min-width: 768px) {
-  .hero { padding: 40px 16px 30px; }
-  .hero-title { font-size: 2.8rem; }
-  .tiles-section { padding: 0 24px 100px; }
-  .tiles-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; }
-  .tile { font-size: 2.6rem; padding: 30px; }
-}
-</style>
+    @media (min-width: 768px) {
+      .carousel-arrow { width: 60px; height: 60px; font-size: 2.6rem; }
+      .left  { left: 24px; }
+      .right { right: 24px; }
+      header, footer { padding: 1.2rem 2rem; }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
-  <a href="index.html" class="back-btn">← Back to Home</a>
-</header>
+  <header>
+    <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+    <a href="index.html" class="back-btn">← Back to Home</a>
+  </header>
 
-<section class="hero">
-  <div class="hero-content">
-    <h1 class="hero-title">How Do I Segregate?</h1>
-    <p class="hero-subtitle">Click a letter to see common items starting with it and how to segregate them.</p>
-  </div>
-</section>
+  <div class="carousel-container">
+    <div class="carousel-wrapper" id="wrapper">
 
-<div class="tiles-section">
-  <div class="tiles-grid">
-    <a href="segregate-a.html" class="tile">A</a>
-    <a href="segregate-b.html" class="tile">B</a>
-    <a href="segregate-c.html" class="tile">C</a>
-    <a href="segregate-d.html" class="tile">D</a>
-    <a href="segregate-e.html" class="tile">E</a>
-    <a href="segregate-f.html" class="tile">F</a>
-    <a href="segregate-g.html" class="tile">G</a>
-    <a href="segregate-h.html" class="tile">H</a>
-    <a href="segregate-i.html" class="tile">I</a>
-    <a href="segregate-j.html" class="tile">J</a>
-    <a href="segregate-k.html" class="tile">K</a>
-    <a href="segregate-l.html" class="tile">L</a>
-    <a href="segregate-m.html" class="tile">M</a>
-    <a href="segregate-n.html" class="tile">N</a>
-    <a href="segregate-o.html" class="tile">O</a>
-    <a href="segregate-p.html" class="tile">P</a>
-    <a href="segregate-q.html" class="tile">Q</a>
-    <a href="segregate-r.html" class="tile">R</a>
-    <a href="segregate-s.html" class="tile">S</a>
-    <a href="segregate-t.html" class="tile">T</a>
-    <a href="segregate-u.html" class="tile">U</a>
-    <a href="segregate-v.html" class="tile">V</a>
-    <a href="segregate-w.html" class="tile">W</a>
-    <a href="segregate-x.html" class="tile">X</a>
-    <a href="segregate-y.html" class="tile">Y</a>
-    <a href="segregate-z.html" class="tile">Z</a>
-  </div>
-</div>
+      <div class="carousel-slide">
+        <img src="images/guide/WetWasteGuide.png" alt="Wet Waste Guide">
+      </div>
 
-<footer>
-  <div class="footer-links">
-    <a href="wet.html">Wet Waste</a>
-    <a href="dry.html">Dry Waste</a>
-    <a href="sanitary.html">Sanitary</a>
-    <a href="special.html">Special</a>
-    <a href="resin.html">Resin Codes</a>
+      <div class="carousel-slide">
+        <img src="images/guide/DryWasteGuide.png" alt="Dry Waste Guide">
+      </div>
+
+      <div class="carousel-slide">
+        <img src="images/guide/SanitaryWasteGuide.png" alt="Sanitary Waste Guide">
+      </div>
+
+      <div class="carousel-slide">
+        <img src="images/guide/SpecialCareWasteGuide.png" alt="Special Care Waste Guide">
+      </div>
+
+    </div>
+
+    <button class="carousel-arrow left" id="prev">‹</button>
+    <button class="carousel-arrow right" id="next">›</button>
   </div>
-  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
-</footer>
+
+  <footer>
+    Mr. Segregator © 2026 • Swipe or tap arrows to view guides
+  </footer>
+
+  <script>
+    const wrapper = document.getElementById('wrapper');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+
+    let currentIndex = 0;
+    const total = 4;
+
+    function goTo(index) {
+      currentIndex = (index + total) % total;
+      wrapper.style.transform = `translateX(-${currentIndex * 25}%)`;
+    }
+
+    prev.addEventListener('click', () => goTo(currentIndex - 1));
+    next.addEventListener('click', () => goTo(currentIndex + 1));
+
+    // Basic swipe support
+    let startX = 0;
+    let isDragging = false;
+
+    wrapper.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    }, { passive: true });
+
+    wrapper.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      e.preventDefault(); // smoother on some browsers
+    }, { passive: false });
+
+    wrapper.addEventListener('touchend', e => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > 50) { // threshold ~50px
+        if (diff > 0) goTo(currentIndex + 1); // left swipe → next
+        else          goTo(currentIndex - 1); // right swipe → prev
+      }
+    }, { passive: true });
+  </script>
 
 </body>
 </html>
