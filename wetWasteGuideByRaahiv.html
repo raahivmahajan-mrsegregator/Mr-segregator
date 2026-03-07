@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mr. Segregator — Wet Waste Segregation Guide</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.12);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+  --wet-color: #4caf50; /* Green for wet waste */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Header */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  font-size: 1.3rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* Main Content */
+.guide-section {
+  padding: 40px 20px;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.guide-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.guide-intro {
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.bin-image {
+  max-width: 300px;
+  margin: 0 auto 30px;
+  display: block;
+  border: 2px solid var(--wet-color);
+  border-radius: 12px;
+}
+
+/* Examples Grid */
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+}
+
+.example-item {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.4s;
+}
+
+.example-item:hover {
+  box-shadow: 0 0 25px var(--wet-color);
+}
+
+.example-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.example-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* How-to Section */
+.how-to {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.how-to h3 {
+  font-size: 1.6rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.how-to ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.how-to li {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  position: relative;
+  padding-left: 24px;
+}
+
+.how-to li::before {
+  content: '♻️';
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Tip */
+.tip {
+  background: rgba(76,175,80,0.15); /* Green tint */
+  border-left: 4px solid var(--wet-color);
+  padding: 16px;
+  margin: 20px auto;
+  max-width: 800px;
+  border-radius: 8px;
+  font-style: italic;
+  color: var(--text);
+}
+
+/* Footer */
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: auto;
+}
+
+/* Print styles for PDF */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+  .guide-title {
+    background: none;
+    -webkit-text-fill-color: black;
+  }
+  .guide-intro, .how-to li, .tip {
+    color: black;
+  }
+  header, footer {
+    border-color: lightgray;
+  }
+  .example-item {
+    background: white;
+    border: 1px solid lightgray;
+    box-shadow: none;
+  }
+  .bin-image {
+    border: 2px solid green;
+  }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+</header>
+
+<section class="guide-section">
+  <h1 class="guide-title">Wet Waste Segregation Guide</h1>
+  <p class="guide-intro">
+    Wet waste, also known as organic or biodegradable waste, includes items that decompose naturally and can be turned into compost. Proper segregation helps in recycling and reduces landfill burden. Always use the green bin for wet waste!
+  </p>
+  
+  <img src="green_bin.png" alt="Green Wet Waste Bin" class="bin-image">
+  
+  <h2 class="guide-title" style="font-size: 1.8rem; margin-bottom: 20px;">Examples of Wet Waste</h2>
+  <div class="examples-grid">
+    <div class="example-item">
+      <img src="leaves.png" alt="Dry Leaves" class="example-image">
+      <p class="example-label">Dry Leaves & Garden Waste</p>
+    </div>
+    <div class="example-item">
+      <img src="compostable_bag.png" alt="Compostable Bag" class="example-image">
+      <p class="example-label">Compostable Bags</p>
+    </div>
+    <div class="example-item">
+      <img src="coffee_grounds.png" alt="Coffee Grounds" class="example-image">
+      <p class="example-label">Tea/Coffee Grounds</p>
+    </div>
+    <div class="example-item">
+      <img src="bagasse_tray.png" alt="Bagasse Tray" class="example-image">
+      <p class="example-label">Compostable Trays (e.g., Bagasse)</p>
+    </div>
+    <div class="example-item">
+      <img src="fruit_scraps.png" alt="Fruit and Vegetable Scraps" class="example-image">
+      <p class="example-label">Fruit & Vegetable Scraps</p>
+    </div>
+    <div class="example-item">
+      <img src="eggshells.png" alt="Eggshells" class="example-image">
+      <p class="example-label">Eggshells</p>
+    </div>
+    <div class="example-item">
+      <img src="rice_scraps.png" alt="Leftover Rice" class="example-image">
+      <p class="example-label">Leftover Food (e.g., Rice)</p>
+    </div>
+    <div class="example-item">
+      <img src="soiled_paper.png" alt="Soiled Paper Napkin" class="example-image">
+      <p class="example-label">Soiled Paper Napkins</p>
+    </div>
+  </div>
+  
+  <div class="how-to">
+    <h3>How to Segregate Wet Waste</h3>
+    <ul>
+      <li>Collect all organic waste like food scraps, peels, and garden trimmings separately.</li>
+      <li>Rinse lightly if needed to remove excess liquids, but avoid mixing with dry waste.</li>
+      <li>Use compostable bags or liners in your kitchen bin for easy transfer.</li>
+      <li>Dispose in the designated green wet waste bin for collection or composting.</li>
+    </ul>
+  </div>
+  
+  <div class="tip">
+    💡 Tip: Start a home compost bin to turn wet waste into nutrient-rich soil for your plants!
+  </div>
+</section>
+
+<footer>
+  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
+</footer>
+
+</body>
+</html>
