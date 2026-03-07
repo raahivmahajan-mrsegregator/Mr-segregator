@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Mr. Segregator — How Do I Segregate?</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,9 +16,15 @@
   --border: rgba(255,255,255,0.18);
   --text: #f4f6ff;
   --muted: #aab0d4;
+  --vh: 100vh; /* fallback */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
 
 body {
   font-family: 'Poppins', system-ui, sans-serif;
@@ -26,7 +32,13 @@ body {
               linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
   color: var(--text);
   min-height: 100vh;
-  overflow: hidden;
+}
+
+/* Safe area support for iOS notch/home bar */
+@supports (padding-top: env(safe-area-inset-top)) {
+  header { padding-top: calc(14px + env(safe-area-inset-top)); }
+  footer { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+  .carousel-container { padding-bottom: env(safe-area-inset-bottom); }
 }
 
 /* HEADER */
@@ -38,17 +50,20 @@ header {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border);
+  background: var(--bg-mid);
+  z-index: 10;
 }
 
 .header-logo { font-size: 1.3rem; color: var(--accent); text-decoration: none; }
 .back-btn { font-size: 0.95rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; }
 .back-btn:hover { color: var(--accent); }
 
-/* CAROUSEL CONTAINER */
+/* CAROUSEL */
 .carousel-container {
   position: relative;
-  height: calc(100vh - 68px);
+  height: calc(var(--vh) - 68px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   overflow: hidden;
+  touch-action: pan-y pinch-zoom; /* better gesture control */
 }
 
 .carousel-wrapper {
@@ -65,56 +80,37 @@ header {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: 10px; /* small padding for mobile breathing room */
+  padding: 10px;
 }
 
 .carousel-slide img {
-  max-height: clamp(60vh, 72vh, 82vh); /* fluid: smaller on tiny screens, larger on big */
+  max-height: clamp(60vh, 72vh, 82vh);
   max-width: 96%;
-  width: auto;
-  height: auto;
   object-fit: contain;
   box-shadow: 0 10px 40px rgba(0, 255, 208, 0.22);
   border-radius: 16px;
 }
 
-/* Mobile adjustments */
+/* Mobile tweaks */
 @media (max-width: 768px) {
-  header {
-    padding: 12px 16px;
-  }
-
+  header { padding: 12px 16px; }
   .header-logo { font-size: 1.15rem; }
   .back-btn { font-size: 0.9rem; }
-
-  .carousel-container {
-    height: calc(100vh - 60px); /* slightly less header space on mobile */
+  .carousel-container { height: calc(var(--vh) - 60px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+  .carousel-slide { padding: 15px 10px; }
+  .carousel-slide img { max-height: clamp(52vh, 62vh, 72vh); max-width: 94%; }
+  .carousel-arrow { 
+    width: 64px; 
+    height: 64px; 
+    font-size: 2.8rem; 
+    opacity: 0.9; 
   }
-
-  .carousel-slide {
-    padding: 20px 12px; /* more vertical breathing room on phones */
-  }
-
-  .carousel-slide img {
-    max-height: clamp(55vh, 65vh, 75vh); /* noticeably smaller on mobile to avoid overwhelming screen */
-    max-width: 92%;
-  }
-
-  /* Bigger touch-friendly arrows on mobile */
-  .carousel-arrow {
-    width: 60px;
-    height: 60px;
-    font-size: 2.6rem;
-  }
-
-  .carousel-arrow.left { left: 12px; }
-  .carousel-arrow.right { right: 12px; }
+  .carousel-arrow.left { left: 10px; }
+  .carousel-arrow.right { right: 10px; }
 }
 
 @media (min-width: 1024px) {
-  .carousel-slide img {
-    max-height: clamp(70vh, 80vh, 88vh); /* taller on desktop/large tablets */
-  }
+  .carousel-slide img { max-height: clamp(70vh, 80vh, 88vh); }
 }
 
 /* Arrows */
@@ -122,7 +118,7 @@ header {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0,255,208,0.15);
+  background: rgba(0,255,208,0.2);
   color: var(--accent);
   border: none;
   width: 56px;
@@ -144,9 +140,6 @@ header {
   transform: translateY(-50%) scale(1.15);
 }
 
-.carousel-arrow.left { left: 20px; }
-.carousel-arrow.right { right: 20px; }
-
 /* FOOTER */
 footer {
   padding: 16px;
@@ -154,6 +147,8 @@ footer {
   border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 0.85rem;
+  background: var(--bg-mid);
+  z-index: 10;
 }
 </style>
 </head>
@@ -165,32 +160,27 @@ footer {
   <a href="index.html" class="back-btn">← Back to Home</a>
 </header>
 
-<div class="carousel-container">
+<div class="carousel-container" id="carouselContainer">
   <div class="carousel-wrapper" id="carouselWrapper">
 
-    <!-- Wet Waste Guide -->
     <div class="carousel-slide">
       <img src="images/guide/WetWasteGuide.png" alt="Wet Waste Guide">
     </div>
 
-    <!-- Dry Waste Guide -->
     <div class="carousel-slide">
       <img src="images/guide/DryWasteGuide.png" alt="Dry Waste Guide">
     </div>
 
-    <!-- Sanitary Waste Guide -->
     <div class="carousel-slide">
       <img src="images/guide/SanitaryWasteGuide.png" alt="Sanitary Waste Guide">
     </div>
 
-    <!-- Special Care Waste Guide -->
     <div class="carousel-slide">
       <img src="images/guide/SpecialCareWasteGuide.png" alt="Special Care Waste Guide">
     </div>
 
   </div>
 
-  <!-- Arrows -->
   <button class="carousel-arrow left" id="prevBtn">‹</button>
   <button class="carousel-arrow right" id="nextBtn">›</button>
 </div>
@@ -200,6 +190,17 @@ footer {
 </footer>
 
 <script>
+// Dynamic VH for mobile address bar
+function setVH() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+setVH();
+window.addEventListener('resize', setVH);
+window.addEventListener('orientationchange', setVH);
+
+// Carousel
+const container = document.getElementById('carouselContainer');
 const wrapper = document.getElementById('carouselWrapper');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
@@ -221,17 +222,38 @@ nextBtn.addEventListener('click', () => {
   updateCarousel();
 });
 
-// Touch swipe support
+// Touch swipe - more sensitive
 let touchStartX = 0;
-wrapper.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
-wrapper.addEventListener('touchend', e => {
-  const touchEndX = e.changedTouches[0].screenX;
-  if (touchStartX - touchEndX > 60) {
-    current = (current + 1) % totalSlides;
-  } else if (touchEndX - touchStartX > 60) {
-    current = (current - 1 + totalSlides) % totalSlides;
+let touchStartY = 0;
+const swipeThreshold = 30; // even lower for quick response
+
+container.addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+container.addEventListener('touchmove', e => {
+  if (!e.touches.length) return;
+  const deltaX = Math.abs(e.touches[0].clientX - touchStartX);
+  const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
+  if (deltaX > deltaY && deltaX > 15) {
+    e.preventDefault(); // block vertical scroll/browser gestures during horizontal swipe
   }
-  updateCarousel();
+}, { passive: false });
+
+container.addEventListener('touchend', e => {
+  if (!e.changedTouches.length) return;
+  const touchEndX = e.changedTouches[0].clientX;
+  const diffX = touchStartX - touchEndX;
+
+  if (Math.abs(diffX) > swipeThreshold) {
+    if (diffX > 0) { // left swipe → next
+      current = (current + 1) % totalSlides;
+    } else { // right swipe → prev
+      current = (current - 1 + totalSlides) % totalSlides;
+    }
+    updateCarousel();
+  }
 });
 </script>
 
