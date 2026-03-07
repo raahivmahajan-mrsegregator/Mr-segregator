@@ -18,17 +18,13 @@
       --muted: #aab0d4;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Poppins', system-ui, sans-serif;
       background: linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
       color: var(--text);
-      height: 100dvh;          /* modern dynamic viewport height */
+      height: 100dvh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -45,48 +41,27 @@
       z-index: 10;
     }
 
-    .header-logo {
-      font-size: 1.25rem;
-      color: var(--accent);
-      text-decoration: none;
-    }
+    .header-logo { font-size: 1.25rem; color: var(--accent); text-decoration: none; }
+    .back-btn { font-size: 0.95rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 0.4rem; }
+    .back-btn:hover { color: var(--accent); }
 
-    .back-btn {
-      font-size: 0.95rem;
-      color: var(--muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .back-btn:hover {
-      color: var(--accent);
-    }
-
-    /* Main carousel takes remaining space */
-    .carousel-container {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-    }
+    .carousel-container { flex: 1; position: relative; overflow: hidden; }
 
     .carousel-wrapper {
       display: flex;
       height: 100%;
-      width: 400%;                /* 4 slides × 100% */
+      width: 400%;
       transition: transform 0.5s ease-out;
     }
 
     .carousel-slide {
-      width: 25%;                 /* 100% / 4 */
+      width: 25%;
       height: 100%;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 1rem;
-      background: transparent;
     }
 
     .carousel-slide img {
@@ -97,7 +72,6 @@
       box-shadow: 0 8px 32px rgba(0, 255, 208, 0.2);
     }
 
-    /* Arrows - larger touch targets on mobile */
     .carousel-arrow {
       position: absolute;
       top: 50%;
@@ -138,6 +112,40 @@
       z-index: 10;
     }
 
+    /* Feedback Overlay */
+    .feedback-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(11, 15, 26, 0.97);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .feedback-content {
+      background: var(--bg-mid);
+      border: 1px solid var(--accent-soft);
+      border-radius: 20px;
+      padding: 2.2rem 1.8rem;
+      max-width: 420px;
+      width: 92%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 255, 208, 0.2);
+    }
+    .answer-btn {
+      padding: 14px 32px;
+      margin: 10px 6px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .yes-btn { background: #00ffd0; color: #0b0f1a; }
+    .no-btn  { background: #ff3366; color: white; }
+    .answer-btn:hover { transform: scale(1.06); }
+
     @media (min-width: 768px) {
       .carousel-arrow { width: 60px; height: 60px; font-size: 2.6rem; }
       .left  { left: 24px; }
@@ -159,15 +167,12 @@
       <div class="carousel-slide">
         <img src="images/guide/WetWasteGuide.png" alt="Wet Waste Guide">
       </div>
-
       <div class="carousel-slide">
         <img src="images/guide/DryWasteGuide.png" alt="Dry Waste Guide">
       </div>
-
       <div class="carousel-slide">
         <img src="images/guide/SanitaryWasteGuide.png" alt="Sanitary Waste Guide">
       </div>
-
       <div class="carousel-slide">
         <img src="images/guide/SpecialCareWasteGuide.png" alt="Special Care Waste Guide">
       </div>
@@ -182,48 +187,144 @@
     Mr. Segregator © 2026 • Swipe or tap arrows to view guides
   </footer>
 
+  <!-- FEEDBACK OVERLAY -->
+  <div id="feedbackOverlay" class="feedback-overlay">
+    <div class="feedback-content">
+      <h2 style="color:var(--accent); font-size:1.5rem; margin-bottom:1rem;">Thank You! 🌍</h2>
+      <p style="color:var(--muted); margin-bottom:1.6rem; line-height:1.4;">
+        You have completed all the guides.<br>
+        Please answer two quick questions:
+      </p>
+      
+      <div style="margin-bottom:1.6rem;">
+        <p style="margin-bottom:10px; font-weight:500;">1. Did the guide help you segregate better?</p>
+        <button onclick="selectAnswer(1, true, this)" class="answer-btn yes-btn">Yes</button>
+        <button onclick="selectAnswer(1, false, this)" class="answer-btn no-btn">No</button>
+      </div>
+      
+      <div style="margin-bottom:1.8rem;">
+        <p style="margin-bottom:10px; font-weight:500;">2. Will you segregate at home, so no Garbage Mountain gets created?</p>
+        <button onclick="selectAnswer(2, true, this)" class="answer-btn yes-btn">Yes</button>
+        <button onclick="selectAnswer(2, false, this)" class="answer-btn no-btn">No</button>
+      </div>
+      
+      <button id="submitBtn" onclick="submitFeedback()" 
+              style="background:var(--accent); color:#0b0f1a; padding:15px; border:none; border-radius:50px; font-weight:700; font-size:1.1rem; width:100%;"
+              disabled>Submit My Answers</button>
+      
+      <button onclick="closeOverlay()" style="margin-top:18px; background:none; border:none; color:var(--muted); font-size:0.95rem; cursor:pointer;">
+        Skip for now
+      </button>
+    </div>
+  </div>
+
   <script>
     const wrapper = document.getElementById('wrapper');
-    const prev = document.getElementById('prev');
-    const next = document.getElementById('next');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
 
     let currentIndex = 0;
     const total = 4;
 
-    function goTo(index) {
-      currentIndex = (index + total) % total;
+    function updateCarousel() {
       wrapper.style.transform = `translateX(-${currentIndex * 25}%)`;
+      
+      // Change right arrow to "Finish" only on last slide
+      if (currentIndex === total - 1) {
+        nextBtn.innerHTML = '✓';
+        nextBtn.style.fontSize = '1.8rem';
+        nextBtn.style.width = '64px';
+        nextBtn.style.height = '64px';
+      } else {
+        nextBtn.innerHTML = '›';
+        nextBtn.style.fontSize = '2.2rem';
+        nextBtn.style.width = '54px';
+        nextBtn.style.height = '54px';
+      }
     }
 
-    prev.addEventListener('click', () => goTo(currentIndex - 1));
-    next.addEventListener('click', () => goTo(currentIndex + 1));
+    function goTo(index) {
+      currentIndex = (index + total) % total;
+      updateCarousel();
+      
+      // Show overlay when user clicks/swipe FORWARD from the LAST slide
+      if (currentIndex === 0 && index === total) {   // wrapped from last → first
+        showFeedbackOverlay();
+        currentIndex = total - 1; // stay on last slide
+        updateCarousel();
+      }
+    }
 
-    // Basic swipe support
+    prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
+    nextBtn.addEventListener('click', () => {
+      if (currentIndex === total - 1) {
+        showFeedbackOverlay();   // ← This is the new trigger (no delay!)
+      } else {
+        goTo(currentIndex + 1);
+      }
+    });
+
+    // Swipe support (unchanged)
     let startX = 0;
     let isDragging = false;
 
-    wrapper.addEventListener('touchstart', e => {
-      startX = e.touches[0].clientX;
-      isDragging = true;
-    }, { passive: true });
-
-    wrapper.addEventListener('touchmove', e => {
-      if (!isDragging) return;
-      e.preventDefault(); // smoother on some browsers
-    }, { passive: false });
-
+    wrapper.addEventListener('touchstart', e => { startX = e.touches[0].clientX; isDragging = true; }, { passive: true });
     wrapper.addEventListener('touchend', e => {
       if (!isDragging) return;
       isDragging = false;
-
-      const endX = e.changedTouches[0].clientX;
-      const diff = startX - endX;
-
-      if (Math.abs(diff) > 50) { // threshold ~50px
-        if (diff > 0) goTo(currentIndex + 1); // left swipe → next
-        else          goTo(currentIndex - 1); // right swipe → prev
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) { // swipe left → next
+          if (currentIndex === total - 1) showFeedbackOverlay();
+          else goTo(currentIndex + 1);
+        } else {
+          goTo(currentIndex - 1);
+        }
       }
     }, { passive: true });
+
+    // ================== FEEDBACK LOGIC (same as before) ==================
+    let userAnswers = {};
+    let hasShownFeedback = false;
+
+    function selectAnswer(question, value, btn) {
+      userAnswers['q' + question] = value;
+      const parentBtns = btn.parentElement.querySelectorAll('.answer-btn');
+      parentBtns.forEach(b => b.style.opacity = '0.45');
+      btn.style.opacity = '1';
+      if (userAnswers.q1 !== undefined && userAnswers.q2 !== undefined) {
+        document.getElementById('submitBtn').disabled = false;
+      }
+    }
+
+    function submitFeedback() {
+      fetch('save_feedback.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userAnswers)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem('segregatorFeedbackDone', 'true');
+          alert('✅ Thank you! Your feedback will help many others.');
+          closeOverlay();
+        }
+      });
+    }
+
+    function closeOverlay() {
+      document.getElementById('feedbackOverlay').style.display = 'none';
+    }
+
+    function showFeedbackOverlay() {
+      if (hasShownFeedback || localStorage.getItem('segregatorFeedbackDone')) return;
+      hasShownFeedback = true;
+      document.getElementById('feedbackOverlay').style.display = 'flex';
+    }
+
+    // Initialize
+    updateCarousel();
   </script>
 
 </body>
