@@ -65,14 +65,56 @@ header {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  padding: 10px; /* small padding for mobile breathing room */
 }
 
 .carousel-slide img {
-  max-height: 76vh;           /* ← reduced from 92vh */
-  max-width: 94%;
+  max-height: clamp(60vh, 72vh, 82vh); /* fluid: smaller on tiny screens, larger on big */
+  max-width: 96%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   box-shadow: 0 10px 40px rgba(0, 255, 208, 0.22);
   border-radius: 16px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  header {
+    padding: 12px 16px;
+  }
+
+  .header-logo { font-size: 1.15rem; }
+  .back-btn { font-size: 0.9rem; }
+
+  .carousel-container {
+    height: calc(100vh - 60px); /* slightly less header space on mobile */
+  }
+
+  .carousel-slide {
+    padding: 20px 12px; /* more vertical breathing room on phones */
+  }
+
+  .carousel-slide img {
+    max-height: clamp(55vh, 65vh, 75vh); /* noticeably smaller on mobile to avoid overwhelming screen */
+    max-width: 92%;
+  }
+
+  /* Bigger touch-friendly arrows on mobile */
+  .carousel-arrow {
+    width: 60px;
+    height: 60px;
+    font-size: 2.6rem;
+  }
+
+  .carousel-arrow.left { left: 12px; }
+  .carousel-arrow.right { right: 12px; }
+}
+
+@media (min-width: 1024px) {
+  .carousel-slide img {
+    max-height: clamp(70vh, 80vh, 88vh); /* taller on desktop/large tablets */
+  }
 }
 
 /* Arrows */
