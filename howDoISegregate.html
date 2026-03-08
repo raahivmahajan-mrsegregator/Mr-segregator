@@ -283,7 +283,7 @@
       }
     }, { passive: true });
 
-    // ================== FEEDBACK LOGIC (same as before) ==================
+// ================== UPDATED FEEDBACK LOGIC (Google Sheets version) ==================
     let userAnswers = {};
     let hasShownFeedback = false;
 
@@ -298,7 +298,7 @@
     }
 
     function submitFeedback() {
-      fetch('save_feedback.php', {
+      fetch('https://script.google.com/macros/s/AKfycbwYcjEvgr9jzy9HSUrDx-WgLvb8nwis6f54pMl4R05Izwd5bHQEmuWoVfd-mKppXpIijQ/exec', {   // ← PASTE YOUR WEB APP URL HERE
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userAnswers)
@@ -307,10 +307,11 @@
       .then(data => {
         if (data.success) {
           localStorage.setItem('segregatorFeedbackDone', 'true');
-          alert('✅ Thank you! Your feedback will help many others.');
+          alert('✅ Thank you! Feedback saved.');
           closeOverlay();
         }
-      });
+      })
+      .catch(() => alert('Failed to send. Check internet.'));
     }
 
     function closeOverlay() {
@@ -323,7 +324,7 @@
       document.getElementById('feedbackOverlay').style.display = 'flex';
     }
 
-    // Initialize
+    // Initialize carousel
     updateCarousel();
   </script>
 

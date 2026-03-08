@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mr. Segregator — Live Feedback Stats</title>
+  <style>body{font-family:Poppins;background:#0b0f1a;color:#fff;padding:40px;text-align:center;}</style>
+</head>
+<body>
+  <h1>📊 Live Feedback Stats</h1>
+  <div id="stats"></div>
+
+  <script>
+    fetch('https://docs.google.com/spreadsheets/d/1ax3ke79aKEeCbFHmjhMSGiPUnjH2a6BjHumJE1D_DUA/export?format=csv&gid=0')
+      .then(r => r.text())
+      .then(csv => {
+        const rows = csv.trim().split('\n').slice(1); // skip header
+        let q1Yes = 0, q1No = 0, q2Yes = 0, q2No = 0;
+        
+        rows.forEach(row => {
+          const cols = row.split(',');
+          if (cols[1] === 'Yes') q1Yes++;
+          else if (cols[1] === 'No') q1No++;
+          if (cols[2] === 'Yes') q2Yes++;
+          else if (cols[2] === 'No') q2No++;
+        });
+
+        document.getElementById('stats').innerHTML = `
+          <p><strong>Total Responses:</strong> ${rows.length}</p>
+          <p><strong>1. Did the guide help you segregate better?</strong><br>
+             ✅ Yes: ${q1Yes} | ❌ No: ${q1No}</p>
+          <p><strong>2. Will you segregate at home?</strong><br>
+             ✅ Yes: ${q2Yes} | ❌ No: ${q2No}</p>
+          <p style="margin-top:30px;font-size:0.9rem;color:#00ffd0;">Live • Auto-updates every time someone submits</p>
+        `;
+      });
+  </script>
+</body>
+</html>
