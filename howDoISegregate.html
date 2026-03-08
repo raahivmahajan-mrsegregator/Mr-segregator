@@ -298,20 +298,30 @@
     }
 
     function submitFeedback() {
-      fetch('https://script.google.com/macros/s/AKfycbxAkDxEbprG3-z83xmC8BRtskx7CwmKkVNsYHdOrhG3yjDdAl_uFCmgjbVkvDbB1Nsq2g/exec', {   // ← PASTE YOUR WEB APP URL HERE
+      const webAppUrl = 'https://script.google.com/macros/s/AKfycbw3sccIBABwiT9FqPkpY-MN_RupsMAsI6FkzYWICE0ZPAyuMCR-PScV9GApbvBtrRpp7A/exec';   // ← use your latest deployed URL
+
+      fetch(webAppUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'text/plain;charset=utf-8'   // ← THIS IS THE FIX
+        },
         body: JSON.stringify(userAnswers)
       })
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('Server responded with ' + r.status);
+        return r.json();
+      })
       .then(data => {
         if (data.success) {
           localStorage.setItem('segregatorFeedbackDone', 'true');
-          alert('✅ Thank you! Feedback saved.');
+          alert('✅ Thank you! Feedback saved successfully.');
           closeOverlay();
         }
       })
-      .catch(() => alert('Failed to send. Check internet.'));
+      .catch(err => {
+        console.error('Error details:', err);
+        alert('❌ Still failing. Please copy the red text from Console (F12) and send it to me.');
+      });
     }
 
     function closeOverlay() {
