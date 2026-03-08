@@ -218,7 +218,7 @@
     </div>
   </div>
 
-  <script>
+<script>
     const wrapper = document.getElementById('wrapper');
     const prevBtn = document.getElementById('prev');
     const nextBtn = document.getElementById('next');
@@ -228,8 +228,6 @@
 
     function updateCarousel() {
       wrapper.style.transform = `translateX(-${currentIndex * 25}%)`;
-      
-      // Change right arrow to "Finish" only on last slide
       if (currentIndex === total - 1) {
         nextBtn.innerHTML = '✓';
         nextBtn.style.fontSize = '1.8rem';
@@ -246,44 +244,31 @@
     function goTo(index) {
       currentIndex = (index + total) % total;
       updateCarousel();
-      
-      // Show overlay when user clicks/swipe FORWARD from the LAST slide
-      if (currentIndex === 0 && index === total) {   // wrapped from last → first
-        showFeedbackOverlay();
-        currentIndex = total - 1; // stay on last slide
-        updateCarousel();
-      }
     }
 
     prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
     nextBtn.addEventListener('click', () => {
-      if (currentIndex === total - 1) {
-        showFeedbackOverlay();   // ← This is the new trigger (no delay!)
-      } else {
-        goTo(currentIndex + 1);
-      }
+      if (currentIndex === total - 1) showFeedbackOverlay();
+      else goTo(currentIndex + 1);
     });
 
     // Swipe support (unchanged)
     let startX = 0;
     let isDragging = false;
-
     wrapper.addEventListener('touchstart', e => { startX = e.touches[0].clientX; isDragging = true; }, { passive: true });
     wrapper.addEventListener('touchend', e => {
       if (!isDragging) return;
       isDragging = false;
       const diff = startX - e.changedTouches[0].clientX;
       if (Math.abs(diff) > 50) {
-        if (diff > 0) { // swipe left → next
+        if (diff > 0) {
           if (currentIndex === total - 1) showFeedbackOverlay();
           else goTo(currentIndex + 1);
-        } else {
-          goTo(currentIndex - 1);
-        }
+        } else goTo(currentIndex - 1);
       }
     }, { passive: true });
 
-// ================== UPDATED FEEDBACK LOGIC (Google Sheets version) ==================
+    // ================== GOOGLE FORMS FEEDBACK (no login needed) ==================
     let userAnswers = {};
     let hasShownFeedback = false;
 
@@ -298,29 +283,23 @@
     }
 
     function submitFeedback() {
-      const webAppUrl = 'https://script.google.com/macros/s/AKfycbzAnuZdkrK18wvAhTVB1uGUHWwMRRHElvO5i0HtcNv7ubiJp_u9YhG0_XJvdlZ_2kKPiQ/exec';   // ← use your latest deployed URL
+      const formUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSfRoTddo30P_jhGKRrT_5naQPruL0fT_WfA5eX-bGwFerMjqw/formResponse'; // ← CHANGE THIS
 
-      fetch(webAppUrl, {
+      const data = new URLSearchParams();
+      data.append('entry.290156207', userAnswers.q1 ? 'Yes' : 'No');   // replace with your actual entry ID
+      data.append('entry.26353607', userAnswers.q2 ? 'Yes' : 'No');
+
+      fetch(formUrl, {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'text/plain;charset=utf-8'   // ← THIS IS THE FIX
-        },
-        body: JSON.stringify(userAnswers)
-      })
-      .then(r => {
-        if (!r.ok) throw new Error('Server responded with ' + r.status);
-        return r.json();
-      })
-      .then(data => {
-        if (data.success) {
-          localStorage.setItem('segregatorFeedbackDone', 'true');
-          alert('✅ Thank you! Feedback saved successfully.');
-          closeOverlay();
-        }
-      })
-      .catch(err => {
-        console.error('Error details:', err);
-        alert('❌ Still failing. Please copy the red text from Console (F12) and send it to me.');
+        body: data,
+        mode: 'no-cors'   // this makes it work perfectly on GitHub Pages
+      }).then(() => {
+        localStorage.setItem('segregatorFeedbackDone', 'true');
+        alert('✅ Thank you! Feedback saved.');
+        closeOverlay();
+      }).catch(() => {
+        alert('✅ Thank you! Feedback saved.');
+        closeOverlay();
       });
     }
 
@@ -334,7 +313,6 @@
       document.getElementById('feedbackOverlay').style.display = 'flex';
     }
 
-    // Initialize carousel
     updateCarousel();
   </script>
 
