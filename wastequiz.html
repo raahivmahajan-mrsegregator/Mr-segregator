@@ -166,10 +166,20 @@ header {
   min-height: 24px;
 }
 
+.quiz-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
 .quiz-score {
-  margin-top: 8px;
-  font-size: 1rem;
   color: var(--accent);
+}
+
+.quiz-timer {
+  color: var(--muted);
 }
 
 /* CENTERED NEXT BUTTON */
@@ -200,6 +210,10 @@ header {
 </section>
 
 <div class="quiz-section">
+  <div class="quiz-topbar">
+    <p id="quizScore" class="quiz-score">Score: 0</p>
+    <p id="quizTimer" class="quiz-timer">Time: 30s</p>
+  </div>
   <img id="quizImage" class="quiz-image" src="" alt="Quiz Item">
 
   <div class="options-grid">
@@ -210,8 +224,6 @@ header {
   </div>
 
   <p id="quizFeedback" class="quiz-feedback"></p>
-  <p id="quizScore" class="quiz-score">Score: 0</p>
-  <button id="nextBtn" class="quiz-next">Next Question</button>
 </div>
 
 <script>
@@ -250,39 +262,96 @@ let currentIndex = 0;
 let score = 0;
 let strikes = 0;
 const maxStrikes = 3;
-const passingScore = 15;   // ⭐ CHANGE THIS IF YOU WANT
+const passingScore = 15;   // ??? CHANGE THIS IF YOU WANT
+const timePerQuestion = 15;
+let timeLeft = timePerQuestion;
+let timerId = null;
+let isActive = true;
 
 const quizImage = document.getElementById("quizImage");
 const buttons = document.querySelectorAll(".option-btn");
 const feedback = document.getElementById("quizFeedback");
 const scoreDisplay = document.getElementById("quizScore");
-const nextBtn = document.getElementById("nextBtn");
+const timerDisplay = document.getElementById("quizTimer");
 
 function loadQuestion() {
+  if (!isActive) return;
   const current = questions[currentIndex];
   quizImage.src = current.image;
 
   feedback.textContent = "";
-  nextBtn.style.display = "none";
 
   buttons.forEach(btn => {
     btn.classList.remove("correct", "incorrect", "disabled");
   });
+
+  resetTimer();
+  startTimer();
 }
 
 function endGame() {
+  isActive = false;
+  stopTimer();
   buttons.forEach(btn => btn.style.display = "none");
-  nextBtn.style.display = "none";
+  timerDisplay.style.display = "none";
 
   if (score >= passingScore) {
-    feedback.textContent = "🎉 You Passed! Great job saving the planet!";
+    feedback.textContent = "???? You Passed! Great job saving the planet!";
   } else {
-    feedback.textContent = "❌ You Failed. Try again and beat the garbage mountain!";
+    feedback.textContent = "??? You Failed. Try again and beat the garbage mountain!";
   }
+}
+
+function resetTimer() {
+  timeLeft = timePerQuestion;
+  timerDisplay.textContent = `Time: ${timeLeft}s`;
+}
+
+function startTimer() {
+  stopTimer();
+  timerId = setInterval(() => {
+    timeLeft--;
+    timerDisplay.textContent = `Time: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      stopTimer();
+      handleTimeout();
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+}
+
+function handleTimeout() {
+  strikes++;
+  feedback.textContent = "??? Time???s up!";
+  scoreDisplay.textContent = `Score: ${score} | Strikes: ${strikes}/3`;
+  buttons.forEach(btn => btn.classList.add("disabled"));
+
+  if (strikes >= maxStrikes) {
+    setTimeout(endGame, 800);
+    return;
+  }
+  setTimeout(nextQuestion, 800);
+}
+
+function nextQuestion() {
+  if (currentIndex === questions.length - 1) {
+    endGame();
+    return;
+  }
+  currentIndex++;
+  loadQuestion();
 }
 
 buttons.forEach(button => {
   button.addEventListener("click", () => {
+    if (!isActive) return;
+    stopTimer();
     const selected = button.dataset.category;
     const correct = questions[currentIndex].correct;
 
@@ -290,33 +359,24 @@ buttons.forEach(button => {
 
     if (selected === correct) {
       button.classList.add("correct");
-      feedback.textContent = "✅ Correct!";
+      feedback.textContent = "??? Correct!";
       score++;
     } else {
       button.classList.add("incorrect");
-      feedback.textContent = "❌ Wrong!";
+      feedback.textContent = "??? Wrong!";
       strikes++;
     }
 
     scoreDisplay.textContent = `Score: ${score} | Strikes: ${strikes}/3`;
 
     if (strikes >= maxStrikes) {
-      feedback.textContent = "💀 3 Strikes! Game Over!";
+      feedback.textContent = "???? 3 Strikes! Game Over!";
       setTimeout(endGame, 1500);
       return;
     }
 
-    if (currentIndex === questions.length - 1) {
-      setTimeout(endGame, 1500);
-    } else {
-      nextBtn.style.display = "block";
-    }
+    setTimeout(nextQuestion, 800);
   });
-});
-
-nextBtn.addEventListener("click", () => {
-  currentIndex++;
-  loadQuestion();
 });
 
 loadQuestion();
