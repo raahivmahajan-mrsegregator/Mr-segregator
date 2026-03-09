@@ -296,9 +296,9 @@ function endGame() {
   timerDisplay.style.display = "none";
 
   if (score >= passingScore) {
-    feedback.textContent = "???? You Passed! Great job saving the planet!";
+    feedback.textContent = "You Passed! Great job saving the planet!";
   } else {
-    feedback.textContent = "??? You Failed. Try again and beat the garbage mountain!";
+    feedback.textContent = "You Failed. Try again and beat the garbage mountain!";
   }
 }
 
@@ -328,7 +328,7 @@ function stopTimer() {
 
 function handleTimeout() {
   strikes++;
-  feedback.textContent = "??? Time???s up!";
+  feedback.textContent = "?Time's up!";
   scoreDisplay.textContent = `Score: ${score} | Strikes: ${strikes}/3`;
   buttons.forEach(btn => btn.classList.add("disabled"));
 
@@ -359,18 +359,18 @@ buttons.forEach(button => {
 
     if (selected === correct) {
       button.classList.add("correct");
-      feedback.textContent = "??? Correct!";
+      feedback.textContent = "Correct!";
       score++;
     } else {
       button.classList.add("incorrect");
-      feedback.textContent = "??? Wrong!";
+      feedback.textContent = "Wrong!";
       strikes++;
     }
 
     scoreDisplay.textContent = `Score: ${score} | Strikes: ${strikes}/3`;
 
     if (strikes >= maxStrikes) {
-      feedback.textContent = "???? 3 Strikes! Game Over!";
+      feedback.textContent = "3 Strikes! Game Over!";
       setTimeout(endGame, 1500);
       return;
     }
