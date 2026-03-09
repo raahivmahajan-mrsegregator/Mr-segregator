@@ -36,27 +36,39 @@ body {
   flex-direction: column;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 header {
-  padding: 16px 20px;
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid var(--border);
 }
 
 .header-logo {
-  font-size: clamp(1rem, 3vw, 1.3rem);
-  font-weight: 700;
+  font-size: 1.3rem;
   color: var(--accent);
   text-decoration: none;
 }
 
 .back-btn {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--muted);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s;
 }
+
+.back-btn:hover {
+  color: var(--accent);
+}
+
 
 /* HERO */
 .hero {
@@ -85,7 +97,7 @@ header {
 /* IMAGE */
 .quiz-image {
   width: 85%;
-  max-width: 300px;
+  max-width: 200px;
   margin: 20px auto;
   border-radius: 18px;
   box-shadow: 0 0 20px var(--accent-soft);
@@ -195,6 +207,18 @@ header {
   color: #0b0f1a;
   cursor: pointer;
 }
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
 </style>
 </head>
 
@@ -202,7 +226,7 @@ header {
 
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
-  <a href="index.html" class="back-btn">← Back</a>
+  <a href="index.html" class="back-btn">⬅️ Back</a>
 </header>
 
 <section class="hero">
@@ -382,6 +406,10 @@ buttons.forEach(button => {
 loadQuestion();
 
 </script>
+
+<footer>
+  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
+</footer>
 
 </body>
 </html>
