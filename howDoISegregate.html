@@ -295,10 +295,12 @@
         mode: 'no-cors'   // this makes it work perfectly on GitHub Pages
       }).then(() => {
         localStorage.setItem('segregatorFeedbackDone', 'true');
-        alert('✅ Thank you! Feedback saved.');
+        alert("Great! Now test your knowledge with our Segregation Challenge! 🧠🌱");
+        window.location.href = "wastequiz.html"; // redirect to quiz page
         closeOverlay();
       }).catch(() => {
-        alert('✅ Thank you! Feedback saved.');
+        alert("Great! Now test your knowledge with our Segregation Challenge! 🧠🌱");
+        window.location.href = "wastequiz.html"; // redirect to quiz page
         closeOverlay();
       });
     }
