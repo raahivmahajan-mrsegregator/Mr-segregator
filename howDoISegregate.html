@@ -211,10 +211,6 @@
       <button id="submitBtn" onclick="submitFeedback()" 
               style="background:var(--accent); color:#0b0f1a; padding:15px; border:none; border-radius:50px; font-weight:700; font-size:1.1rem; width:100%;"
               disabled>Submit My Answers</button>
-      
-      <button onclick="closeOverlay()" style="margin-top:18px; background:none; border:none; color:var(--muted); font-size:0.95rem; cursor:pointer;">
-        Skip for now
-      </button>
     </div>
   </div>
 
@@ -294,11 +290,12 @@
         body: data,
         mode: 'no-cors'   // this makes it work perfectly on GitHub Pages
       }).then(() => {
-        localStorage.setItem('segregatorFeedbackDone', 'true');
-        alert('✅ Thank you! Feedback saved.');
+        alert("Great! Let's take A Segregation Pledge ✋♻️");
+        window.location.href = "pledge.html"; // redirect to quiz page
         closeOverlay();
       }).catch(() => {
-        alert('✅ Thank you! Feedback saved.');
+        alert("Great! Let's take A Segregation Pledge ✋♻️");
+        window.location.href = "pledge.html"; // redirect to quiz page
         closeOverlay();
       });
     }
@@ -308,7 +305,7 @@
     }
 
     function showFeedbackOverlay() {
-      if (hasShownFeedback || localStorage.getItem('segregatorFeedbackDone')) return;
+      if (hasShownFeedback) return;
       hasShownFeedback = true;
       document.getElementById('feedbackOverlay').style.display = 'flex';
     }
