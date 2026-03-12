@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mr. Segregator — Take the 4-Bin Pledge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg-dark:#0b0f1a; --bg-mid:#141a2f; --accent:#00ffd0; --accent-soft:rgba(0,255,208,0.35); --text:#f4f6ff; --muted:#aab0d4; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Poppins',sans-serif; background:linear-gradient(135deg,var(--bg-dark),var(--bg-mid)); color:var(--text); min-height:100dvh; display:flex; flex-direction:column; }
+    header { padding:1rem 1.2rem; background:var(--bg-mid); display:flex; justify-content:space-between; align-items:center; }
+    .header-logo { font-size:1.25rem; color:var(--accent); font-weight:700; text-decoration:none; }
+    .pledge-container { flex:1; padding:2rem; display:flex; align-items:center; justify-content:center; }
+    .pledge-card { background:var(--bg-mid); border:1px solid var(--accent-soft); border-radius:24px; padding:2.5rem; max-width:520px; width:100%; }
+    h1 { color:var(--accent); font-size:2.3rem; margin-bottom:1rem; }
+    input { width:100%; padding:14px; margin:12px 0; background:rgba(255,255,255,0.08); border:1px solid var(--accent-soft); border-radius:12px; color:white; font-size:1.1rem; }
+    .pledge-btn { background:var(--accent); color:#0b0f1a; font-weight:700; padding:16px; border:none; border-radius:50px; font-size:1.3rem; width:100%; margin-top:1rem; cursor:pointer; }
+    .live-count { margin-top:2rem; padding:1rem; background:rgba(0,255,208,0.1); border-radius:16px; font-size:1.4rem; color:var(--accent); }
+    .thank-you { display:none; color:var(--accent); font-size:2rem; margin-top:2rem; }
+    .reset-btn { margin-top:15px; background:none; border:none; color:#ff3366; font-size:0.9rem; cursor:pointer; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+  </header>
+
+  <div class="pledge-container">
+    <div class="pledge-card" id="card">
+      <h1>🌍 TAKE THE 4-BIN PLEDGE</h1>
+      <p style="margin-bottom:1.5rem; line-height:1.6;">I pledge to segregate waste into 4 bins every day and inspire others.</p>
+
+      <input type="text" id="name" placeholder="Your Full Name *" required>
+      <input type="text" id="referred" placeholder="Referred by (optional)">
+
+      <button onclick="takePledge()" class="pledge-btn">I TAKE THE PLEDGE</button>
+
+      <div class="live-count" id="liveCount">Loading live pledge count...</div>
+      <div class="thank-you" id="thankYou">🎉 Thank you! You are now part of the movement!</div>
+      
+      <button onclick="resetPledge()" class="reset-btn">Reset for testing</button>
+    </div>
+  </div>
+
+  <script>
+    const SHEET_ID = '1UHF65-9oCNF3Eit71Kr3j6rzW6jzSncl97_YztB0YRY';   // ←←← PASTE YOUR REAL SHEET ID HERE
+    const FORM_ID = '1FAIpQLSfDw4P-tYLXjwwyH7dALUCfj7Za93gMteGoSGQs70un9f05Ow';                // ←←← PASTE YOUR FORM ID HERE
+    const NAME_ENTRY = '1323725261';                     // ←←← Your Name entry ID
+    const REF_ENTRY = '1492714496';                      // ←←← Your Referred by entry ID
+
+    // ================== RELIABLE LIVE COUNTER (CORS-safe) ==================
+    function updateLiveCount() {
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+      fetch(url)
+        .then(r => r.text())
+        .then(csv => {
+          const rows = csv.trim().split('\n');
+          const count = rows.length - 1;
+          document.getElementById('liveCount').innerHTML = `🌍 <strong>${count}</strong> people have taken the pledge`;
+        })
+        .catch(() => {
+          document.getElementById('liveCount').innerHTML = `🌍 Live count updating...`;
+        });
+    }
+
+    // Update every 8 seconds
+    updateLiveCount();
+    setInterval(updateLiveCount, 8000);
+
+    function takePledge() {
+      const name = document.getElementById('name').value.trim();
+      if (!name) return alert("Please enter your full name");
+
+      const referred = document.getElementById('referred').value.trim() || 'None';
+
+      const formUrl = `https://docs.google.com/forms/u/0/d/e/${FORM_ID}/formResponse`;
+
+      const data = new URLSearchParams();
+      data.append(`entry.${NAME_ENTRY}`, name);
+      data.append(`entry.${REF_ENTRY}`, referred);
+
+      fetch(formUrl, { method: 'POST', body: data, mode: 'no-cors' })
+        .then(() => {
+          document.getElementById('card').style.opacity = '0.4';
+          document.getElementById('thankYou').style.display = 'block';
+          updateLiveCount();   // refresh counter instantly
+        });
+    }
+
+    function resetPledge() {
+      if (confirm("Reset for testing?")) {
+        document.getElementById('card').style.opacity = '1';
+        document.getElementById('thankYou').style.display = 'none';
+        document.getElementById('name').value = '';
+        document.getElementById('referred').value = '';
+      }
+    }
+  </script>
+</body>
+</html>
