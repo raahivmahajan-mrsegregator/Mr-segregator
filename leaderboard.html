@@ -50,7 +50,7 @@ h1 {
 @keyframes pulse { 0%,100% {opacity:0.6;} 50%{opacity:1;} }
 
 #leaderboard-container { 
-  max-width: 900px; 
+  max-width: 980px; 
   margin: 40px auto; 
   padding: 0 20px; 
   display:none; 
@@ -78,6 +78,15 @@ td {
 }
 tr:hover { background: rgba(0,255,208,0.08); }
 .rank { font-weight: 700; color: var(--accent); font-size: 1.3rem; }
+.id { 
+  font-family: monospace; 
+  font-weight: 700; 
+  color: #ff00aa; 
+  letter-spacing: 1px; 
+  background: rgba(255,0,170,0.1);
+  padding: 4px 10px;
+  border-radius: 8px;
+}
 .points { font-weight: 700; color: #00ff9d; }
 tr.top-3 { background: rgba(0,255,208,0.12); }
 
@@ -110,7 +119,13 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
   </div>
   <table id="leaderboard-table" style="display:none;">
     <thead>
-      <tr><th>Rank</th><th>Name</th><th>Points</th><th>Location</th></tr>
+      <tr>
+        <th>Rank</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Points</th>
+        <th>Location</th>
+      </tr>
     </thead>
     <tbody></tbody>
   </table>
@@ -135,9 +150,7 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
         complete: function(results) {
           const data = results.data.filter(row => row.Name && row.Name.trim() !== '');
 
-          console.log(`✅ Parsed ${data.length} participants`);
-
-          // Sort by Total (highest first)
+          // Sort by Total
           data.sort((a, b) => (parseFloat(b.Total) || 0) - (parseFloat(a.Total) || 0));
 
           if (data.length === 0) {
@@ -147,12 +160,12 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
             return;
           }
 
-          // Build table
           tbody.innerHTML = data.map((row, i) => {
             const rankClass = i < 3 ? 'top-3' : '';
             return `
               <tr class="${rankClass}">
                 <td class="rank">#${i+1}</td>
+                <td class="id">${row.ID || row['SEG-001'] || '—'}</td>
                 <td><strong>${row.Name || '—'}</strong></td>
                 <td class="points">${row.Total || '—'}</td>
                 <td>${row.City || '—'}</td>
@@ -169,7 +182,7 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
     })
     .catch(err => {
       console.error(err);
-      loadingText.textContent = "⚠️ Check console (or add data to Master sheet)";
+      loadingText.textContent = "⚠️ Check console";
     });
 </script>
 
