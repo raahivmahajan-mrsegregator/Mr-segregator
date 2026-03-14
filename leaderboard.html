@@ -1,46 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Super Segregator — Leaderboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --bg-dark:#0b0f1a; --bg-mid:#141a2f; --accent:#00ffd0; }
-    body { font-family:'Poppins',sans-serif; background:linear-gradient(135deg,var(--bg-dark),var(--bg-mid)); color:#fff; margin:0; padding:20px; }
-    h1 { text-align:center; color:var(--accent); font-size:2.8rem; }
-    table { width:100%; max-width:1000px; margin:30px auto; border-collapse:collapse; background:var(--bg-mid); border-radius:16px; overflow:hidden; }
-    th, td { padding:16px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); }
-    th { background:#00ffd0; color:#0b0f1a; font-weight:700; }
-    tr:hover { background:rgba(0,255,208,0.1); }
-    .gold { background:gold; color:#000; font-weight:700; }
-    .live { text-align:center; margin:20px; color:var(--accent); font-size:1.1rem; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Super Segregator Leaderboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  text-align: center;
+}
+
+/* Header & Title */
+header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  font-size: 1.4rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 30px 0 10px;
+}
+
+/* Loading */
+#loading-text {
+  color: var(--accent);
+  font-size: 1.2rem;
+  margin: 40px 0;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+/* Table */
+#leaderboard-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255,255,255,0.03);
+  border: 2px solid var(--accent-soft);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 40px var(--accent-soft);
+}
+
+th {
+  background: rgba(0,255,208,0.15);
+  color: var(--accent);
+  padding: 18px 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+td {
+  padding: 16px 12px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+tr:hover {
+  background: rgba(0,255,208,0.08);
+  transform: scale(1.02);
+  transition: all 0.3s;
+}
+
+.rank {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.3rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  h1 { font-size: 2.2rem; }
+  th, td { font-size: 0.95rem; padding: 12px 8px; }
+}
+</style>
 </head>
+
 <body>
-  <h1>🏆 SUPER SEGREGATOR LEADERBOARD</h1>
-  <div class="live" id="live">Loading live leaderboard...</div>
-  <table id="table"></table>
 
-  <script>
-    const SHEET_ID = '1sVhzl9laoE8PKCBeeMBtHBxjn-9M_OFfQMT2jxICF-o';   // ← Your Master Sheet ID
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+</header>
 
-    function loadLeaderboard() {
-      const proxyUrl = `https://corsproxy.io/?https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+<h1>🏆 SUPER SEGREGATOR LEADERBOARD</h1>
+<p id="loading-text">Loading live leaderboard...</p>
 
-    fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`)
-      .then(res => res.text())
-      .then(csvText => {
-          console.log("✅ Leaderboard data loaded!");
-          // Your existing CSV parsing code goes here
-          // (example: const rows = csvText.trim().split('\n').map(row => row.split(',')); )
-      })
-      .catch(err => console.error("Fetch error:", err));
+<div id="leaderboard-container" style="display:none;">
+  <table id="leaderboard-table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Points</th>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
 
-    }
+<script>
+  const SHEET_ID = "1sVhzl9laoE8PKCBeeMBtHBxjn-9M_OFfQMT2jxICF-o"; // ← Put your full Sheet ID here
 
-    loadLeaderboard();
-    setInterval(loadLeaderboard, 8000);
-  </script>
+  const loadingText = document.getElementById('loading-text');
+  const container = document.getElementById('leaderboard-container');
+  const tbody = document.querySelector('#leaderboard-table tbody');
+
+  fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`)
+    .then(res => res.text())
+    .then(csvText => {
+      console.log("✅ Leaderboard data loaded!");
+
+      // Parse CSV
+      const rows = csvText.trim().split('\n')
+        .map(row => row.split(',').map(cell => cell.replace(/"/g, '').trim()));
+
+      const headers = rows[0];
+      const data = rows.slice(1);
+
+      // Sort by Points (assuming column name "Points" or 2nd numeric column)
+      const pointsIndex = headers.findIndex(h => h.toLowerCase().includes('point') || h.toLowerCase().includes('score'));
+      data.sort((a, b) => (parseFloat(b[pointsIndex] || 0) - parseFloat(a[pointsIndex] || 0)));
+
+      // Build table rows
+      tbody.innerHTML = data.map((row, index) => `
+        <tr>
+          <td class="rank">#${index + 1}</td>
+          <td><strong>${row[0] || '—'}</strong></td>
+          <td>${row[pointsIndex] || '—'}</td>
+          <td>${row[3] || row[2] || '—'}</td>
+        </tr>
+      `).join('');
+
+      // Show table, hide loader
+      loadingText.style.display = 'none';
+      container.style.display = 'block';
+    })
+    .catch(err => {
+      console.error("❌ Error:", err);
+      loadingText.textContent = "⚠️ Could not load leaderboard. Please refresh.";
+    });
+</script>
+
 </body>
 </html>
