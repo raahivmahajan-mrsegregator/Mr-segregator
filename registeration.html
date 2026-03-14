@@ -38,9 +38,9 @@
 
       const formUrl = `https://docs.google.com/forms/u/0/d/e/${FORM_ID}/formResponse`;
       const data = new URLSearchParams();
-      data.append('137495369.YOUR_NAME_ENTRY', name);     // ← replace with real entry ID
-      data.append('1289596246.YOUR_AGE_ENTRY', age);
-      data.append('924456839.YOUR_CITY_ENTRY', city);
+      data.append('entry.137495369', name);     // ← replace with real entry ID
+      data.append('entry.1289596246', age);
+      data.append('entry.924456839', city);
 
       fetch(formUrl, { method: 'POST', body: data, mode: 'no-cors' })
         .then(() => {
