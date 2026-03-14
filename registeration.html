@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Super Segregator — Register Now</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg-dark:#0b0f1a; --bg-mid:#141a2f; --accent:#00ffd0; }
+    body { font-family:'Poppins',sans-serif; background:linear-gradient(135deg,var(--bg-dark),var(--bg-mid)); color:#fff; min-height:100dvh; display:flex; align-items:center; justify-content:center; }
+    .card { background:var(--bg-mid); padding:3rem 2rem; border-radius:24px; max-width:460px; text-align:center; border:1px solid rgba(0,255,208,0.3); }
+    input { width:100%; padding:16px; margin:12px 0; background:rgba(255,255,255,0.1); border:1px solid var(--accent); border-radius:12px; color:white; font-size:1.1rem; }
+    button { background:var(--accent); color:#0b0f1a; padding:18px; border:none; border-radius:50px; font-weight:700; width:100%; font-size:1.3rem; cursor:pointer; }
+    #idResult { margin-top:25px; font-size:1.8rem; color:var(--accent); font-weight:700; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <h1>🌟 SUPER SEGREGATOR REGISTRATION</h1>
+    <p style="margin:20px 0; opacity:0.9;">Enter your details and get your unique ID instantly!</p>
+    
+    <input type="text" id="name" placeholder="Full Name *">
+    <input type="text" id="age" placeholder="Age *">
+    <input type="text" id="city" placeholder="City *">
+    
+    <button onclick="registerKid()">REGISTER & GET MY ID</button>
+    <div id="idResult"></div>
+  </div>
+
+  <script>
+    const FORM_ID = '1FAIpQLSdxqxJrdi-Mrp6XBpmmPCxXUMQ_B8zrGzneXRIWjpzmjtUgSg';   // ← From your Registration Form link
+
+    function registerKid() {
+      const name = document.getElementById('name').value.trim();
+      const age  = document.getElementById('age').value.trim();
+      const city = document.getElementById('city').value.trim();
+      if (!name || !age || !city) return alert("Please fill all fields");
+
+      const formUrl = `https://docs.google.com/forms/u/0/d/e/${FORM_ID}/formResponse`;
+      const data = new URLSearchParams();
+      data.append('137495369.YOUR_NAME_ENTRY', name);     // ← replace with real entry ID
+      data.append('1289596246.YOUR_AGE_ENTRY', age);
+      data.append('924456839.YOUR_CITY_ENTRY', city);
+
+      fetch(formUrl, { method: 'POST', body: data, mode: 'no-cors' })
+        .then(() => {
+          document.getElementById('idResult').innerHTML = `🎉 Registration Successful!<br>Your ID is being generated.<br>Check <a href="leaderboard.html" style="color:#00ffd0;">Leaderboard</a> in 10 seconds!`;
+          document.getElementById('card').style.opacity = '0.7';
+        });
+    }
+  </script>
+</body>
+</html>

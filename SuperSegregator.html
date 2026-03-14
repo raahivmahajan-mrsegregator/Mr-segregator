@@ -384,6 +384,114 @@ footer {
 }
 
 /* =========================
+   REGISTRATION OVERLAY (NEW)
+========================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 15, 26, 0.97);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  background: var(--bg-mid);
+  border: 3px solid var(--accent);
+  border-radius: 24px;
+  padding: 45px 35px;
+  text-align: center;
+  max-width: 460px;
+  width: 90%;
+  box-shadow: 0 0 50px var(--accent-soft),
+              inset 0 0 30px rgba(0,255,208,0.1);
+  position: relative;
+  animation: modal-pop 0.4s ease-out;
+}
+
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 2.2rem;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: var(--accent);
+  transform: rotate(90deg);
+}
+
+.overlay-text h2 {
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.overlay-text h1 {
+  font-size: 2.35rem;
+  line-height: 1.05;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.competition-text {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+
+.register-btn {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--accent), #00ccaa);
+  color: #000;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 16px 42px;
+  border-radius: 50px;
+  text-decoration: none;
+  margin: 10px 0 18px;
+  transition: all 0.3s;
+  box-shadow: 0 8px 25px rgba(0,255,208,0.4);
+}
+
+.register-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(0,255,208,0.55);
+}
+
+.small-text {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.7) translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
 @media (min-width: 768px) {
@@ -397,6 +505,22 @@ footer {
 </head>
 
 <body>
+
+<!-- REGISTRATION OVERLAY - appears automatically when page loads -->
+<div id="registration-overlay" class="overlay">
+  <div class="modal-content">
+    <button class="close-btn" aria-label="Close">×</button>
+    
+    <div class="overlay-text">
+      <h2>REGISTER FOR THE</h2>
+      <h1>SUPER SEGREGATOR<br>OF THE MONTH</h1>
+      <p class="competition-text">COMPETITION</p>
+    </div>
+    
+    <a href="registeration.html" class="register-btn">Register Now →</a>
+    <p class="small-text">Don't miss your chance to become the next legend!</p>
+  </div>
+</div>
 
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
@@ -602,6 +726,33 @@ footer {
   // Show first slide on load and start auto-play
   showSlide(currentSlide);
   startAutoPlay();
+
+  // ======================
+  // REGISTRATION OVERLAY (NEW)
+  // ======================
+  const overlay = document.getElementById('registration-overlay');
+  
+  if (overlay) {
+    // Show overlay with a small delay so the page loads smoothly first
+    setTimeout(() => {
+      overlay.style.display = 'flex';
+    }, 800);
+
+    // Close button
+    const closeBtn = document.querySelector('.close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        overlay.style.display = 'none';
+      });
+    }
+
+    // Click outside the modal to close
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        overlay.style.display = 'none';
+      }
+    });
+  }
 </script>
 
 </body>
