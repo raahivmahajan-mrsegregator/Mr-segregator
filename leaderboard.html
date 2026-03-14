@@ -28,17 +28,8 @@ body {
   text-align: center;
 }
 
-/* Header & Title */
-header {
-  padding: 20px;
-  border-bottom: 1px solid var(--border);
-}
-
-.header-logo {
-  font-size: 1.4rem;
-  color: var(--accent);
-  text-decoration: none;
-}
+header { padding: 20px; border-bottom: 1px solid var(--border); }
+.header-logo { font-size: 1.4rem; color: var(--accent); text-decoration: none; }
 
 h1 {
   font-size: 2.8rem;
@@ -49,65 +40,30 @@ h1 {
   margin: 30px 0 10px;
 }
 
-/* Loading */
 #loading-text {
   color: var(--accent);
   font-size: 1.2rem;
   margin: 40px 0;
   animation: pulse 1.5s infinite;
 }
+@keyframes pulse { 0%,100% {opacity:0.6;} 50%{opacity:1;} }
 
-@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-
-/* Table */
-#leaderboard-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
+#leaderboard-container { max-width: 900px; margin: 0 auto; padding: 0 20px; display:none; }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
+  width: 100%; border-collapse: collapse;
   background: rgba(255,255,255,0.03);
   border: 2px solid var(--accent-soft);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 0 40px var(--accent-soft);
 }
+th { background: rgba(0,255,208,0.15); color: var(--accent); padding: 18px 12px; font-weight: 600; }
+td { padding: 16px 12px; border-top: 1px solid var(--border); color: var(--muted); }
+tr:hover { background: rgba(0,255,208,0.08); }
+.rank { font-weight: 700; color: var(--accent); font-size: 1.3rem; }
 
-th {
-  background: rgba(0,255,208,0.15);
-  color: var(--accent);
-  padding: 18px 12px;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-td {
-  padding: 16px 12px;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 1.05rem;
-}
-
-tr:hover {
-  background: rgba(0,255,208,0.08);
-  transform: scale(1.02);
-  transition: all 0.3s;
-}
-
-.rank {
-  font-weight: 700;
-  color: var(--accent);
-  font-size: 1.3rem;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  h1 { font-size: 2.2rem; }
-  th, td { font-size: 0.95rem; padding: 12px 8px; }
-}
+.last-updated { margin-top: 20px; color: var(--muted); font-size: 0.9rem; }
 </style>
 </head>
 
@@ -120,60 +76,70 @@ tr:hover {
 <h1>🏆 SUPER SEGREGATOR LEADERBOARD</h1>
 <p id="loading-text">Loading live leaderboard...</p>
 
-<div id="leaderboard-container" style="display:none;">
+<div id="leaderboard-container">
   <table id="leaderboard-table">
     <thead>
-      <tr>
-        <th>Rank</th>
-        <th>Name</th>
-        <th>Points</th>
-        <th>Location</th>
-      </tr>
+      <tr><th>Rank</th><th>Name</th><th>Points</th><th>Location</th></tr>
     </thead>
     <tbody></tbody>
   </table>
+  <p class="last-updated" id="last-updated"></p>
 </div>
 
 <script>
-  const SHEET_ID = "1sVhzl9laoE8PKCBeeMBtHBxjn-9M_OFfQMT2jxICF-o"; // ← Put your full Sheet ID here
+  // ←←← CHANGE THIS TO YOUR ACTUAL GOOGLE SHEET ID
+  const SHEET_ID = "1sVhzl9laoE8PKCBeeMBtHBxjn-9M_OFfQMT2jxICF-o";   // ← Put your full ID here (from the Google Sheets URL)
 
   const loadingText = document.getElementById('loading-text');
   const container = document.getElementById('leaderboard-container');
   const tbody = document.querySelector('#leaderboard-table tbody');
+  const lastUpdated = document.getElementById('last-updated');
+
+  console.log("🚀 Starting leaderboard fetch...");
 
   fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`)
     .then(res => res.text())
     .then(csvText => {
-      console.log("✅ Leaderboard data loaded!");
+      console.log("✅ Raw CSV received (first 300 chars):", csvText.substring(0, 300));
 
-      // Parse CSV
       const rows = csvText.trim().split('\n')
-        .map(row => row.split(',').map(cell => cell.replace(/"/g, '').trim()));
+        .map(row => row.split(',').map(cell => cell.replace(/^"|"$/g, '').trim()));
 
-      const headers = rows[0];
-      const data = rows.slice(1);
+      const headers = rows[0].map(h => h.toLowerCase());
+      console.log("📋 Headers detected:", headers);
 
-      // Sort by Points (assuming column name "Points" or 2nd numeric column)
-      const pointsIndex = headers.findIndex(h => h.toLowerCase().includes('point') || h.toLowerCase().includes('score'));
-      data.sort((a, b) => (parseFloat(b[pointsIndex] || 0) - parseFloat(a[pointsIndex] || 0)));
+      const dataRows = rows.slice(1);
 
-      // Build table rows
-      tbody.innerHTML = data.map((row, index) => `
+      // Auto-detect columns
+      const nameIndex     = headers.findIndex(h => h.includes('name'));
+      const pointsIndex   = headers.findIndex(h => h.includes('point') || h.includes('score'));
+      const locationIndex = headers.findIndex(h => h.includes('location') || h.includes('city') || h.includes('place'));
+
+      console.log(`📍 Detected columns → Name:${nameIndex}, Points:${pointsIndex}, Location:${locationIndex}`);
+
+      // Sort by points
+      dataRows.sort((a, b) => (parseFloat(b[pointsIndex]||0) - parseFloat(a[pointsIndex]||0)));
+
+      // Build table
+      tbody.innerHTML = dataRows.map((row, i) => `
         <tr>
-          <td class="rank">#${index + 1}</td>
-          <td><strong>${row[0] || '—'}</strong></td>
-          <td>${row[pointsIndex] || '—'}</td>
-          <td>${row[3] || row[2] || '—'}</td>
+          <td class="rank">#${i+1}</td>
+          <td><strong>${row[nameIndex] || '—'}</strong></td>
+          <td><strong>${row[pointsIndex] || '—'}</strong></td>
+          <td>${row[locationIndex] || '—'}</td>
         </tr>
       `).join('');
 
-      // Show table, hide loader
+      // Show everything
       loadingText.style.display = 'none';
       container.style.display = 'block';
+      lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
+
+      console.log("🎉 Table rendered successfully! Check the page now.");
     })
     .catch(err => {
-      console.error("❌ Error:", err);
-      loadingText.textContent = "⚠️ Could not load leaderboard. Please refresh.";
+      console.error("💥 Error:", err);
+      loadingText.innerHTML = "⚠️ Could not load data. Check console.";
     });
 </script>
 
