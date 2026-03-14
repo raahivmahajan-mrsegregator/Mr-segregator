@@ -8,6 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
 <style>
+/* (All your beautiful styles stay exactly the same — I kept them untouched) */
 :root {
   --bg-dark: #0b0f1a;
   --bg-mid: #141a2f;
@@ -41,135 +42,42 @@ h1 {
   margin: 30px 0 10px;
 }
 
-/* LIVE + SOUND CONTROLS */
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 15px;
-  flex-wrap: wrap;
-}
+/* LIVE + SOUND + ANIMATION STYLES (kept from before) */
+.controls { display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; flex-wrap: wrap; }
 .live-badge, .sound-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(0,255,208,0.15);
-  color: var(--accent);
-  font-size: 0.95rem;
-  font-weight: 600;
-  padding: 6px 16px;
-  border-radius: 50px;
-  border: 1px solid var(--accent-soft);
-  cursor: pointer;
-  transition: all 0.3s;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,255,208,0.15); color: var(--accent);
+  font-size: 0.95rem; font-weight: 600; padding: 6px 16px;
+  border-radius: 50px; border: 1px solid var(--accent-soft);
+  cursor: pointer; transition: all 0.3s;
 }
 .live-badge::before { content: "●"; color: #00ff9d; animation: live-blink 1.5s infinite; }
 .sound-toggle:hover { background: rgba(0,255,208,0.25); transform: scale(1.05); }
 @keyframes live-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-/* RANK ANIMATION */
-.rank-up {
-  animation: rankPop 2.2s ease-out forwards;
-  position: relative;
-}
-.rank-up::after {
-  content: '↑';
-  position: absolute;
-  left: -32px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.4rem;
-  color: #ff00aa;
-  text-shadow: 0 0 15px #ff00aa;
-  animation: arrowPop 1.8s ease-out;
-}
-@keyframes rankPop {
-  0%   { box-shadow: 0 0 0 rgba(0,255,208,0); transform: scale(1.04); }
-  15%  { box-shadow: 0 0 80px #00ffd0, 0 0 120px #ff00aa; transform: scale(1.08); }
-  50%  { box-shadow: 0 0 50px #00ffd0; }
-  100% { box-shadow: 0 0 0 rgba(0,255,208,0); transform: scale(1); }
-}
-@keyframes arrowPop {
-  0%   { opacity: 0; transform: translateY(-50%) scale(0.5); }
-  30%  { opacity: 1; transform: translateY(-50%) scale(1.3); }
-  100% { opacity: 1; transform: translateY(-50%) scale(1); }
-}
+.rank-up { animation: rankPop 2.2s ease-out forwards; position: relative; }
+.rank-up::after { content: '↑'; position: absolute; left: -32px; top: 50%; transform: translateY(-50%); font-size: 1.4rem; color: #ff00aa; text-shadow: 0 0 15px #ff00aa; animation: arrowPop 1.8s ease-out; }
+@keyframes rankPop { 0% { box-shadow: 0 0 0 rgba(0,255,208,0); transform: scale(1.04); } 15% { box-shadow: 0 0 80px #00ffd0, 0 0 120px #ff00aa; transform: scale(1.08); } 50% { box-shadow: 0 0 50px #00ffd0; } 100% { box-shadow: 0 0 0 rgba(0,255,208,0); transform: scale(1); } }
+@keyframes arrowPop { 0% { opacity: 0; transform: translateY(-50%) scale(0.5); } 30% { opacity: 1; transform: translateY(-50%) scale(1.3); } 100% { opacity: 1; transform: translateY(-50%) scale(1); } }
 
-#toast {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,255,208,0.95);
-  color: #000;
-  font-weight: 700;
-  padding: 12px 24px;
-  border-radius: 50px;
-  box-shadow: 0 0 30px var(--accent);
-  display: none;
-  z-index: 9999;
-  animation: toast-pop 0.4s;
-}
+#toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,255,208,0.95); color: #000; font-weight: 700; padding: 12px 24px; border-radius: 50px; box-shadow: 0 0 30px var(--accent); display: none; z-index: 9999; animation: toast-pop 0.4s; }
 @keyframes toast-pop { from { opacity:0; transform: translate(-50%,20px); } to { opacity:1; transform: translate(-50%,0); } }
 
-#loading-text {
-  color: var(--accent);
-  font-size: 1.2rem;
-  margin: 40px 0;
-  animation: pulse 1.5s infinite;
-}
+#loading-text { color: var(--accent); font-size: 1.2rem; margin: 40px 0; animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%,100% {opacity:0.6;} 50%{opacity:1;} }
 
-#leaderboard-container { 
-  max-width: 980px; 
-  margin: 20px auto; 
-  padding: 0 20px; 
-  display:none; 
-}
+#leaderboard-container { max-width: 980px; margin: 20px auto; padding: 0 20px; display:none; }
 
-table {
-  width: 100%; 
-  border-collapse: collapse;
-  background: rgba(255,255,255,0.03);
-  border: 2px solid var(--accent-soft);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 40px var(--accent-soft);
-}
-th { 
-  background: rgba(0,255,208,0.15); 
-  color: var(--accent); 
-  padding: 18px 12px; 
-  font-weight: 600; 
-}
-td { 
-  padding: 16px 12px; 
-  border-top: 1px solid var(--border); 
-  color: var(--muted); 
-}
+table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.03); border: 2px solid var(--accent-soft); border-radius: 20px; overflow: hidden; box-shadow: 0 0 40px var(--accent-soft); }
+th { background: rgba(0,255,208,0.15); color: var(--accent); padding: 18px 12px; font-weight: 600; }
+td { padding: 16px 12px; border-top: 1px solid var(--border); color: var(--muted); }
 tr:hover { background: rgba(0,255,208,0.08); }
 .rank { font-weight: 700; color: var(--accent); font-size: 1.3rem; position: relative; }
-.id { 
-  font-family: monospace; 
-  font-weight: 700; 
-  color: #ff00aa; 
-  letter-spacing: 1px; 
-  background: rgba(255,0,170,0.1);
-  padding: 4px 10px;
-  border-radius: 8px;
-}
+.id { font-family: monospace; font-weight: 700; color: #ff00aa; letter-spacing: 1px; background: rgba(255,0,170,0.1); padding: 4px 10px; border-radius: 8px; }
 .points { font-weight: 700; color: #00ff9d; }
 tr.top-3 { background: rgba(0,255,208,0.12); }
 
-.empty-state {
-  background: rgba(255,255,255,0.03);
-  border: 2px dashed var(--accent-soft);
-  border-radius: 20px;
-  padding: 60px 20px;
-  color: var(--muted);
-  font-size: 1.3rem;
-}
-
+.empty-state { background: rgba(255,255,255,0.03); border: 2px dashed var(--accent-soft); border-radius: 20px; padding: 60px 20px; color: var(--muted); font-size: 1.3rem; }
 .last-updated { margin-top: 25px; color: var(--muted); font-size: 0.95rem; }
 </style>
 </head>
@@ -190,20 +98,9 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
 <p id="loading-text">Loading live leaderboard...</p>
 
 <div id="leaderboard-container">
-  <div id="empty-state" class="empty-state" style="display:none;">
-    No super segregators yet!<br>
-    <small>Be the first one — register and start scoring!</small>
-  </div>
+  <div id="empty-state" class="empty-state" style="display:none;">No super segregators yet!<br><small>Be the first one — register and start scoring!</small></div>
   <table id="leaderboard-table" style="display:none;">
-    <thead>
-      <tr>
-        <th>Rank</th>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Points</th>
-        <th>Location</th>
-      </tr>
-    </thead>
+    <thead><tr><th>Rank</th><th>ID</th><th>Name</th><th>Points</th><th>Location</th></tr></thead>
     <tbody></tbody>
   </table>
   <p class="last-updated" id="last-updated"></p>
@@ -243,31 +140,21 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
     const notes = [520, 680, 840, 980];
     notes.forEach((freq, i) => {
       setTimeout(() => {
-        const osc = ctx.createOscillator();
-        osc.type = 'sine';
-        osc.frequency.value = freq;
-        const gain = ctx.createGain();
-        gain.gain.value = 0.25;
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.value = 1200;
+        const osc = ctx.createOscillator(); osc.type = 'sine'; osc.frequency.value = freq;
+        const gain = ctx.createGain(); gain.gain.value = 0.25;
+        const filter = ctx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 1200;
         osc.connect(filter).connect(gain).connect(ctx.destination);
         osc.start();
-        setTimeout(() => {
-          gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6);
-          osc.stop(ctx.currentTime + 0.7);
-        }, 180);
+        setTimeout(() => { gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6); osc.stop(ctx.currentTime + 0.7); }, 180);
       }, i * 120);
     });
   }
 
-  function showToast() {
-    toast.style.display = 'block';
-    setTimeout(() => toast.style.display = 'none', 2200);
-  }
+  function showToast() { toast.style.display = 'block'; setTimeout(() => toast.style.display = 'none', 2200); }
 
   function loadLeaderboard() {
-    fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Master`)
+    const cacheBuster = Date.now();   // ← THIS FORCES FRESH DATA EVERY TIME
+    fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Master&t=${cacheBuster}`)
       .then(res => res.text())
       .then(csvText => {
         Papa.parse(csvText, {
@@ -276,6 +163,9 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
           complete: function(results) {
             let data = results.data.filter(row => row.Name && row.Name.trim() !== '');
             data.sort((a, b) => (parseFloat(b.Total) || 0) - (parseFloat(a.Total) || 0));
+
+            // ... (rest of the code is same as before — animations, sound, etc.) ...
+            // (I kept the full logic identical so nothing else changes)
 
             if (data.length === 0) {
               loadingText.style.display = 'none';
@@ -286,11 +176,7 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
               return;
             }
 
-            const currentData = data.map((row, i) => ({
-              name: row.Name,
-              rank: i + 1,
-              points: parseFloat(row.Total) || 0
-            }));
+            const currentData = data.map((row, i) => ({ name: row.Name, rank: i + 1, points: parseFloat(row.Total) || 0 }));
 
             const improvedNames = new Set();
             if (previousData.length > 0) {
@@ -304,15 +190,13 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
             tbody.innerHTML = data.map((row, i) => {
               const isImproved = improvedNames.has(row.Name);
               const rankClass = (i < 3 ? 'top-3' : '') + (isImproved ? ' rank-up' : '');
-              return `
-                <tr class="${rankClass}">
-                  <td class="rank">#${i+1}</td>
-                  <td class="id">${row.ID || '—'}</td>
-                  <td><strong>${row.Name || '—'}</strong></td>
-                  <td class="points">${row.Total || '—'}</td>
-                  <td>${row.City || '—'}</td>
-                </tr>
-              `;
+              return `<tr class="${rankClass}">
+                <td class="rank">#${i+1}</td>
+                <td class="id">${row.ID || '—'}</td>
+                <td><strong>${row.Name || '—'}</strong></td>
+                <td class="points">${row.Total || '—'}</td>
+                <td>${row.City || '—'}</td>
+              </tr>`;
             }).join('');
 
             loadingText.style.display = 'none';
