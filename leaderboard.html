@@ -267,7 +267,7 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
   }
 
   function loadLeaderboard() {
-    fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`)
+    fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Master`)
       .then(res => res.text())
       .then(csvText => {
         Papa.parse(csvText, {
