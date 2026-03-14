@@ -48,22 +48,38 @@ h1 {
 }
 @keyframes pulse { 0%,100% {opacity:0.6;} 50%{opacity:1;} }
 
-#leaderboard-container { max-width: 900px; margin: 0 auto; padding: 0 20px; display:none; }
+#leaderboard-container { 
+  max-width: 900px; 
+  margin: 40px auto; 
+  padding: 0 20px; 
+  display:none; 
+}
 
 table {
-  width: 100%; border-collapse: collapse;
+  width: 100%; 
+  border-collapse: collapse;
   background: rgba(255,255,255,0.03);
   border: 2px solid var(--accent-soft);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 0 40px var(--accent-soft);
 }
-th { background: rgba(0,255,208,0.15); color: var(--accent); padding: 18px 12px; font-weight: 600; }
-td { padding: 16px 12px; border-top: 1px solid var(--border); color: var(--muted); }
+th { 
+  background: rgba(0,255,208,0.15); 
+  color: var(--accent); 
+  padding: 18px 12px; 
+  font-weight: 600; 
+}
+td { 
+  padding: 16px 12px; 
+  border-top: 1px solid var(--border); 
+  color: var(--muted); 
+}
 tr:hover { background: rgba(0,255,208,0.08); }
 .rank { font-weight: 700; color: var(--accent); font-size: 1.3rem; }
+.points { font-weight: 700; color: #00ff9d; }
 
-.last-updated { margin-top: 20px; color: var(--muted); font-size: 0.9rem; }
+.last-updated { margin-top: 25px; color: var(--muted); font-size: 0.95rem; }
 </style>
 </head>
 
@@ -87,59 +103,61 @@ tr:hover { background: rgba(0,255,208,0.08); }
 </div>
 
 <script>
-  // ←←← CHANGE THIS TO YOUR ACTUAL GOOGLE SHEET ID
-  const SHEET_ID = "1sVhzl9laoE8PKCBeeMBtHBxjn-9M_OFfQMT2jxICF-o";   // ← Put your full ID here (from the Google Sheets URL)
+  const SHEET_ID = "1sVhzl9laoE8PKCBeeMBtHBxjn-9M_OFfQMT2jxICF-o";   // ←←← PUT YOUR FULL GOOGLE SHEET ID HERE
 
   const loadingText = document.getElementById('loading-text');
   const container = document.getElementById('leaderboard-container');
   const tbody = document.querySelector('#leaderboard-table tbody');
   const lastUpdated = document.getElementById('last-updated');
 
-  console.log("🚀 Starting leaderboard fetch...");
-
   fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`)
     .then(res => res.text())
     .then(csvText => {
-      console.log("✅ Raw CSV received (first 300 chars):", csvText.substring(0, 300));
+      console.log("✅ Raw CSV received");
 
       const rows = csvText.trim().split('\n')
         .map(row => row.split(',').map(cell => cell.replace(/^"|"$/g, '').trim()));
 
       const headers = rows[0].map(h => h.toLowerCase());
-      console.log("📋 Headers detected:", headers);
-
       const dataRows = rows.slice(1);
 
-      // Auto-detect columns
-      const nameIndex     = headers.findIndex(h => h.includes('name'));
-      const pointsIndex   = headers.findIndex(h => h.includes('point') || h.includes('score'));
-      const locationIndex = headers.findIndex(h => h.includes('location') || h.includes('city') || h.includes('place'));
+      // Smart column detection (now includes your "Total" column!)
+      const nameIndex     = headers.findIndex(h => h.includes('name') || h.includes('full name'));
+      const pointsIndex   = headers.findIndex(h => 
+        h.includes('point') || 
+        h.includes('score') || 
+        h.includes('total')
+      );
+      const locationIndex = headers.findIndex(h => h.includes('city') || h.includes('location'));
 
-      console.log(`📍 Detected columns → Name:${nameIndex}, Points:${pointsIndex}, Location:${locationIndex}`);
+      console.log(`Detected → Name:${nameIndex}, Points:${pointsIndex}, Location:${locationIndex}`);
 
-      // Sort by points
-      dataRows.sort((a, b) => (parseFloat(b[pointsIndex]||0) - parseFloat(a[pointsIndex]||0)));
+      // Sort by Total points (highest first)
+      dataRows.sort((a, b) => {
+        const pa = parseFloat(a[pointsIndex]) || 0;
+        const pb = parseFloat(b[pointsIndex]) || 0;
+        return pb - pa;
+      });
 
-      // Build table
+      // Build beautiful table
       tbody.innerHTML = dataRows.map((row, i) => `
         <tr>
           <td class="rank">#${i+1}</td>
           <td><strong>${row[nameIndex] || '—'}</strong></td>
-          <td><strong>${row[pointsIndex] || '—'}</strong></td>
+          <td class="points">${row[pointsIndex] || '—'}</td>
           <td>${row[locationIndex] || '—'}</td>
         </tr>
       `).join('');
 
-      // Show everything
       loadingText.style.display = 'none';
       container.style.display = 'block';
       lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
 
-      console.log("🎉 Table rendered successfully! Check the page now.");
+      console.log("🎉 Table rendered with", dataRows.length, "participants");
     })
     .catch(err => {
-      console.error("💥 Error:", err);
-      loadingText.innerHTML = "⚠️ Could not load data. Check console.";
+      console.error("Error:", err);
+      loadingText.textContent = "⚠️ Failed to load data. Check console.";
     });
 </script>
 
