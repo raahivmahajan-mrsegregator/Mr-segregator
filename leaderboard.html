@@ -119,14 +119,8 @@ h1 {
   display: none; 
 }
 
-.table-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
 table {
   width: 100%; 
-  min-width: 600px; /* Forces scroll on small screens */
   border-collapse: collapse;
   background: rgba(255,255,255,0.03);
   border: 2px solid var(--accent-soft);
@@ -146,6 +140,7 @@ td {
   border-top: 1px solid var(--border); 
   color: var(--muted); 
   font-size: 0.85rem;
+  word-wrap: break-word;
 }
 tr:hover { background: rgba(0,255,208,0.08); }
 .rank { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
@@ -172,6 +167,45 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
 
 .last-updated { margin-top: 20px; color: var(--muted); font-size: 0.85rem; }
 
+/* Responsive table for mobile */
+@media (max-width: 599px) {
+  thead {
+    display: none;
+  }
+  tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+  }
+  td {
+    display: block;
+    text-align: right;
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    padding-bottom: 10px;
+    font-size: 0.9rem;
+  }
+  td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    width: calc(50% - 20px);
+    padding-right: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: left;
+  }
+  td:last-child {
+    padding-bottom: 0;
+  }
+  tr:hover { background: none; }
+  .rank-up::after { left: auto; right: -20px; top: 10%; }
+}
+
 /* Media queries for larger screens */
 @media (min-width: 600px) {
   body { font-size: 16px; }
@@ -184,7 +218,6 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
   #toast { bottom: 30px; padding: 12px 24px; }
   #loading-text { font-size: 1.2rem; margin: 40px 0; }
   #leaderboard-container { max-width: 980px; margin: 20px auto; padding: 0 20px; }
-  table { min-width: auto; }
   th { padding: 18px 12px; font-size: 1rem; }
   td { padding: 16px 12px; font-size: 1rem; }
   .rank { font-size: 1.3rem; }
@@ -215,20 +248,18 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
     No super segregators yet!<br>
     <small>Be the first one — register and start scoring!</small>
   </div>
-  <div class="table-wrapper">
-    <table id="leaderboard-table" style="display:none;">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Points</th>
-          <th>Location</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+  <table id="leaderboard-table" style="display:none;">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Points</th>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
   <p class="last-updated" id="last-updated"></p>
 </div>
 
@@ -330,11 +361,11 @@ tr.top-3 { background: rgba(0,255,208,0.12); }
               const rankClass = (i < 3 ? 'top-3' : '') + (isImproved ? ' rank-up' : '');
               return `
                 <tr class="${rankClass}">
-                  <td class="rank">#${i+1}</td>
-                  <td class="id">${row.ID || '—'}</td>
-                  <td><strong>${row.Name || '—'}</strong></td>
-                  <td class="points">${row.Total || '—'}</td>
-                  <td>${row.City || '—'}</td>
+                  <td data-label="Rank" class="rank">#${i+1}</td>
+                  <td data-label="ID" class="id">${row.ID || '—'}</td>
+                  <td data-label="Name"><strong>${row.Name || '—'}</strong></td>
+                  <td data-label="Points" class="points">${row.Total || '—'}</td>
+                  <td data-label="Location">${row.City || '—'}</td>
                 </tr>
               `;
             }).join('');
