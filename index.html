@@ -28,9 +28,98 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 52px;          /* space for fixed ribbon */
 }
 
-/* Header - only logo */
+/* ────────────────────────────────────────────────
+   Challenge Ribbon with close button & auto-reappear
+───────────────────────────────────────────────── */
+.challenge-ribbon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: linear-gradient(135deg, #ff3366, #ff6b6b, #ff9933);
+  color: white;
+  font-weight: 600;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+  overflow: hidden;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.challenge-ribbon.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ribbon-link {
+  color: white;
+  text-decoration: none;
+  padding: 0 48px 0 32px;   /* space for × button */
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+  letter-spacing: 0.4px;
+}
+
+.ribbon-link:hover {
+  color: var(--accent);
+  transform: scale(1.06);
+  text-shadow: 0 0 14px rgba(0,255,208,0.8);
+}
+
+.ribbon-close {
+  position: absolute;
+  right: 16px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 3;
+  line-height: 1;
+  opacity: 0.9;
+  transition: all 0.25s;
+}
+
+.ribbon-close:hover {
+  color: #fff;
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+/* Optional decorative cross/sash effect */
+.challenge-ribbon::before,
+.challenge-ribbon::after {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: rgba(255,255,255,0.18);
+  transform: rotate(45deg);
+  top: -100px;
+  z-index: 1;
+}
+
+.challenge-ribbon::before { left: -100px; }
+.challenge-ribbon::after  { right: -100px; }
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .challenge-ribbon { height: 46px; font-size: 0.95rem; }
+  .ribbon-link { padding: 0 40px 0 20px; }
+  .ribbon-close { right: 12px; font-size: 24px; }
+}
+
+/* ────────────────────────────────────────────────
+   Original styles (header, hero, tiles, modal, footer...)
+───────────────────────────────────────────────── */
+
 header {
   padding: 14px 18px;
   font-weight: 700;
@@ -47,8 +136,6 @@ header {
   text-decoration: none;
 }
 
-
-/* Hero Search Area */
 .hero-search {
   text-align: center;
   padding: 50px 20px 40px;
@@ -63,20 +150,18 @@ header {
   -webkit-text-fill-color: transparent;
 }
 
-.hero-search-container {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.search-wrapper {
+  position: relative;
   max-width: 620px;
   margin: 0 auto;
 }
 
 #segregateSearch {
-  flex: 1;
+  width: 100%;
   background: rgba(255,255,255,0.08);
   border: 2px solid var(--accent-soft);
   color: white;
-  padding: 18px 24px;
+  padding: 18px 50px 18px 24px;
   border-radius: 50px;
   font-size: 17px;
   outline: none;
@@ -89,19 +174,6 @@ header {
 
 #segregateSearch::placeholder { color: var(--muted); }
 
-/* Search with lens icon */
-.search-wrapper {
-  position: relative;
-  max-width: 620px;
-  margin: 0 auto;
-}
-
-#segregateSearch {
-  width: 100%;
-  padding: 18px 50px 18px 24px;   /* extra padding on right for icon */
-  border-radius: 50px;
-}
-
 .search-icon {
   position: absolute;
   right: 20px;
@@ -113,11 +185,8 @@ header {
   transition: color 0.3s;
 }
 
-.search-icon:hover {
-  color: #fff;
-}
+.search-icon:hover { color: #fff; }
 
-/* Tiles */
 .categories-section { padding: 0 16px 80px; text-align: center; flex-grow: 1; }
 
 .tiles-wrapper {
@@ -192,14 +261,12 @@ header {
 .tile.bags { --hue-color: rgba(0,150,100,0.85); }
 .tile.cans { --hue-color: rgba(150,100,0,0.85); }
 
-/* Responsive tiles */
 @media (min-width: 768px) {
   .tiles-wrapper { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; }
   .tile span { font-size: 3rem; }
   .tile p { font-size: 0.85rem; }
 }
 
-/* Modal */
 #resultModal {
   display: none;
   position: fixed;
@@ -238,7 +305,6 @@ header {
 
 #modalResult { line-height: 1.7; font-size: 15.5px; color: var(--text); }
 
-/* Footer */
 footer {
   padding: 40px 16px;
   text-align: center;
@@ -248,35 +314,40 @@ footer {
   margin-top: auto;
 }
 
-/* New style for the hero logo */
 .hero-logo {
   max-width: 520px;
   margin: 0 auto 20px;
 }
 
-.hero-logo img{
-  width:100%;
-  max-width:520px;
-  height:auto;
-  display:block;
-  margin:auto;
+.hero-logo img {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  display: block;
+  margin: auto;
 }
 
 @media (max-width: 768px) {
-  .hero-logo {
-    width: 100%;
-  }
+  .hero-logo { width: 100%; }
 }
 </style>
 </head>
 
 <body>
+
+<!-- Challenge Ribbon -->
+<div class="challenge-ribbon" id="challengeRibbon">
+  <a href="registeration.html" class="ribbon-link">
+    Register for the Super Segregator Challenge →
+  </a>
+  <span class="ribbon-close" title="Close (will reappear in 20s)">×</span>
+</div>
+
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
 </header>
 
 <section class="categories-section">
-  <!-- Big Search Bar -->
   <div class="hero-search">
     <div class="hero-logo">
       <img src="images/mr_segregator_logo.webp" alt="Mr. Segregator - Segregate! Get to Zero Waste">
@@ -287,7 +358,6 @@ footer {
     </div>
   </div>
 
-  <!-- Tiles -->
   <div class="tiles-wrapper">
     <a class="tile wet" href="wet.html"><span>🌱</span><p>WET/ORGANIC</p></a>
     <a class="tile dry" href="dry.html"><span>📦</span><p>DRY/RECYCLABLE</p></a>
@@ -318,6 +388,34 @@ footer {
 
 <script>
 
+function hideRibbonTemporarily() {
+  const ribbon = document.getElementById('challengeRibbon');
+  if (!ribbon) return;
+  ribbon.classList.add('hidden');
+  
+  // Re-appear after 20 seconds
+  setTimeout(() => {
+    ribbon.classList.remove('hidden');
+  }, 20000);
+}
+
+// Attach close button listener
+document.addEventListener('DOMContentLoaded', () => {
+  const closeBtn = document.querySelector('.ribbon-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', hideRibbonTemporarily);
+  }
+  
+  // Optional: if you want it to keep trying to show every 20s even after close
+  // (can be removed if you only want one re-show per close)
+  setInterval(() => {
+    const ribbon = document.getElementById('challengeRibbon');
+    if (ribbon && ribbon.classList.contains('hidden')) {
+      ribbon.classList.remove('hidden');
+    }
+  }, 20000);
+});
+
 async function getSegregationAdvice() {
   const query = document.getElementById('segregateSearch').value.trim();
   if (!query) return alert("Please type a product name 😊");
@@ -341,7 +439,7 @@ For the item "${query}", answer using EXACTLY this format:
 Use the exact colored circle emojis shown above.`;
 
   try {
-      const res = await fetch(`https://i6788.mrsegregator.workers.dev/proxy`, {
+    const res = await fetch(`https://i6788.mrsegregator.workers.dev/proxy`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
