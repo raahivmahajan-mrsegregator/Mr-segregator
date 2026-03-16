@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How to Enter the Competition</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family:'Poppins',sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+header {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo { font-size: 1.3rem; color: var(--accent); text-decoration: none; }
+.back-btn { font-size: 0.95rem; color: var(--muted); text-decoration: none; }
+
+h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 30px 0 20px;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Task Cards */
+.task-card {
+  background: var(--bg-mid);
+  border: 1px solid var(--accent-soft);
+  border-radius: 20px;
+  margin: 20px 16px;
+  overflow: hidden;
+  box-shadow: 0 0 25px var(--accent-soft);
+}
+
+.task-image {
+  width: 100%;
+  height: auto;
+  max-height: 280px;
+  object-fit: contain;
+  background: #0b0f1a;
+  display: block;
+}
+
+.task-content {
+  padding: 20px;
+}
+
+.task-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.task-points {
+  color: #00ff9d;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.task-desc {
+  margin: 15px 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.task-link {
+  display: inline-block;
+  background: var(--accent);
+  color: #0b0f1a;
+  padding: 12px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+footer {
+  padding: 30px 16px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Mobile-first */
+@media (max-width: 480px) {
+  h1 { font-size: 2rem; }
+  .task-image { max-height: 220px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+  <a href="index.html" class="back-btn">⬅️ Back</a>
+</header>
+
+<h1>How to Enter the Competition</h1>
+<p style="text-align:center; opacity:0.8; margin-bottom:30px;">Complete these 4 tasks to win!</p>
+
+<!-- Task 1 -->
+<div class="task-card">
+  <img src="images/comp/setup.jpeg" alt="Segregation Setup" class="task-image">
+  <div class="task-content">
+    <div class="task-title">1️⃣ Show Your Segregation Setup</div>
+    <div class="task-points">40 points</div>
+    <div class="task-desc">
+      Take photos or a short video of how your home segregates waste.<br>
+      Show how you separate into 4 bins:<br>
+      🟢 Wet Waste 🔵 Dry Waste 🔴 Sanitary Waste ⚫ Special Care Waste<br>
+      Explain it in your video!
+    </div>
+  </div>
+</div>
+
+<!-- Task 2 -->
+<div class="task-card">
+  <img src="images/comp/gamePass.jpeg" alt="Waste Sorting Game" class="task-image">
+  <div class="task-content">
+    <div class="task-title">2️⃣ Beat the Segregation Game</div>
+    <div class="task-points">20 points</div>
+    <div class="task-desc">
+      Play the Waste Sorting Game and pass the level.<br>
+      Send a screenshot of your score.
+    </div>
+    <a href="https://mrsegregator.com/TheSegregationGame.html" class="task-link">Play the Game →</a>
+  </div>
+</div>
+
+<!-- Task 3 -->
+<div class="task-card">
+  <img src="images/comp/wasteQuiz.jpeg" alt="Segregation Quiz" class="task-image">
+  <div class="task-content">
+    <div class="task-title">3️⃣ Take the Segregation Quiz</div>
+    <div class="task-points">20 points</div>
+    <div class="task-desc">
+      Test your waste knowledge!<br>
+      Send a screenshot of your quiz score.
+    </div>
+    <a href="https://mrsegregator.com/wastequiz.html" class="task-link">Take the Quiz →</a>
+  </div>
+</div>
+
+<!-- Task 4 -->
+<div class="task-card">
+  <img src="images/comp/pledge.jpeg" alt="4-Bin Pledge" class="task-image">
+  <div class="task-content">
+    <div class="task-title">4️⃣ Spread the Mission</div>
+    <div class="task-points">20 points</div>
+    <div class="task-desc">
+      Share this guide with 5 people:<br>
+      <a href="https://mrsegregator.com/howDoISegregate.html" style="color:#00ffd0;">https://mrsegregator.com/howDoISegregate.html</a><br>
+      Ask them to read it and take the pledge at the end.<br>
+      Make sure they put your name in "Referred By".
+    </div>
+  </div>
+</div>
+
+<footer>
+  Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow
+</footer>
+
+</body>
+</html>
