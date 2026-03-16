@@ -19,7 +19,6 @@
   --border: rgba(255,255,255,0.18);
   --text: #f4f6ff;
   --muted: #aab0d4;
-  --success: #00ff9d;
 }
 
 /* =========================
@@ -37,7 +36,9 @@ body {
   padding-top: 52px;
 }
 
-/* Challenge Ribbon (unchanged) */
+/* =========================
+   CHALLENGE RIBBON
+========================= */
 .challenge-ribbon {
   position: fixed;
   top: 0;
@@ -152,10 +153,10 @@ header {
 }
 
 /* =========================
-   HERO with SIGN ABOVE TITLE
+   HERO + SMALL STRAIGHT SIGN ABOVE TITLE
 ========================= */
 .hero {
-  padding: 60px 16px 40px;   /* more top padding for breathing room */
+  padding: 50px 16px 30px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -180,55 +181,50 @@ header {
   z-index: 1;
 }
 
-/* Diagonal sign ABOVE the main title */
 .leaderboard-teaser {
-  margin: 0 auto 40px;
-  min-height: 90px;
-  padding: 0 20px;
+  margin: 0 auto 30px;
+  min-height: 50px;
 }
 
 .leaderboard-sign {
   display: inline-block;
-  background: linear-gradient(135deg, rgba(255, 51, 102, 0.95), rgba(255, 153, 51, 0.95));
+  background: linear-gradient(135deg, rgba(255, 51, 102, 0.9), rgba(255, 153, 51, 0.9));
   color: white;
   font-weight: 700;
-  font-size: 1.35rem;
-  padding: 14px 40px;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(255, 102, 153, 0.5),
-              inset 0 0 20px rgba(255,255,255,0.2);
-  transform: rotate(-10deg);
-  letter-spacing: 1.2px;
+  font-size: 1.05rem;
+  padding: 10px 28px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(255, 102, 153, 0.4);
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   text-decoration: none;
-  border: 2px solid rgba(255,255,255,0.4);
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  border: 1.5px solid rgba(255,255,255,0.3);
   cursor: pointer;
-  transition: all 0.35s ease;
+  transition: all 0.3s ease;
   animation: pulse-zoom 3.5s ease-in-out infinite;
 }
 
 .leaderboard-sign:hover {
   animation-play-state: paused;
-  transform: rotate(-10deg) scale(1.08);
-  box-shadow: 0 12px 40px rgba(255, 102, 153, 0.7);
+  transform: scale(1.08);
+  box-shadow: 0 10px 30px rgba(255, 102, 153, 0.6);
 }
 
 @keyframes pulse-zoom {
   0%, 100% {
-    transform: rotate(-10deg) scale(1);
-    opacity: 0.92;
+    transform: scale(1);
+    opacity: 0.94;
   }
   50% {
-    transform: rotate(-10deg) scale(1.07);
+    transform: scale(1.06);
     opacity: 1;
   }
 }
 
 .hero-title {
-  font-size: 2.4rem;
+  font-size: 2.3rem;
   font-weight: 700;
-  margin: 20px 0 30px;
+  margin: 0 0 35px;
   background: linear-gradient(90deg, #00ffd0, #6ddcff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -236,25 +232,23 @@ header {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .hero { padding: 50px 16px 30px; }
-  .leaderboard-teaser { margin-bottom: 30px; min-height: 70px; }
+  .hero { padding: 40px 16px 20px; }
   .leaderboard-sign {
-    font-size: 1.1rem;
-    padding: 12px 32px;
-    transform: rotate(-8deg);
+    font-size: 0.95rem;
+    padding: 8px 24px;
   }
-  .hero-title { font-size: 2rem; margin: 16px 0 24px; }
+  .hero-title { font-size: 1.95rem; margin-bottom: 30px; }
 }
 
 @media (max-width: 480px) {
   .leaderboard-sign {
-    font-size: 0.95rem;
-    padding: 10px 26px;
+    font-size: 0.9rem;
+    padding: 7px 20px;
   }
 }
 
 /* =========================
-   SLIDER SECTION (unchanged)
+   SLIDER SECTION
 ========================= */
 .slider-section {
   padding: 0 16px 80px;
@@ -493,7 +487,9 @@ footer {
   font-size: 0.85rem;
 }
 
-/* Responsive */
+/* =========================
+   RESPONSIVE
+========================= */
 @media (min-width: 768px) {
   .hero-title { font-size: 2.8rem; }
   .slider-section { padding: 0 24px 100px; }
@@ -519,7 +515,7 @@ footer {
 
 <section class="hero">
   <div class="hero-content">
-    <!-- Diagonal sign ABOVE the title -->
+    <!-- Small straight sign above the title -->
     <div class="leaderboard-teaser">
       <a href="leaderboard.html" class="leaderboard-sign">
         Check the Leaderboard for the results!
@@ -531,11 +527,11 @@ footer {
 </section>
 
 <div class="slider-section">
-  <!-- ... your slider content remains exactly the same ... -->
   <div class="slider">
     <button class="prev-btn">❮</button>
     <button class="next-btn">❯</button>
 
+    <!-- Slide 1: January -->
     <div class="slide active" id="slide-1">
       <div class="month-display">January 2026</div>
       <div class="profile-section">
@@ -568,8 +564,51 @@ footer {
       </div>
     </div>
 
-    <!-- February and March slides remain unchanged -->
-    <!-- ... -->
+    <!-- Slide 2: February -->
+    <div class="slide" id="slide-2">
+      <div class="month-display">February 2026</div>
+      <div class="profile-section">
+        <div class="profile-image">
+          <img src="nextSS.png" alt="February Super Segregator" />
+        </div>
+        <div class="profile-bio">
+          <h2>Will you be the Waste Wizard?</h2>
+          <p>Will you encourage your family, school and community to segregate waste?</p>
+          <ul>
+            <li>More About you..</li>
+          </ul>
+        </div>
+      </div>
+      <div class="video-section">
+        <h3>Your Segregation Techniques</h3>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/video-id-feb" title="February Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: March -->
+    <div class="slide" id="slide-3">
+      <div class="month-display">March 2026</div>
+      <div class="profile-section">
+        <div class="profile-image">
+          <img src="nextSS.png" alt="March Super Segregator" />
+        </div>
+        <div class="profile-bio">
+          <h2>Will you be The Recycle Ranger?</h2>
+          <p>Will you use more recycled materials and share tips on social media?</p>
+          <ul>
+            <li>More About you..</li>
+          </ul>
+        </div>
+      </div>
+      <div class="video-section">
+        <h3>Your Segregation Techniques</h3>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/video-id-mar" title="March Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="slider-nav">
@@ -585,24 +624,112 @@ footer {
 </footer>
 
 <script>
-// Ribbon logic (unchanged)
+// Ribbon logic
 function hideRibbonTemporarily() {
   const ribbon = document.getElementById('challengeRibbon');
   if (!ribbon) return;
   ribbon.classList.add('hidden');
-  setTimeout(() => ribbon.classList.remove('hidden'), 20000);
+  setTimeout(() => {
+    ribbon.classList.remove('hidden');
+  }, 20000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelector('.ribbon-close')?.addEventListener('click', hideRibbonTemporarily);
+  const closeBtn = document.querySelector('.ribbon-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', hideRibbonTemporarily);
+  }
+
   setInterval(() => {
     const ribbon = document.getElementById('challengeRibbon');
-    if (ribbon?.classList.contains('hidden')) ribbon.classList.remove('hidden');
+    if (ribbon && ribbon.classList.contains('hidden')) {
+      ribbon.classList.remove('hidden');
+    }
   }, 20000);
-
-  // Slider logic (unchanged) ...
-  // ... your existing slider code here ...
 });
+
+// Slider logic
+const slides = document.querySelectorAll('.slide');
+const navBtns = document.querySelectorAll('.nav-btn');
+const prevBtn = document.querySelector('.prev-btn');
+const nextBtn = document.querySelector('.next-btn');
+const pauseBtn = document.querySelector('.pause-btn');
+const slider = document.querySelector('.slider');
+let currentSlide = 0;
+let intervalId;
+let isAutoPlaying = true;
+
+function showSlide(index) {
+  slides.forEach(slide => slide.classList.remove('active'));
+  navBtns.forEach(b => b.classList.remove('active'));
+  slides[index].classList.add('active');
+  navBtns[index].classList.add('active');
+}
+
+function startAutoPlay() {
+  intervalId = setInterval(() => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }, 5000);
+}
+
+navBtns.forEach((btn, index) => {
+  btn.addEventListener('click', () => {
+    currentSlide = index;
+    showSlide(currentSlide);
+  });
+});
+
+prevBtn.addEventListener('click', () => {
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  showSlide(currentSlide);
+});
+
+nextBtn.addEventListener('click', () => {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+});
+
+pauseBtn.addEventListener('click', () => {
+  isAutoPlaying = !isAutoPlaying;
+  pauseBtn.textContent = isAutoPlaying ? 'Pause' : 'Play';
+  if (isAutoPlaying) {
+    startAutoPlay();
+  } else {
+    clearInterval(intervalId);
+  }
+});
+
+slider.addEventListener('mouseenter', () => {
+  if (isAutoPlaying) clearInterval(intervalId);
+});
+
+slider.addEventListener('mouseleave', () => {
+  if (isAutoPlaying) startAutoPlay();
+});
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+slider.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+  if (isAutoPlaying) clearInterval(intervalId);
+});
+
+slider.addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  if (touchStartX - touchEndX > 50) {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  } else if (touchEndX - touchStartX > 50) {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+  }
+  if (isAutoPlaying) startAutoPlay();
+});
+
+showSlide(currentSlide);
+startAutoPlay();
 </script>
 
 </body>
