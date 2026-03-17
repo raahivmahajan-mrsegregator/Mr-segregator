@@ -65,7 +65,7 @@
     .retry-btn { background: #ff3366; color: white; padding: 12px 24px;
       border: none; border-radius: 50px; font-weight: 700; cursor: pointer; margin: 15px auto;
     }
-    #status-text { font-size: 1rem; line-height: 1.4; }
+    #status-text { font-size: 1rem; line-height: 1.4; margin-bottom: 15px; }
   </style>
 </head>
 <body>
@@ -87,10 +87,10 @@
     <div id="success-screen">
       <h2>🎉 REGISTRATION SUCCESSFUL!</h2>
       <p style="margin-bottom: 8px; opacity: 0.85;">Your Unique Segregation ID:</p>
-      <div id="success-id">Checking sheet...</div>
+      <div id="success-id">Generating SEG-ID...</div>
       
-      <p id="status-text" style="opacity: 0.9; margin-bottom: 15px;">
-        Please wait 5–15 seconds...
+      <p id="status-text">
+        Please wait 5–15 seconds while our system assigns your official ID...
       </p>
 
       <!-- YOUR PDF FLYER -->
@@ -117,7 +117,7 @@
     let submittedName = "";
     let pollInterval = null;
     let attempts = 0;
-    const MAX_ATTEMPTS = 40;   // up to ~80 seconds
+    const MAX_ATTEMPTS = 50;
 
     function registerKid() {
       const name = document.getElementById('name').value.trim();
@@ -149,11 +149,11 @@
       pollInterval = setInterval(() => {
         attempts++;
         document.getElementById('status-text').innerHTML = 
-          `Attempt ${attempts} of ${MAX_ATTEMPTS}...<br>Looking for your name in the Master sheet...`;
+          `Attempt ${attempts} of ${MAX_ATTEMPTS}<br>Searching for your name in the Master sheet...`;
 
         if (attempts > MAX_ATTEMPTS) {
           clearInterval(pollInterval);
-          document.getElementById('success-id').innerHTML = 'ID delayed<br><small>Check Leaderboard in 1 minute</small>';
+          document.getElementById('success-id').innerHTML = 'ID delayed<br><small style="font-size:0.9rem">Check Leaderboard in 1 minute</small>';
           document.getElementById('status-text').innerHTML = 'Your entry is saved!<br>Your ID will appear on the leaderboard soon.';
           return;
         }
@@ -167,6 +167,7 @@
               complete: function(results) {
                 let rows = results.data.slice(1).filter(r => r[1] && r[1].trim() !== "");
 
+                // Loose matching (your sheet names may have extra spaces)
                 const matching = rows.find(row => 
                   row[1] && row[1].trim().toLowerCase() === submittedName && 
                   row[4] && row[4].startsWith("SEG-")
@@ -185,8 +186,8 @@
     }
 
     function retryPoll() {
-      document.getElementById('success-id').textContent = "Checking sheet again...";
-      document.getElementById('status-text').innerHTML = "Please wait...";
+      document.getElementById('success-id').textContent = "Generating SEG-ID...";
+      document.getElementById('status-text').innerHTML = "Please wait 5–15 seconds...";
       startIDPolling();
     }
   </script>
