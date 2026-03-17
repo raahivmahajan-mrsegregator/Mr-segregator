@@ -4,9 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mr. Segregator — Segregate to Zero Waste</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
 :root {
   --bg-dark: #0b0f1a;
@@ -17,9 +15,7 @@
   --text: #f4f6ff;
   --muted: #aab0d4;
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
   font-family: 'Poppins', system-ui, sans-serif;
   background: radial-gradient(800px 400px at top, #1a2142, transparent),
@@ -28,53 +24,63 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 52px;          /* space for fixed ribbon */
+  padding-top: 52px; /* space for ribbon */
 }
 
 /* ────────────────────────────────────────────────
-   Challenge Ribbon with close button & auto-reappear
+   Rotating Ribbons
 ───────────────────────────────────────────────── */
-.challenge-ribbon {
+.ribbon-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 52px;
-  background: linear-gradient(135deg, #ff3366, #ff6b6b, #ff9933);
-  color: white;
-  font-weight: 600;
-  font-size: 1.05rem;
+  z-index: 1500;
+}
+
+.challenge-ribbon {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1500;
+  color: white;
+  font-weight: 600;
+  font-size: 1.05rem;
   box-shadow: 0 4px 14px rgba(0,0,0,0.45);
-  overflow: hidden;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-}
-
-.challenge-ribbon.hidden {
-  transform: translateY(-100%);
+  transition: opacity 0.6s ease;
   opacity: 0;
   pointer-events: none;
 }
 
+.challenge-ribbon.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.challenge-ribbon.hidden {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* Different colors for visual distinction */
+#ribbon-register    { background: linear-gradient(135deg, #ff3366, #ff6b6b, #ff9933); }
+#ribbon-leaderboard { background: linear-gradient(135deg, #00d4ff, #00ffd0, #7cff00); }
+#ribbon-sample      { background: linear-gradient(135deg, #c76bff, #ff6bff, #ff99ff); }
+
 .ribbon-link {
   color: white;
   text-decoration: none;
-  padding: 0 48px 0 32px;   /* space for × button */
+  padding: 0 48px 0 32px;
   position: relative;
   z-index: 2;
   transition: all 0.3s ease;
   letter-spacing: 0.4px;
 }
-
 .ribbon-link:hover {
   color: var(--accent);
   transform: scale(1.06);
   text-shadow: 0 0 14px rgba(0,255,208,0.8);
 }
-
 .ribbon-close {
   position: absolute;
   right: 16px;
@@ -86,30 +92,26 @@ body {
   opacity: 0.9;
   transition: all 0.25s;
 }
-
 .ribbon-close:hover {
   color: #fff;
   opacity: 1;
   transform: scale(1.25);
 }
 
-/* Optional decorative cross/sash effect */
+/* Decorative sash */
 .challenge-ribbon::before,
 .challenge-ribbon::after {
   content: '';
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 200px; height: 200px;
   background: rgba(255,255,255,0.18);
   transform: rotate(45deg);
   top: -100px;
   z-index: 1;
 }
-
 .challenge-ribbon::before { left: -100px; }
-.challenge-ribbon::after  { right: -100px; }
+.challenge-ribbon::after { right: -100px; }
 
-/* Mobile adjustments */
 @media (max-width: 768px) {
   .challenge-ribbon { height: 46px; font-size: 0.95rem; }
   .ribbon-link { padding: 0 40px 0 20px; }
@@ -117,9 +119,8 @@ body {
 }
 
 /* ────────────────────────────────────────────────
-   Original styles (header, hero, tiles, modal, footer...)
+   Original styles below (header, hero, tiles, modal, footer)
 ───────────────────────────────────────────────── */
-
 header {
   padding: 14px 18px;
   font-weight: 700;
@@ -129,18 +130,15 @@ header {
   justify-content: space-between;
   border-bottom: 1px solid var(--border);
 }
-
 .header-logo {
   font-size: 1.3rem;
   color: var(--accent);
   text-decoration: none;
 }
-
 .hero-search {
   text-align: center;
   padding: 50px 20px 40px;
 }
-
 .hero-search h2 {
   font-size: 2.4rem;
   font-weight: 700;
@@ -149,13 +147,11 @@ header {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 .search-wrapper {
   position: relative;
   max-width: 620px;
   margin: 0 auto;
 }
-
 #segregateSearch {
   width: 100%;
   background: rgba(255,255,255,0.08);
@@ -166,14 +162,11 @@ header {
   font-size: 17px;
   outline: none;
 }
-
 #segregateSearch:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 5px rgba(0,255,208,0.2);
 }
-
 #segregateSearch::placeholder { color: var(--muted); }
-
 .search-icon {
   position: absolute;
   right: 20px;
@@ -184,11 +177,8 @@ header {
   cursor: pointer;
   transition: color 0.3s;
 }
-
 .search-icon:hover { color: #fff; }
-
 .categories-section { padding: 0 16px 80px; text-align: center; flex-grow: 1; }
-
 .tiles-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -197,7 +187,6 @@ header {
   margin: 40px auto 0;
   padding: 0 16px;
 }
-
 .tile {
   text-decoration: none;
   color: inherit;
@@ -217,15 +206,12 @@ header {
   position: relative;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
-
 .tile:hover {
   box-shadow: 0 0 25px var(--hue-color);
   background: rgba(255,255,255,0.05);
 }
-
 .tile span { font-size: 2rem; }
 .tile:hover span { transform: rotate(10deg); filter: brightness(1.2); }
-
 .tile p {
   font-size: 0.65rem;
   font-weight: 600;
@@ -235,7 +221,6 @@ header {
   text-align: center;
   padding: 0 4px;
 }
-
 .tile::before {
   content: '';
   position: absolute;
@@ -245,9 +230,7 @@ header {
   border-radius: 20px;
   transition: opacity 0.4s;
 }
-
 .tile:hover::before { opacity: 0.6; }
-
 .tile.wet { --hue-color: rgba(0,100,50,0.85); }
 .tile.dry { --hue-color: rgba(0,50,150,0.85); }
 .tile.sanitary { --hue-color: rgba(150,0,100,0.85); }
@@ -260,13 +243,11 @@ header {
 .tile.super { --hue-color: rgba(200,0,100,0.85); }
 .tile.bags { --hue-color: rgba(0,150,100,0.85); }
 .tile.cans { --hue-color: rgba(150,100,0,0.85); }
-
 @media (min-width: 768px) {
   .tiles-wrapper { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; }
   .tile span { font-size: 3rem; }
   .tile p { font-size: 0.85rem; }
 }
-
 #resultModal {
   display: none;
   position: fixed;
@@ -278,7 +259,6 @@ header {
   justify-content: center;
   padding: 20px;
 }
-
 .modal-content {
   background: rgba(20,26,47,0.98);
   border: 2px solid var(--accent);
@@ -291,7 +271,6 @@ header {
   position: relative;
   box-shadow: 0 0 40px rgba(0,255,208,0.3);
 }
-
 .close-btn {
   position: absolute;
   top: 18px;
@@ -300,11 +279,8 @@ header {
   color: var(--accent);
   cursor: pointer;
 }
-
 .close-btn:hover { color: #fff; transform: scale(1.2); }
-
 #modalResult { line-height: 1.7; font-size: 15.5px; color: var(--text); }
-
 footer {
   padding: 40px 16px;
   text-align: center;
@@ -313,12 +289,10 @@ footer {
   font-size: 0.85rem;
   margin-top: auto;
 }
-
 .hero-logo {
   max-width: 520px;
   margin: 0 auto 20px;
 }
-
 .hero-logo img {
   width: 100%;
   max-width: 520px;
@@ -326,21 +300,35 @@ footer {
   display: block;
   margin: auto;
 }
-
 @media (max-width: 768px) {
   .hero-logo { width: 100%; }
 }
 </style>
 </head>
-
 <body>
 
-<!-- Challenge Ribbon -->
-<div class="challenge-ribbon" id="challengeRibbon">
-  <a href="registeration.html" class="ribbon-link">
-    Register for the Super Segregator Challenge →
-  </a>
-  <span class="ribbon-close" title="Close (will reappear in 20s)">×</span>
+<!-- Rotating Ribbons Container -->
+<div class="ribbon-container">
+  <div class="challenge-ribbon" id="ribbon-register">
+    <a href="registeration.html" class="ribbon-link">
+      Register for the Super Segregator Challenge →
+    </a>
+    <span class="ribbon-close" data-target="ribbon-register">×</span>
+  </div>
+
+  <div class="challenge-ribbon" id="ribbon-leaderboard">
+    <a href="leaderboard.html" class="ribbon-link">
+      Check The Leader Board →
+    </a>
+    <span class="ribbon-close" data-target="ribbon-leaderboard">×</span>
+  </div>
+
+  <div class="challenge-ribbon" id="ribbon-sample">
+    <a href="SampleEntry.html" class="ribbon-link">
+      Check Sample Entry To See How its Done !
+    </a>
+    <span class="ribbon-close" data-target="ribbon-sample">×</span>
+  </div>
 </div>
 
 <header>
@@ -387,55 +375,94 @@ footer {
 </div>
 
 <script>
+// ────────────────────────────────────────────────
+// Ribbon Rotation Logic
+// ────────────────────────────────────────────────
+const ribbons = Array.from(document.querySelectorAll('.challenge-ribbon'));
+const ribbonIds = ribbons.map(r => r.id);
+let currentIndex = 0;
+let rotationTimer = null;
+const ROTATION_INTERVAL = 7000;   // 7 seconds
+const HIDE_DURATION = 20000;      // 20 seconds hide time
 
-function hideRibbonTemporarily() {
-  const ribbon = document.getElementById('challengeRibbon');
-  if (!ribbon) return;
-  ribbon.classList.add('hidden');
-  
-  // Re-appear after 20 seconds
-  setTimeout(() => {
-    ribbon.classList.remove('hidden');
-  }, 20000);
+const hiddenRibbons = new Set();
+
+function showRibbon(index) {
+  ribbons.forEach((ribbon, i) => {
+    if (i === index && !hiddenRibbons.has(ribbon.id)) {
+      ribbon.classList.add('active');
+    } else {
+      ribbon.classList.remove('active');
+    }
+  });
 }
 
-// Attach close button listener
+function nextRibbon() {
+  let attempts = 0;
+  const start = currentIndex;
+  do {
+    currentIndex = (currentIndex + 1) % ribbons.length;
+    attempts++;
+    if (attempts > ribbons.length) break; // safety
+  } while (hiddenRibbons.has(ribbonIds[currentIndex]) && currentIndex !== start);
+
+  showRibbon(currentIndex);
+}
+
+function startRotation() {
+  if (rotationTimer) clearTimeout(rotationTimer);
+  showRibbon(currentIndex);
+  rotationTimer = setTimeout(() => {
+    nextRibbon();
+    startRotation();
+  }, ROTATION_INTERVAL);
+}
+
+// Close handling
 document.addEventListener('DOMContentLoaded', () => {
-  const closeBtn = document.querySelector('.ribbon-close');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', hideRibbonTemporarily);
-  }
-  
-  // Optional: if you want it to keep trying to show every 20s even after close
-  // (can be removed if you only want one re-show per close)
-  setInterval(() => {
-    const ribbon = document.getElementById('challengeRibbon');
-    if (ribbon && ribbon.classList.contains('hidden')) {
-      ribbon.classList.remove('hidden');
-    }
-  }, 20000);
+  document.querySelectorAll('.ribbon-close').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      const ribbon = document.getElementById(targetId);
+      if (!ribbon) return;
+
+      hiddenRibbons.add(targetId);
+      ribbon.classList.remove('active');
+      ribbon.classList.add('hidden');
+
+      setTimeout(() => {
+        hiddenRibbons.delete(targetId);
+        ribbon.classList.remove('hidden');
+        // If it's currently the active one's turn → show it
+        if (ribbonIds[currentIndex] === targetId) {
+          showRibbon(currentIndex);
+        }
+      }, HIDE_DURATION);
+    });
+  });
+
+  // Start the cycle
+  startRotation();
 });
 
+// ────────────────────────────────────────────────
+// Original search + modal logic (unchanged)
+// ────────────────────────────────────────────────
 async function getSegregationAdvice() {
   const query = document.getElementById('segregateSearch').value.trim();
   if (!query) return alert("Please type a product name 😊");
-
   const modal = document.getElementById('resultModal');
   const content = document.getElementById('modalResult');
-
   content.innerHTML = `<p style="color:#aaa; text-align:center; padding:40px;">🤖 Mr. Segregator is thinking...</p>`;
   modal.style.display = 'flex';
 
   const prompt = `You are Mr. Segregator - a straightforward, helpful expert on waste segregation in India.
 Be short, clear and practical. Never be poetic or long.
-
 For the item "${query}", answer using EXACTLY this format:
-
- Category: WET/ORGANIC 🟢   or   DRY/RECYCLABLE 🔵   or   SANITARY 🔴   or   SPECIAL ⚫   or   E-WASTE 🟠   or   C & D WASTE 🟤   or   TEXTILE 🟣 etc.
- How to segregate: (2-3 short points). 
+ Category: WET/ORGANIC 🟢 or DRY/RECYCLABLE 🔵 or SANITARY 🔴 or SPECIAL ⚫ or E-WASTE 🟠 or C & D WASTE 🟤 or TEXTILE 🟣 etc.
+ How to segregate: (2-3 short points).
  Which bin: (green wet bin, blue dry bin, red sanitary bin, or take to recycling centre)
  Tip: (one short useful tip)
-
 Use the exact colored circle emojis shown above.`;
 
   try {
@@ -446,7 +473,6 @@ Use the exact colored circle emojis shown above.`;
     });
     const data = await res.json();
     const answer = data.candidates[0].content.parts[0].text;
-
     content.innerHTML = `
       <h3 style="color:var(--accent); margin-bottom:15px;">How to segregate <span style="color:#fff">${query}</span></h3>
       <div style="white-space:pre-line; line-height:1.8;">${answer}</div>
