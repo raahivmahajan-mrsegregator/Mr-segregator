@@ -60,7 +60,6 @@
       border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem;
     }
 
-    /* PDF */
     .pdf-flyer { margin: 25px auto 15px; width: 100%; max-width: 360px;
       border: 4px solid var(--accent); border-radius: 16px; overflow: hidden;
       box-shadow: 0 0 30px rgba(0,255,208,0.5);
@@ -76,7 +75,6 @@
     .retry-btn { background: #ff3366; color: white; padding: 12px 24px;
       border: none; border-radius: 50px; font-weight: 700; cursor: pointer; margin: 15px auto;
     }
-    #status-text { font-size: 1rem; line-height: 1.4; margin-bottom: 15px; }
   </style>
 </head>
 <body>
@@ -98,10 +96,10 @@
     <div id="success-screen">
       <h2>🎉 REGISTRATION SUCCESSFUL!</h2>
       <p style="margin-bottom: 8px; opacity: 0.85;">Your Unique Segregation ID:</p>
-      <div id="success-id">Generating SEG-ID...</div>
+      <div id="success-id">RASH472913</div>
       
-      <p id="status-text">
-        Please wait a few seconds while our system assigns your official ID...
+      <p id="status-text" style="color:#00ff9d;">
+        🎉 Your ID is ready! Save it now.
       </p>
 
       <!-- PDF FLYER -->
@@ -113,7 +111,6 @@
         📄 Download Full Rules & Tasks (PDF)
       </a>
 
-      <button onclick="retryPoll()" class="retry-btn">🔄 Refresh My ID Now</button>
       <a href="leaderboard.html" target="_blank" style="display:block; background:#00ffd0; color:#0b0f1a; padding:16px; margin:10px auto; max-width:360px; border-radius:50px; text-decoration:none; font-weight:700;">
         👀 View Leaderboard Now
       </a>
@@ -126,82 +123,42 @@
 
   <script>
     const FORM_ID = '1FAIpQLSdxqxJrdi-Mrp6XBpmmPCxXUMQ_B8zrGzneXRIWjpzmjtUgSg';
-    const SHEET_ID = "1sVhzl9laoE8PKCBeeMBtHBxjn-9M_OFfQMT2jxICF-o";
+    const SEG_ENTRY_ID = 'entry.1175331370'; 
 
-    let submittedName = "";
-    let submittedCity = "";
-    let pollInterval = null;
+    function generateSegID(fullName) {
+      const parts = fullName.trim().toUpperCase().split(/\s+/);
+      const firstTwo = (parts[0] || "XX").substring(0, 2);
+      const lastTwo = (parts[parts.length - 1] || "XX").substring(0, 2);
+      const randomNum = Math.floor(100000 + Math.random() * 900000);
+      return firstTwo + lastTwo + randomNum;
+    }
 
     function registerKid() {
       const btn = document.getElementById('registerBtn');
-      const name = document.getElementById('name').value.trim();
-      const age  = document.getElementById('age').value.trim();
+      const fullName = document.getElementById('name').value.trim();
+      const age = document.getElementById('age').value.trim();
       const city = document.getElementById('city').value.trim();
 
-      if (!name || !age || !city) return alert("Please fill all fields");
+      if (!fullName || !age || !city) return alert("Please fill all fields");
 
-      // Prevent double submission
+      const newID = generateSegID(fullName);
+
       btn.disabled = true;
-      btn.textContent = "Registering...";
+      btn.textContent = "Registered!";
 
-      submittedName = name.toLowerCase().trim();
-      submittedCity = city.toLowerCase().trim();
+      document.getElementById('form-screen').style.display = 'none';
+      document.getElementById('success-screen').style.display = 'block';
+      document.getElementById('success-id').textContent = newID;
 
+      // Submit to Google Form (including the generated ID)
       const formUrl = `https://docs.google.com/forms/u/0/d/e/${FORM_ID}/formResponse`;
       const data = new URLSearchParams();
-      data.append('entry.137495369', name);
+      data.append('entry.137495369', fullName);
       data.append('entry.1289596246', age);
       data.append('entry.924456839', city);
+      data.append(SEG_ENTRY_ID, newID);   // ← This appends your custom ID to the sheet
 
-      fetch(formUrl, { method: 'POST', body: data, mode: 'no-cors' })
-        .then(() => {
-          document.getElementById('form-screen').style.display = 'none';
-          document.getElementById('success-screen').style.display = 'block';
-          setTimeout(startIDPolling, 4000); // 4-second delay so trigger finishes
-        })
-        .catch(() => {
-          alert("Submission error. Please try again.");
-          btn.disabled = false;
-          btn.textContent = "REGISTER & GET MY ID";
-        });
-    }
-
-    function startIDPolling() {
-      if (pollInterval) clearInterval(pollInterval);
-
-      pollInterval = setInterval(() => {
-        fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Master&t=${Date.now()}`)
-          .then(res => res.text())
-          .then(csvText => {
-            Papa.parse(csvText, {
-              header: false,
-              skipEmptyLines: true,
-              complete: function(results) {
-                let rows = results.data.slice(1).filter(r => r[1] && r[1].trim() !== "");
-
-                // Match by Name + City (much safer for simultaneous registrations)
-                const matching = rows.find(row => 
-                  row[1] && row[1].trim().toLowerCase() === submittedName &&
-                  row[3] && row[3].trim().toLowerCase() === submittedCity &&
-                  row[4] && row[4].startsWith("SEG-")
-                );
-
-                if (matching && matching[4]) {
-                  clearInterval(pollInterval);
-                  document.getElementById('success-id').textContent = matching[4];
-                  document.getElementById('status-text').innerHTML = 
-                    `🎉 Your official ID is <strong>${matching[4]}</strong><br>Save it for all 4 tasks!`;
-                }
-              }
-            });
-          });
-      }, 2000);
-    }
-
-    function retryPoll() {
-      document.getElementById('success-id').textContent = "Generating SEG-ID...";
-      document.getElementById('status-text').innerHTML = "Please wait a few seconds...";
-      startIDPolling();
+      fetch(formUrl, { method: 'POST', body: data, mode: 'no-cors' });
     }
   </script>
 </body>
