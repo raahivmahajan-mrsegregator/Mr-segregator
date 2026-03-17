@@ -27,7 +27,7 @@ body {
   text-align: center;
 }
 
-/* Header & Title */
+/* Header */
 header {
   padding: 14px 18px;
   font-weight: 700;
@@ -74,21 +74,21 @@ h1 {
 #leaderboard-container { max-width: 100%; margin: 0 auto; padding: 0 15px; }
 #leaderboard-table { width: 100%; border-collapse: collapse; }
 
-/* ───── MOBILE-FIRST (Stacked Cards) ───── */
+/* ───── MOBILE: Clean Stacked Cards ───── */
 tbody tr {
   display: block;
   background: rgba(255,255,255,0.03);
   border: 2px solid var(--accent-soft);
   border-radius: 16px;
   margin-bottom: 18px;
-  padding: 16px;
+  padding: 18px;
   box-shadow: 0 4px 15px rgba(0,255,208,0.1);
 }
 td {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 9px 0;
+  padding: 10px 0;
   border-bottom: 1px solid var(--border);
   font-size: 0.95rem;
   color: var(--muted);
@@ -98,12 +98,13 @@ td:before {
   content: attr(data-label);
   font-weight: 600;
   color: var(--accent);
-  width: 40%;
+  width: 45%;
+  text-align: left;
 }
-.rank { font-weight: 700; color: var(--accent); font-size: 1.35rem; }
-.id { font-family: monospace; font-weight: 700; color: #ff00aa; background: rgba(255,0,170,0.12); padding: 5px 12px; border-radius: 8px; }
-.points { font-weight: 700; color: #00ff9d; font-size: 1.15rem; }
-tr.top-3 { background: rgba(0,255,208,0.15); border-color: var(--accent); }
+.rank { font-weight: 700; color: var(--accent); font-size: 1.45rem; }
+.id { font-family: monospace; font-weight: 700; color: #ff00aa; background: rgba(255,0,170,0.12); padding: 6px 14px; border-radius: 8px; font-size: 1rem; }
+.points { font-weight: 700; color: #00ff9d; font-size: 1.2rem; }
+tr.top-3 { background: rgba(0,255,208,0.18); border-color: var(--accent); }
 
 /* ───── DESKTOP: Normal Table ───── */
 @media (min-width: 768px) {
@@ -136,7 +137,7 @@ tr.top-3 { background: rgba(0,255,208,0.15); border-color: var(--accent); }
   }
 }
 
-/* Rest of styles */
+/* Loading & Empty */
 .empty-state {
   background: rgba(255,255,255,0.03);
   border: 2px dashed var(--accent-soft);
