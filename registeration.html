@@ -129,6 +129,7 @@
     const SHEET_ID = "1sVhzl9laoE8PKCBeeMBtHBxjn-9M_OFfQMT2jxICF-o";
 
     let submittedName = "";
+    let submittedCity = "";
     let pollInterval = null;
 
     function registerKid() {
@@ -139,11 +140,12 @@
 
       if (!name || !age || !city) return alert("Please fill all fields");
 
-      // Prevent double click
+      // Prevent double submission
       btn.disabled = true;
       btn.textContent = "Registering...";
 
       submittedName = name.toLowerCase().trim();
+      submittedCity = city.toLowerCase().trim();
 
       const formUrl = `https://docs.google.com/forms/u/0/d/e/${FORM_ID}/formResponse`;
       const data = new URLSearchParams();
@@ -155,7 +157,7 @@
         .then(() => {
           document.getElementById('form-screen').style.display = 'none';
           document.getElementById('success-screen').style.display = 'block';
-          startIDPolling();
+          setTimeout(startIDPolling, 4000); // 4-second delay so trigger finishes
         })
         .catch(() => {
           alert("Submission error. Please try again.");
@@ -177,8 +179,10 @@
               complete: function(results) {
                 let rows = results.data.slice(1).filter(r => r[1] && r[1].trim() !== "");
 
+                // Match by Name + City (much safer for simultaneous registrations)
                 const matching = rows.find(row => 
-                  row[1] && row[1].trim().toLowerCase() === submittedName && 
+                  row[1] && row[1].trim().toLowerCase() === submittedName &&
+                  row[3] && row[3].trim().toLowerCase() === submittedCity &&
                   row[4] && row[4].startsWith("SEG-")
                 );
 
