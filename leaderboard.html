@@ -18,26 +18,141 @@
   --muted: #aab0d4;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Poppins', sans-serif; background: radial-gradient(800px 400px at top, #1a2142, transparent), linear-gradient(135deg, var(--bg-dark), var(--bg-mid)); color: var(--text); min-height: 100vh; text-align: center; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  text-align: center;
+}
 
-header { padding: 14px 18px; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+/* Header & Title */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
 .header-logo { font-size: 1.3rem; color: var(--accent); text-decoration: none; }
 .back-btn { font-size: 0.95rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; }
-h1 { font-size: 1.85rem; font-weight: 700; background: linear-gradient(90deg, #00ffd0, #6ddcff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 25px 0 12px; }
-.controls { display: flex; justify-content: center; gap: 12px; margin: 0 15px 18px; flex-wrap: wrap; }
-.live-badge, .sound-toggle { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,255,208,0.15); color: var(--accent); font-size: 0.9rem; font-weight: 600; padding: 8px 18px; border-radius: 50px; border: 1px solid var(--accent-soft); cursor: pointer; }
+h1 {
+  font-size: 1.85rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 25px 0 12px;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 15px 18px;
+  flex-wrap: wrap;
+}
+.live-badge, .sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,255,208,0.15);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 1px solid var(--accent-soft);
+  cursor: pointer;
+}
+
+/* TABLE CONTAINER */
 #leaderboard-container { max-width: 100%; margin: 0 auto; padding: 0 15px; }
 #leaderboard-table { width: 100%; border-collapse: collapse; }
-tbody tr { display: block; background: rgba(255,255,255,0.03); border: 2px solid var(--accent-soft); border-radius: 16px; margin-bottom: 18px; padding: 16px; }
-td { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); }
+
+/* ───── MOBILE-FIRST (Stacked Cards) ───── */
+tbody tr {
+  display: block;
+  background: rgba(255,255,255,0.03);
+  border: 2px solid var(--accent-soft);
+  border-radius: 16px;
+  margin-bottom: 18px;
+  padding: 16px;
+  box-shadow: 0 4px 15px rgba(0,255,208,0.1);
+}
+td {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+td:last-child { border-bottom: none; }
+td:before {
+  content: attr(data-label);
+  font-weight: 600;
+  color: var(--accent);
+  width: 40%;
+}
 .rank { font-weight: 700; color: var(--accent); font-size: 1.35rem; }
 .id { font-family: monospace; font-weight: 700; color: #ff00aa; background: rgba(255,0,170,0.12); padding: 5px 12px; border-radius: 8px; }
 .points { font-weight: 700; color: #00ff9d; font-size: 1.15rem; }
 tr.top-3 { background: rgba(0,255,208,0.15); border-color: var(--accent); }
-.empty-state { background: rgba(255,255,255,0.03); border: 2px dashed var(--accent-soft); border-radius: 20px; padding: 45px 20px; color: var(--muted); margin: 20px 0; }
-#loading-text { color: var(--accent); font-size: 1.05rem; margin: 35px 0; animation: pulse 1.5s infinite; }
+
+/* ───── DESKTOP: Normal Table ───── */
+@media (min-width: 768px) {
+  h1 { font-size: 2.8rem; margin: 30px 0 15px; }
+  #leaderboard-container { padding: 0 20px; max-width: 980px; }
+
+  thead { display: table-header-group; }
+  tbody tr {
+    display: table-row;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding: 0;
+    background: rgba(255,255,255,0.03);
+  }
+  td {
+    display: table-cell;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    padding: 18px 12px;
+    font-size: 1rem;
+  }
+  td:before { content: none; }
+
+  th {
+    background: rgba(0,255,208,0.15);
+    color: var(--accent);
+    padding: 18px 12px;
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+}
+
+/* Rest of styles */
+.empty-state {
+  background: rgba(255,255,255,0.03);
+  border: 2px dashed var(--accent-soft);
+  border-radius: 20px;
+  padding: 45px 20px;
+  color: var(--muted);
+  font-size: 1.15rem;
+  margin: 20px 0;
+}
+#loading-text {
+  color: var(--accent);
+  font-size: 1.05rem;
+  margin: 35px 0;
+  animation: pulse 1.5s infinite;
+}
 @keyframes pulse { 0%,100% {opacity:0.6;} 50%{opacity:1;} }
-#toast { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(0,255,208,0.95); color: #000; font-weight: 700; padding: 11px 22px; border-radius: 50px; box-shadow: 0 0 30px var(--accent); display: none; z-index: 9999; }
 .last-updated { margin-top: 20px; color: var(--muted); font-size: 0.85rem; padding: 0 15px; }
 </style>
 </head>
@@ -77,21 +192,8 @@ tr.top-3 { background: rgba(0,255,208,0.15); border-color: var(--accent); }
   <p class="last-updated" id="last-updated"></p>
 </div>
 
-<div id="toast">🎉 Rank updated!</div>
-
 <script>
   const SHEET_ID = "1sVhzl9laoE8PKCBeeMBtHBxjn-9M_OFfQMT2jxICF-o";
-
-  let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
-  let previousData = [];
-
-  const soundToggle = document.getElementById('sound-toggle');
-  soundToggle.textContent = soundEnabled ? "🔊 Sound ON" : "🔇 Sound OFF";
-  soundToggle.addEventListener('click', () => {
-    soundEnabled = !soundEnabled;
-    localStorage.setItem('soundEnabled', soundEnabled);
-    soundToggle.textContent = soundEnabled ? "🔊 Sound ON" : "🔇 Sound OFF";
-  });
 
   function loadLeaderboard() {
     const loadingText = document.getElementById('loading-text');
@@ -107,13 +209,10 @@ tr.top-3 { background: rgba(0,255,208,0.15); border-color: var(--accent); }
       .then(res => res.text())
       .then(csvText => {
         Papa.parse(csvText, {
-          header: false,           // ← THIS IS THE FIX
+          header: false,
           skipEmptyLines: true,
           complete: function(results) {
-            // Skip first row if it's headers or junk, then use column positions
             let data = results.data.slice(1).filter(row => row[1] && row[1].trim() !== '');
-
-            // Sort by Total points (column 9 = Total)
             data.sort((a, b) => (parseFloat(b[9]) || 0) - (parseFloat(a[9]) || 0));
 
             if (data.length === 0) {
@@ -140,9 +239,6 @@ tr.top-3 { background: rgba(0,255,208,0.15); border-color: var(--accent); }
             document.getElementById('last-updated').textContent = `Last updated: ${new Date().toLocaleString()}`;
           }
         });
-      })
-      .catch(() => {
-        loadingText.textContent = "Error loading sheet. Make sure it's public.";
       });
   }
 
