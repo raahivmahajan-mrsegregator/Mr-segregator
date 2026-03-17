@@ -64,7 +64,6 @@ header {
   color: var(--accent);
 }
 
-
 h1 {
   font-size: 1.85rem;
   font-weight: 700;
@@ -198,8 +197,8 @@ tr.top-3 {
   100% { box-shadow: 0 0 0 rgba(0,255,208,0); transform: scale(1); }
 }
 
-/* EMPTY STATE & LOADING */
-.empty-state {
+/* EMPTY STATE & LOADING + ERROR */
+.empty-state, #error-state {
   background: rgba(255,255,255,0.03);
   border: 2px dashed var(--accent-soft);
   border-radius: 20px;
@@ -207,6 +206,11 @@ tr.top-3 {
   color: var(--muted);
   font-size: 1.15rem;
   margin: 20px 0;
+}
+
+#error-state {
+  color: #ff6b6b;
+  border-color: #ff6b6b;
 }
 
 #loading-text {
@@ -239,7 +243,19 @@ tr.top-3 {
   padding: 0 15px;
 }
 
-/* DESKTOP / TABLET - Restore normal table */
+.retry-btn {
+  background: var(--accent);
+  color: #0b0f1a;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 15px auto;
+  font-size: 1rem;
+}
+
+/* DESKTOP / TABLET */
 @media (min-width: 700px) {
   h1 { font-size: 2.8rem; margin: 30px 0 15px; }
   header { padding: 22px; }
@@ -249,9 +265,7 @@ tr.top-3 {
 
   #leaderboard-container { padding: 0 20px; max-width: 980px; }
 
-  thead { 
-    display: table-header-group; 
-  }
+  thead { display: table-header-group; }
   tbody tr {
     display: table-row;
     margin-bottom: 0;
@@ -282,8 +296,6 @@ tr.top-3 {
     top: 50%;
     transform: translateY(-50%);
   }
-  .rank { font-size: 1.4rem; }
-  .id { padding: 6px 14px; font-size: 1rem; }
 }
 
 /* =========================
@@ -296,25 +308,6 @@ footer {
   color: var(--muted);
   font-size: 0.85rem;
 }
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 16px;
-}
-
-.footer-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-}
-
-.footer-links a:hover {
-  color: var(--accent);
-}
-
 </style>
 </head>
 
@@ -332,13 +325,21 @@ footer {
   <div id="sound-toggle" class="sound-toggle">🔊 Sound ON</div>
 </div>
 
-<p id="loading-text">Loading live leaderboard...</p>
+<p id="loading-text">Loading live leaderboard from Google Sheet...</p>
 
 <div id="leaderboard-container">
   <div id="empty-state" class="empty-state" style="display:none;">
     No super segregators yet!<br>
     <small>Be the first one — register and start scoring!</small>
   </div>
+  
+  <div id="error-state" class="empty-state" style="display:none;">
+    <strong>⚠️ Could not load data from sheet</strong><br>
+    <small>Make sure the "Master" sheet is shared as "Anyone with the link can view"<br>
+    Then click the button below</small><br><br>
+    <button onclick="loadLeaderboard()" class="retry-btn">🔄 TRY AGAIN NOW</button>
+  </div>
+
   <table id="leaderboard-table" style="display:none;">
     <thead>
       <tr>
@@ -363,6 +364,7 @@ footer {
   const container = document.getElementById('leaderboard-container');
   const tbody = document.querySelector('#leaderboard-table tbody');
   const emptyState = document.getElementById('empty-state');
+  const errorState = document.getElementById('error-state');
   const lastUpdated = document.getElementById('last-updated');
   const soundToggle = document.getElementById('sound-toggle');
   const toast = document.getElementById('toast');
@@ -412,44 +414,40 @@ footer {
   }
 
   function loadLeaderboard() {
+    loadingText.style.display = 'block';
+    container.style.display = 'block';
+    emptyState.style.display = 'none';
+    errorState.style.display = 'none';
+    document.getElementById('leaderboard-table').style.display = 'none';
+
     const cacheBuster = Date.now();
-    fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Master&t=${cacheBuster}`)
-      .then(res => res.text())
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Master&t=${cacheBuster}`;
+
+    fetch(url)
+      .then(res => {
+        if (!res.ok) throw new Error("Sheet not accessible (make it public!)");
+        return res.text();
+      })
       .then(csvText => {
         Papa.parse(csvText, {
           header: true,
           skipEmptyLines: true,
           complete: function(results) {
             let data = results.data.filter(row => row.Name && row.Name.trim() !== '');
+
+            // Sort by Total points descending
             data.sort((a, b) => (parseFloat(b.Total) || 0) - (parseFloat(a.Total) || 0));
 
             if (data.length === 0) {
               loadingText.style.display = 'none';
-              container.style.display = 'block';
               emptyState.style.display = 'block';
-              document.getElementById('leaderboard-table').style.display = 'none';
               previousData = [];
               return;
             }
 
-            const currentData = data.map((row, i) => ({
-              name: row.Name,
-              rank: i + 1,
-              points: parseFloat(row.Total) || 0
-            }));
-
-            const improvedNames = new Set();
-            if (previousData.length > 0) {
-              const prevMap = new Map(previousData.map(item => [item.name, item.rank]));
-              currentData.forEach(player => {
-                const oldRank = prevMap.get(player.name);
-                if (oldRank && player.rank < oldRank) improvedNames.add(player.name);
-              });
-            }
-
+            // Build table
             tbody.innerHTML = data.map((row, i) => {
-              const isImproved = improvedNames.has(row.Name);
-              const rankClass = (i < 3 ? 'top-3' : '') + (isImproved ? ' rank-up' : '');
+              const rankClass = i < 3 ? 'top-3' : '';
               return `
                 <tr class="${rankClass}">
                   <td data-label="Rank" class="rank">#${i+1}</td>
@@ -462,23 +460,19 @@ footer {
             }).join('');
 
             loadingText.style.display = 'none';
-            container.style.display = 'block';
             document.getElementById('leaderboard-table').style.display = 'table';
-            emptyState.style.display = 'none';
             lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
-
-            if (improvedNames.size > 0 || currentData.length > previousData.length) {
-              playRankChangeSound();
-              showToast();
-            }
-
-            previousData = currentData;
           }
         });
       })
-      .catch(err => console.error("Refresh error:", err));
+      .catch(err => {
+        console.error("Leaderboard fetch error:", err);
+        loadingText.style.display = 'none';
+        errorState.style.display = 'block';
+      });
   }
 
+  // Initial load + auto-refresh
   loadLeaderboard();
   setInterval(loadLeaderboard, 30000);
 </script>
