@@ -12,9 +12,7 @@
       --bg-mid: #141a2f; 
       --accent: #00ffd0; 
     }
-
     * { box-sizing: border-box; }
-
     body { 
       font-family: 'Poppins', sans-serif; 
       background: linear-gradient(135deg, var(--bg-dark), var(--bg-mid)); 
@@ -26,7 +24,6 @@
       justify-content: center; 
       padding: 20px;
     }
-
     .card { 
       background: var(--bg-mid); 
       padding: 3rem 2rem; 
@@ -36,110 +33,53 @@
       text-align: center; 
       border: 1px solid rgba(0,255,208,0.3); 
     }
-
     h1, h2, p { margin: 0 auto; max-width: 90%; }
-
     input { 
-      display: block;
-      width: 100%;
-      max-width: 360px;
-      margin: 16px auto;
-      padding: 16px;
-      background: rgba(255,255,255,0.1); 
-      border: 1px solid var(--accent); 
-      border-radius: 12px; 
-      color: white; 
-      font-size: 1.1rem;
+      display: block; width: 100%; max-width: 360px; margin: 16px auto;
+      padding: 16px; background: rgba(255,255,255,0.1); 
+      border: 1px solid var(--accent); border-radius: 12px; 
+      color: white; font-size: 1.1rem;
     }
-
-    input::placeholder { color: rgba(255,255,255,0.5); }
-
     button { 
-      background: var(--accent); 
-      color: #0b0f1a; 
-      padding: 18px; 
-      border: none; 
-      border-radius: 50px; 
-      font-weight: 700; 
-      width: 100%;
-      max-width: 360px;
-      margin: 20px auto 8px;
-      font-size: 1.3rem; 
-      cursor: pointer;
+      background: var(--accent); color: #0b0f1a; padding: 18px; 
+      border: none; border-radius: 50px; font-weight: 700; 
+      width: 100%; max-width: 360px; margin: 20px auto 8px; font-size: 1.3rem; cursor: pointer;
     }
-
-    /* SUCCESS SCREEN */
     #success-screen { display: none; }
-
     #success-id {
-      font-size: 2.9rem;
-      color: var(--accent);
-      font-weight: 700;
-      letter-spacing: 6px;
-      background: rgba(0,255,208,0.12);
-      padding: 18px 20px;
-      border-radius: 16px;
-      margin: 20px auto;
-      display: inline-block;
-      min-width: 220px;
+      font-size: 2.9rem; color: var(--accent); font-weight: 700;
+      letter-spacing: 6px; background: rgba(0,255,208,0.12);
+      padding: 18px 20px; border-radius: 16px; margin: 20px auto;
+      display: inline-block; min-width: 220px;
     }
-
     .success-links a {
-      display: block;
-      background: rgba(255,255,255,0.1);
-      color: var(--accent);
-      padding: 16px;
-      margin: 12px auto;
-      max-width: 360px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
+      display: block; background: rgba(255,255,255,0.1); color: var(--accent);
+      padding: 16px; margin: 12px auto; max-width: 360px;
+      border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem;
     }
-
-    /* PDF FLYER */
-    .pdf-flyer {
-      margin: 25px auto 15px;
-      width: 100%;
-      max-width: 360px;
-      border: 4px solid var(--accent);
-      border-radius: 16px;
-      overflow: hidden;
+    .pdf-flyer { margin: 25px auto 15px; width: 100%; max-width: 360px;
+      border: 4px solid var(--accent); border-radius: 16px; overflow: hidden;
       box-shadow: 0 0 30px rgba(0,255,208,0.5);
     }
-
-    .pdf-flyer embed {
-      width: 100%;
-      height: 520px;
-      display: block;
+    .pdf-flyer embed { width: 100%; height: 520px; display: block; }
+    .retry-btn { background: #ff3366; color: white; padding: 12px 24px;
+      border: none; border-radius: 50px; font-weight: 700; cursor: pointer; margin: 15px auto;
     }
-
-    .retry-btn {
-      background: #ff3366;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 50px;
-      font-weight: 700;
-      cursor: pointer;
-      margin: 15px auto;
-    }
+    #status-text { font-size: 1rem; line-height: 1.4; }
   </style>
 </head>
 <body>
 
-  <div class="card" id="card">
+  <div class="card">
     <!-- FORM SCREEN -->
     <div id="form-screen">
       <h1>🌟 SUPER SEGREGATOR REGISTRATION<br>(10 - 17 YRS ONLY)</h1>
       <p style="margin: 20px auto; opacity: 0.9;">
         Enter your details and get your unique ID instantly!
       </p>
-      
       <input type="text" id="name" placeholder="Full Name *">
       <input type="text" id="age"  placeholder="Age *">
       <input type="text" id="city" placeholder="City *">
-      
       <button onclick="registerKid()">REGISTER & GET MY ID</button>
     </div>
 
@@ -147,13 +87,13 @@
     <div id="success-screen">
       <h2>🎉 REGISTRATION SUCCESSFUL!</h2>
       <p style="margin-bottom: 8px; opacity: 0.85;">Your Unique Segregation ID:</p>
-      <div id="success-id">Generating SEG-ID...</div>
+      <div id="success-id">Checking sheet...</div>
       
       <p id="status-text" style="opacity: 0.9; margin-bottom: 15px;">
-        Please wait 5–15 seconds while our system assigns your official ID...
+        Please wait 5–15 seconds...
       </p>
 
-      <!-- EXACT PDF FLYER -->
+      <!-- YOUR PDF FLYER -->
       <div class="pdf-flyer">
         <embed src="SUPER SEGREGATOR OF THE MONTH COMPETITION.pdf" type="application/pdf" width="100%" height="520">
       </div>
@@ -177,17 +117,14 @@
     let submittedName = "";
     let pollInterval = null;
     let attempts = 0;
-    const MAX_ATTEMPTS = 25;
+    const MAX_ATTEMPTS = 40;   // up to ~80 seconds
 
     function registerKid() {
       const name = document.getElementById('name').value.trim();
       const age  = document.getElementById('age').value.trim();
       const city = document.getElementById('city').value.trim();
 
-      if (!name || !age || !city) {
-        alert("Please fill all fields");
-        return;
-      }
+      if (!name || !age || !city) return alert("Please fill all fields");
 
       submittedName = name.toLowerCase().trim();
 
@@ -202,8 +139,7 @@
           document.getElementById('form-screen').style.display = 'none';
           document.getElementById('success-screen').style.display = 'block';
           startIDPolling();
-        })
-        .catch(() => alert("Submission error. Please try again."));
+        });
     }
 
     function startIDPolling() {
@@ -212,10 +148,13 @@
 
       pollInterval = setInterval(() => {
         attempts++;
+        document.getElementById('status-text').innerHTML = 
+          `Attempt ${attempts} of ${MAX_ATTEMPTS}...<br>Looking for your name in the Master sheet...`;
+
         if (attempts > MAX_ATTEMPTS) {
           clearInterval(pollInterval);
-          document.getElementById('success-id').innerHTML = 'ID delayed<br><small style="font-size:0.9rem">Check Leaderboard in 1 min</small>';
-          document.getElementById('status-text').innerHTML = 'Your entry is saved. Your ID will appear on the leaderboard soon!';
+          document.getElementById('success-id').innerHTML = 'ID delayed<br><small>Check Leaderboard in 1 minute</small>';
+          document.getElementById('status-text').innerHTML = 'Your entry is saved!<br>Your ID will appear on the leaderboard soon.';
           return;
         }
 
@@ -223,13 +162,11 @@
           .then(res => res.text())
           .then(csvText => {
             Papa.parse(csvText, {
-              header: false,               // ← FIXED: no headers in your sheet
+              header: false,
               skipEmptyLines: true,
               complete: function(results) {
-                // Skip header row if any, then filter rows with name
-                let rows = results.data.slice(1).filter(row => row[1] && row[1].trim() !== "");
+                let rows = results.data.slice(1).filter(r => r[1] && r[1].trim() !== "");
 
-                // Find matching row using exact same column positions as leaderboard
                 const matching = rows.find(row => 
                   row[1] && row[1].trim().toLowerCase() === submittedName && 
                   row[4] && row[4].startsWith("SEG-")
@@ -249,6 +186,7 @@
 
     function retryPoll() {
       document.getElementById('success-id').textContent = "Checking sheet again...";
+      document.getElementById('status-text').innerHTML = "Please wait...";
       startIDPolling();
     }
   </script>
