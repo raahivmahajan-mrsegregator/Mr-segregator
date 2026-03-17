@@ -60,19 +60,17 @@
       border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem;
     }
 
-    /* PDF - RESPONSIVE */
+    /* PDF */
     .pdf-flyer { margin: 25px auto 15px; width: 100%; max-width: 360px;
       border: 4px solid var(--accent); border-radius: 16px; overflow: hidden;
       box-shadow: 0 0 30px rgba(0,255,208,0.5);
     }
     .pdf-flyer embed { width: 100%; height: 420px; display: block; }
 
-    /* Mobile improvements */
     @media (max-width: 480px) {
       .card { padding: 1.5rem 1rem; }
       #success-id { font-size: 2.2rem; }
       .pdf-flyer embed { height: 320px; }
-      h1 { font-size: 1.4rem; }
     }
 
     .retry-btn { background: #ff3366; color: white; padding: 12px 24px;
@@ -93,7 +91,7 @@
       <input type="text" id="name" placeholder="Full Name *">
       <input type="text" id="age"  placeholder="Age *">
       <input type="text" id="city" placeholder="City *">
-      <button onclick="registerKid()">REGISTER & GET MY ID</button>
+      <button id="registerBtn" onclick="registerKid()">REGISTER & GET MY ID</button>
     </div>
 
     <!-- SUCCESS SCREEN -->
@@ -132,15 +130,18 @@
 
     let submittedName = "";
     let pollInterval = null;
-    let attempts = 0;
-    const MAX_ATTEMPTS = 30;   // reduced for better UX
 
     function registerKid() {
+      const btn = document.getElementById('registerBtn');
       const name = document.getElementById('name').value.trim();
       const age  = document.getElementById('age').value.trim();
       const city = document.getElementById('city').value.trim();
 
       if (!name || !age || !city) return alert("Please fill all fields");
+
+      // Prevent double click
+      btn.disabled = true;
+      btn.textContent = "Registering...";
 
       submittedName = name.toLowerCase().trim();
 
@@ -155,24 +156,18 @@
           document.getElementById('form-screen').style.display = 'none';
           document.getElementById('success-screen').style.display = 'block';
           startIDPolling();
+        })
+        .catch(() => {
+          alert("Submission error. Please try again.");
+          btn.disabled = false;
+          btn.textContent = "REGISTER & GET MY ID";
         });
     }
 
     function startIDPolling() {
-      attempts = 0;
       if (pollInterval) clearInterval(pollInterval);
 
       pollInterval = setInterval(() => {
-        attempts++;
-        document.getElementById('status-text').innerHTML = 
-          `Attempt ${attempts} of ${MAX_ATTEMPTS}<br>Searching for your name in the Master sheet...`;
-
-        if (attempts > MAX_ATTEMPTS) {
-          clearInterval(pollInterval);
-          document.getElementById('success-id').innerHTML = 'ID delayed<br><small>Check Leaderboard in 1 minute</small>';
-          return;
-        }
-
         fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=Master&t=${Date.now()}`)
           .then(res => res.text())
           .then(csvText => {
@@ -201,7 +196,7 @@
 
     function retryPoll() {
       document.getElementById('success-id').textContent = "Generating SEG-ID...";
-      document.getElementById('status-text').innerHTML = "Please wait...";
+      document.getElementById('status-text').innerHTML = "Please wait a few seconds...";
       startIDPolling();
     }
   </script>
