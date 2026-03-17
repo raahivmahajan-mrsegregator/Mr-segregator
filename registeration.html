@@ -97,7 +97,7 @@
       font-size: 1.1rem;
     }
 
-    /* PDF FLYER - EXACT ONE YOU GAVE */
+    /* PDF FLYER */
     .pdf-flyer {
       margin: 25px auto 15px;
       width: 100%;
@@ -153,7 +153,7 @@
         Please wait 5–15 seconds while our system assigns your official ID...
       </p>
 
-      <!-- EXACT PDF FLYER YOU GAVE (embedded so it appears instantly) -->
+      <!-- EXACT PDF FLYER -->
       <div class="pdf-flyer">
         <embed src="SUPER SEGREGATOR OF THE MONTH COMPETITION.pdf" type="application/pdf" width="100%" height="520">
       </div>
@@ -177,7 +177,7 @@
     let submittedName = "";
     let pollInterval = null;
     let attempts = 0;
-    const MAX_ATTEMPTS = 25; // up to ~50 seconds
+    const MAX_ATTEMPTS = 25;
 
     function registerKid() {
       const name = document.getElementById('name').value.trim();
@@ -223,22 +223,23 @@
           .then(res => res.text())
           .then(csvText => {
             Papa.parse(csvText, {
-              header: true,
+              header: false,               // ← FIXED: no headers in your sheet
               skipEmptyLines: true,
               complete: function(results) {
-                const rows = results.data.filter(r => r.Name && r.Name.trim() !== "");
+                // Skip header row if any, then filter rows with name
+                let rows = results.data.slice(1).filter(row => row[1] && row[1].trim() !== "");
 
-                // Find the matching row (latest one for this name)
+                // Find matching row using exact same column positions as leaderboard
                 const matching = rows.find(row => 
-                  row.Name && row.Name.trim().toLowerCase() === submittedName && 
-                  row.ID && row.ID.startsWith("SEG-")
+                  row[1] && row[1].trim().toLowerCase() === submittedName && 
+                  row[4] && row[4].startsWith("SEG-")
                 );
 
-                if (matching && matching.ID) {
+                if (matching && matching[4]) {
                   clearInterval(pollInterval);
-                  document.getElementById('success-id').textContent = matching.ID;
+                  document.getElementById('success-id').textContent = matching[4];
                   document.getElementById('status-text').innerHTML = 
-                    `🎉 Your official ID is <strong>${matching.ID}</strong><br>Save it for all 4 tasks!`;
+                    `🎉 Your official ID is <strong>${matching[4]}</strong><br>Save it for all 4 tasks!`;
                 }
               }
             });
