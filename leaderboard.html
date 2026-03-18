@@ -74,37 +74,39 @@ h1 {
 #leaderboard-container { max-width: 100%; margin: 0 auto; padding: 0 15px; }
 #leaderboard-table { width: 100%; border-collapse: collapse; }
 
-/* ───── MOBILE: Clean Stacked Cards ───── */
+/* ───── MOBILE: CLEAN STACKED CARDS ───── */
 tbody tr {
   display: block;
   background: rgba(255,255,255,0.03);
   border: 2px solid var(--accent-soft);
   border-radius: 16px;
   margin-bottom: 18px;
-  padding: 18px;
+  padding: 20px;
   box-shadow: 0 4px 15px rgba(0,255,208,0.1);
 }
 td {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 12px 0;
   border-bottom: 1px solid var(--border);
-  font-size: 0.95rem;
-  color: var(--muted);
+  font-size: 1rem;
 }
 td:last-child { border-bottom: none; }
 td:before {
   content: attr(data-label);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent);
   width: 45%;
   text-align: left;
 }
-.rank { font-weight: 700; color: var(--accent); font-size: 1.45rem; }
-.id { font-family: monospace; font-weight: 700; color: #ff00aa; background: rgba(255,0,170,0.12); padding: 6px 14px; border-radius: 8px; font-size: 1rem; }
-.points { font-weight: 700; color: #00ff9d; font-size: 1.2rem; }
+.rank { font-weight: 700; color: var(--accent); font-size: 1.5rem; }
+.id { font-family: monospace; font-weight: 700; color: #ff00aa; background: rgba(255,0,170,0.12); padding: 6px 14px; border-radius: 8px; }
+.points { font-weight: 700; color: #00ff9d; font-size: 1.25rem; }
 tr.top-3 { background: rgba(0,255,208,0.18); border-color: var(--accent); }
+
+/* Hide thead on mobile */
+thead { display: none; }
 
 /* ───── DESKTOP: Normal Table ───── */
 @media (min-width: 768px) {
@@ -117,14 +119,12 @@ tr.top-3 { background: rgba(0,255,208,0.18); border-color: var(--accent); }
     margin-bottom: 0;
     border-radius: 0;
     padding: 0;
-    background: rgba(255,255,255,0.03);
   }
   td {
     display: table-cell;
     text-align: center;
     border-bottom: 1px solid var(--border);
     padding: 18px 12px;
-    font-size: 1rem;
   }
   td:before { content: none; }
 
