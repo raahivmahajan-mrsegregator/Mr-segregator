@@ -27,91 +27,9 @@ body {
   color: var(--text);
   min-height: 100vh;
   line-height: 1.6;
-  padding-top: 52px;
+  
 }
 
-/* =========================
-   ROTATING RIBBONS (3 TEXTS)
-========================= */
-.ribbon-container {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 52px;
-  z-index: 1500;
-  overflow: hidden;
-}
-
-.challenge-ribbon {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 600;
-  font-size: 1.05rem;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.45);
-  transition: opacity 0.6s ease;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.challenge-ribbon.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.challenge-ribbon.hidden {
-  opacity: 0 !important;
-}
-
-#ribbon-register    { background: linear-gradient(135deg, #ff3366, #ff6b6b, #ff9933); }
-#ribbon-leaderboard { background: linear-gradient(135deg, #00d4ff, #00ffd0, #7cff00); }
-#ribbon-sample      { background: linear-gradient(135deg, #c76bff, #ff6bff, #ff99ff); }
-
-.ribbon-link {
-  color: white;
-  text-decoration: none;
-  padding: 0 48px 0 32px;
-  position: relative;
-  z-index: 2;
-  transition: all 0.3s ease;
-}
-.ribbon-link:hover {
-  color: var(--accent);
-  transform: scale(1.06);
-}
-.ribbon-close {
-  position: absolute;
-  right: 16px;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 3;
-  line-height: 1;
-  opacity: 0.9;
-}
-.ribbon-close:hover {
-  color: #fff;
-  transform: scale(1.25);
-}
-
-.challenge-ribbon::before,
-.challenge-ribbon::after {
-  content: '';
-  position: absolute;
-  width: 200px; height: 200px;
-  background: rgba(255,255,255,0.18);
-  transform: rotate(45deg);
-  top: -100px;
-  z-index: 1;
-}
-.challenge-ribbon::before { left: -100px; }
-.challenge-ribbon::after { right: -100px; }
-
-@media (max-width: 768px) {
-  .challenge-ribbon { height: 46px; font-size: 0.95rem; }
-}
 
 /* =========================
    YOUR ORIGINAL STYLES (100% UNCHANGED)
@@ -395,29 +313,6 @@ footer {
 </head>
 <body>
 
-<!-- ROTATING RIBBONS (3 TEXTS) -->
-<div class="ribbon-container">
-  <div class="challenge-ribbon" id="ribbon-register">
-    <a href="registeration.html" class="ribbon-link">
-      Register for the Super Segregator Challenge →
-    </a>
-    <span class="ribbon-close" data-target="ribbon-register">×</span>
-  </div>
-
-  <div class="challenge-ribbon" id="ribbon-leaderboard">
-    <a href="leaderboard.html" class="ribbon-link">
-      Check The Leader Board →
-    </a>
-    <span class="ribbon-close" data-target="ribbon-leaderboard">×</span>
-  </div>
-
-  <div class="challenge-ribbon" id="ribbon-sample">
-    <a href="SampleEntry.html" class="ribbon-link">
-      Check Sample Entry To See How its Done !
-    </a>
-    <span class="ribbon-close" data-target="ribbon-sample">×</span>
-  </div>
-</div>
 
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
@@ -533,51 +428,7 @@ footer {
 </footer>
 
 <script>
-// ====================== ROTATING RIBBONS LOGIC ======================
-const ribbons = [
-  document.getElementById('ribbon-register'),
-  document.getElementById('ribbon-leaderboard'),
-  document.getElementById('ribbon-sample')
-];
 
-let currentIndex = 0;
-let rotationTimer = null;
-
-function showRibbon(index) {
-  ribbons.forEach(r => r.classList.remove('active'));
-  ribbons[index].classList.add('active');
-}
-
-function nextRibbon() {
-  currentIndex = (currentIndex + 1) % ribbons.length;
-  showRibbon(currentIndex);
-}
-
-function startRotation() {
-  if (rotationTimer) clearTimeout(rotationTimer);
-  showRibbon(currentIndex);
-  rotationTimer = setTimeout(() => {
-    nextRibbon();
-    startRotation();
-  }, 7000);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.ribbon-close').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetId = btn.getAttribute('data-target');
-      const ribbon = document.getElementById(targetId);
-      if (ribbon) {
-        ribbon.classList.add('hidden');
-        setTimeout(() => {
-          ribbon.classList.remove('hidden');
-          startRotation();
-        }, 20000);
-      }
-    });
-  });
-  startRotation();
-});
 
 // ====================== YOUR ORIGINAL SLIDER LOGIC ======================
 const slides = document.querySelectorAll('.slide');
