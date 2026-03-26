@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Super Segregator of the Month - March 2026 | Mr. Segregator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --bg-mid: #141a2f;
+  --accent: #00ffd0;
+  --accent-soft: rgba(0,255,208,0.35);
+  --border: rgba(255,255,255,0.18);
+  --text: #f4f6ff;
+  --muted: #aab0d4;
+}
+
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: radial-gradient(800px 400px at top, #1a2142, transparent),
+              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  padding: 14px 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  font-size: 1.3rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.back-btn {
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.3s;
+}
+.back-btn:hover { color: var(--accent); }
+
+/* WINNER HERO */
+.hero {
+  padding: 60px 16px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 65%);
+  border-radius: 50%;
+  opacity: 0.65;
+  z-index: 0;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.trophy {
+  font-size: 4.5rem;
+  margin-bottom: 15px;
+  animation: bounce 2.2s infinite alternate ease-in-out;
+}
+
+@keyframes bounce {
+  from { transform: translateY(-10px); }
+  to { transform: translateY(10px); }
+}
+
+.hero-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(90deg, #00ffd0, #6ddcff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 1.35rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.winner-name {
+  font-size: 2.65rem;
+  font-weight: 700;
+  color: #00ffd0;
+  margin: 10px 0 25px;
+  text-shadow: 0 0 25px rgba(0, 255, 208, 0.65);
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #00ffd0, #00b894);
+  color: #0b0f1a;
+  padding: 10px 34px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.18rem;
+  box-shadow: 0 8px 25px rgba(0, 255, 208, 0.45);
+  margin-bottom: 35px;
+}
+
+/* PROFILE PHOTO */
+.profile-photo {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto 30px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 4px solid var(--accent);
+  box-shadow: 0 0 35px var(--accent-soft);
+  background: #0a0e1f;
+}
+
+.profile-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* CONTENT CARD */
+.main-content {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+}
+
+.profile-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 40px 32px;
+  box-shadow: 0 0 30px var(--accent-soft);
+  text-align: left;
+}
+
+.profile-card h2 {
+  font-size: 2.1rem;
+  color: var(--accent);
+  margin-bottom: 22px;
+}
+
+.profile-card p {
+  color: var(--muted);
+  font-size: 1.08rem;
+  margin-bottom: 24px;
+  line-height: 1.72;
+}
+
+.highlight-quote {
+  font-style: italic;
+  font-size: 1.38rem;
+  color: #fff;
+  background: rgba(0,255,208,0.08);
+  border-left: 6px solid var(--accent);
+  padding: 26px 32px;
+  margin: 35px 0;
+  border-radius: 0 14px 14px 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin: 32px 0;
+}
+
+.info-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+.info-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-soft);
+}
+
+.info-item strong {
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.06rem;
+}
+
+footer {
+  padding: 40px 16px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* Confetti Container */
+#confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
+  <a href="SuperSegregator.html" class="back-btn">⬅️ Back</a>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="trophy">🏆</div>
+    <h1 class="hero-title">Super Segregator of the Month</h1>
+    <p class="subtitle">March 2026</p>
+    <div class="winner-name">Mehr Kaur Chawla</div>
+    <div class="badge">🏅 SUPER SEGREGATOR OF THE MONTH</div>
+  </div>
+</section>
+
+<div class="main-content">
+  <div class="profile-card">
+    
+    <!-- Added Photo Here -->
+    <div class="profile-photo">
+      <img src="mar.png" alt="Mehr Kaur Chawla - Super Segregator of the Month">
+    </div>
+
+    <h2>HURRAY! Meet Our March Winner ✨</h2>
+    
+    <p>Mehr Kaur Chawla, an inspiring 11-year-old from Gurugram, has been recognized as our <strong>Super Segregator of the Month!</strong></p>
+
+    <p>She has successfully learned and implemented proper waste segregation into four categories — <strong>wet, dry, sanitary, and special care</strong> — in accordance with the SWM Rules 2026.</p>
+
+    <p>Going a step further, Mehr educated five more people on correct waste segregation practices and encouraged them to take a pledge to adopt these habits in their daily lives.</p>
+
+    <div class="highlight-quote">
+      “Always segregate, and you will move closer to zero waste!”
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <strong>📍 Age</strong>
+        11 years
+      </div>
+      <div class="info-item">
+        <strong>📍 Location</strong>
+        Gurugram, India
+      </div>
+      <div class="info-item">
+        <strong>🏆 Achievement</strong>
+        Successfully learned and practiced proper waste segregation into four categories through the Super Segregator Contest
+      </div>
+    </div>
+
+    <div class="info-item" style="margin-top: 20px;">
+      <strong>🤝 Community Outreach</strong>
+      Created a video explaining waste segregation into four categories — wet, dry, sanitary, and special care — to spread awareness and inspire others.
+    </div>
+
+    <p style="margin-top: 45px; text-align: center; font-size: 1.16rem; color: var(--accent); line-height: 1.6;">
+      Through her efforts, Mehr has emerged as a true role model and young ambassador for environmental responsibility.
+    </p>
+  </div>
+</div>
+
+<footer>
+  <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow 🌱</p>
+  <p style="margin-top: 10px; font-size: 0.9rem;">
+    <a href="mailto:mrsegregator@gmail.com" style="color: var(--accent); text-decoration: none;">
+      mrsegregator@gmail.com
+    </a>
+  </p>
+</footer>
+
+<!-- Confetti Container -->
+<div id="confetti-container"></div>
+
+<script>
+// ====================== CONFETTI ANIMATION ======================
+function createConfetti() {
+  const container = document.getElementById('confetti-container');
+  const colors = ['#00ffd0', '#ffeb3b', '#ff5722', '#2196f3', '#9c27b0', '#4caf50'];
+  
+  for (let i = 0; i < 120; i++) {
+    const confetti = document.createElement('div');
+    
+    confetti.style.position = 'absolute';
+    confetti.style.width = Math.random() * 10 + 6 + 'px';
+    confetti.style.height = confetti.style.width;
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.top = '-10px';
+    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    confetti.style.opacity = Math.random() * 0.8 + 0.6;
+    confetti.style.zIndex = '9999';
+    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+    
+    container.appendChild(confetti);
+
+    const duration = Math.random() * 4 + 3.5;
+    const angle = Math.random() * 80 - 40;
+
+    confetti.animate([
+      { transform: `translateY(-50px) rotate(0deg)`, opacity: 1 },
+      { transform: `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 800 - 400}deg) translateX(${angle}px)`, opacity: 0 }
+    ], {
+      duration: duration * 1000,
+      easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)'
+    });
+
+    setTimeout(() => confetti.remove(), duration * 1000 + 500);
+  }
+}
+
+// Trigger confetti on load
+window.onload = function() {
+  createConfetti();
+  setTimeout(createConfetti, 600);
+  setTimeout(() => {
+    for (let i = 0; i < 60; i++) {
+      setTimeout(() => createConfetti(), i * 80);
+    }
+  }, 1400);
+};
+
+// Click to trigger more confetti
+document.addEventListener('click', () => {
+  createConfetti();
+});
+</script>
+
+</body>
+</html>
