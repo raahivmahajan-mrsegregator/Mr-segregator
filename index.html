@@ -24,7 +24,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 52px; /* space for ribbon */
 }
 
 /* ────────────────────────────────────────────────
@@ -307,29 +306,6 @@ footer {
 </head>
 <body>
 
-<!-- Rotating Ribbons Container -->
-<div class="ribbon-container">
-  <div class="challenge-ribbon" id="ribbon-register">
-    <a href="registeration.html" class="ribbon-link">
-      Register for the Super Segregator Challenge →
-    </a>
-    <span class="ribbon-close" data-target="ribbon-register">×</span>
-  </div>
-
-  <div class="challenge-ribbon" id="ribbon-leaderboard">
-    <a href="leaderboard.html" class="ribbon-link">
-      Check The Leader Board →
-    </a>
-    <span class="ribbon-close" data-target="ribbon-leaderboard">×</span>
-  </div>
-
-  <div class="challenge-ribbon" id="ribbon-sample">
-    <a href="SampleEntry.html" class="ribbon-link">
-      Check Sample Entry To See How its Done !
-    </a>
-    <span class="ribbon-close" data-target="ribbon-sample">×</span>
-  </div>
-</div>
 
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
@@ -381,76 +357,6 @@ footer {
 </div>
 
 <script>
-// ────────────────────────────────────────────────
-// Ribbon Rotation Logic
-// ────────────────────────────────────────────────
-const ribbons = Array.from(document.querySelectorAll('.challenge-ribbon'));
-const ribbonIds = ribbons.map(r => r.id);
-let currentIndex = 0;
-let rotationTimer = null;
-const ROTATION_INTERVAL = 7000;   // 7 seconds
-const HIDE_DURATION = 20000;      // 20 seconds hide time
-
-const hiddenRibbons = new Set();
-
-function showRibbon(index) {
-  ribbons.forEach((ribbon, i) => {
-    if (i === index && !hiddenRibbons.has(ribbon.id)) {
-      ribbon.classList.add('active');
-    } else {
-      ribbon.classList.remove('active');
-    }
-  });
-}
-
-function nextRibbon() {
-  let attempts = 0;
-  const start = currentIndex;
-  do {
-    currentIndex = (currentIndex + 1) % ribbons.length;
-    attempts++;
-    if (attempts > ribbons.length) break; // safety
-  } while (hiddenRibbons.has(ribbonIds[currentIndex]) && currentIndex !== start);
-
-  showRibbon(currentIndex);
-}
-
-function startRotation() {
-  if (rotationTimer) clearTimeout(rotationTimer);
-  showRibbon(currentIndex);
-  rotationTimer = setTimeout(() => {
-    nextRibbon();
-    startRotation();
-  }, ROTATION_INTERVAL);
-}
-
-// Close handling
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.ribbon-close').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetId = btn.dataset.target;
-      const ribbon = document.getElementById(targetId);
-      if (!ribbon) return;
-
-      hiddenRibbons.add(targetId);
-      ribbon.classList.remove('active');
-      ribbon.classList.add('hidden');
-
-      setTimeout(() => {
-        hiddenRibbons.delete(targetId);
-        ribbon.classList.remove('hidden');
-        // If it's currently the active one's turn → show it
-        if (ribbonIds[currentIndex] === targetId) {
-          showRibbon(currentIndex);
-        }
-      }, HIDE_DURATION);
-    });
-  });
-
-  // Start the cycle
-  startRotation();
-});
-
 // ────────────────────────────────────────────────
 // Original search + modal logic (unchanged)
 // ────────────────────────────────────────────────
