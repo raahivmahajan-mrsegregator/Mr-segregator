@@ -27,40 +27,8 @@ body {
 }
 
 /* ────────────────────────────────────────────────
-   Stationary Ribbon (only new addition)
+   Rotating Ribbons
 ───────────────────────────────────────────────── */
-.stationary-ribbon {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 56px;
-  background: linear-gradient(90deg, #00ffd0, #00e6b8);
-  color: #0b0f1a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 1.15rem;
-  letter-spacing: 0.5px;
-  z-index: 2000;
-  box-shadow: 0 4px 15px rgba(0, 255, 208, 0.3);
-}
-
-.stationary-ribbon a {
-  color: #0b0f1a;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.stationary-ribbon a:hover {
-  transform: scale(1.05);
-}
-
-/* Original Rotating Ribbons (exactly as you had) */
 .ribbon-container {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -147,7 +115,6 @@ body {
   .challenge-ribbon { height: 46px; font-size: 0.95rem; }
   .ribbon-link { padding: 0 40px 0 20px; }
   .ribbon-close { right: 12px; font-size: 24px; }
-  .stationary-ribbon { height: 50px; font-size: 1.05rem; }
 }
 
 /* ────────────────────────────────────────────────
@@ -167,12 +134,6 @@ header {
   color: var(--accent);
   text-decoration: none;
 }
-
-/* Top padding for header so it is not hidden under the fixed ribbon */
-header {
-  margin-top: 56px;
-}
-
 .hero-search {
   text-align: center;
   padding: 50px 20px 40px;
@@ -340,19 +301,11 @@ footer {
 }
 @media (max-width: 768px) {
   .hero-logo { width: 100%; }
-  header { margin-top: 50px; }
-  .stationary-ribbon { height: 50px; }
 }
 </style>
 </head>
 <body>
 
-  <!-- Stationary Ribbon -->
-  <div class="stationary-ribbon">
-    <a href="SuperSegregatorMarchWinner.html">
-      🏆 Check The Winners Page
-    </a>
-  </div>
 
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
@@ -388,9 +341,8 @@ footer {
 <footer>
   <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
   <p style="margin-top: 8px; font-size: 0.9rem;">
-    <a href="mailto:mrsegregator@gmail.com" 
-       style="color: var(--accent); text-decoration: none;">
-      mrsegregator@gmail.com
+    <a href="/cdn-cgi/l/email-protection#a0cdd2d3c5c7d2c5c7c1d4cfd2e0c7cdc1c9cc8ec3cfcd" style="color: var(--accent); text-decoration: none;">
+      <span class="__cf_email__" data-cfemail="9df0efeef8faeff8fafce9f2efddfaf0fcf4f1b3fef2f0">[email&#160;protected]</span>
     </a>
   </p>
 </footer>
@@ -403,7 +355,7 @@ footer {
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ────────────────────────────────────────────────
 // Original search + modal logic (unchanged)
 // ────────────────────────────────────────────────
