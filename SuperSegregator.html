@@ -4,9 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mr. Segregator — Super Segregator of the Month</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
 :root {
   --bg-dark: #0b0f1a;
@@ -17,9 +15,7 @@
   --text: #f4f6ff;
   --muted: #aab0d4;
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
   font-family: 'Poppins', system-ui, sans-serif;
   background: radial-gradient(800px 400px at top, #1a2142, transparent),
@@ -28,7 +24,6 @@ body {
   min-height: 100vh;
   line-height: 1.6;
 }
-
 /* HEADER */
 header {
   padding: 14px 18px;
@@ -54,7 +49,6 @@ header {
   transition: color 0.3s;
 }
 .back-btn:hover { color: var(--accent); }
-
 /* HERO */
 .hero {
   padding: 50px 16px 30px;
@@ -76,7 +70,6 @@ header {
   z-index: 0;
 }
 .hero-content { position: relative; z-index: 1; }
-
 .hero-title {
   font-size: 2.3rem;
   font-weight: 700;
@@ -85,7 +78,6 @@ header {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 /* SLIDER STYLES */
 .slider-section {
   padding: 0 16px 80px;
@@ -93,7 +85,6 @@ header {
   margin: 0 auto;
   position: relative;
 }
-
 .slider {
   position: relative;
   overflow: hidden;
@@ -101,15 +92,12 @@ header {
   box-shadow: 0 0 24px var(--accent-soft);
   border: 1px solid var(--border);
 }
-
 .slide {
   display: none;
   padding: 28px;
   animation: slide-in 0.5s ease-in-out;
 }
-
 .slide.active { display: block; }
-
 .month-display {
   font-size: 1.8rem;
   font-weight: 600;
@@ -117,13 +105,11 @@ header {
   text-align: center;
   margin-bottom: 25px;
 }
-
 .profile-section {
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
-
 @media (min-width: 768px) {
   .profile-section {
     flex-direction: row;
@@ -131,7 +117,6 @@ header {
     gap: 40px;
   }
 }
-
 /* PHOTO CONTAINER - Matches January dark look */
 .profile-image {
   width: 100%;
@@ -140,46 +125,39 @@ header {
   overflow: hidden;
   border: 2px solid var(--accent);
   box-shadow: 0 0 25px var(--accent-soft);
-  background: transparent;   /* No white background */
+  background: transparent;
 }
-
 .profile-image img {
   width: 100%;
   height: auto;
   display: block;
 }
-
 /* BIO CARD */
 .profile-bio {
   flex: 1;
-  background: rgba(20, 26, 47, 0.85);   /* Dark like January card */
+  background: rgba(20, 26, 47, 0.85);
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 32px;
   box-shadow: 0 0 20px rgba(0, 255, 208, 0.2);
 }
-
 .profile-bio h2 {
   font-size: 2.1rem;
   color: var(--accent);
   margin-bottom: 18px;
 }
-
 .profile-bio p {
   color: var(--muted);
   margin-bottom: 18px;
   line-height: 1.7;
 }
-
 ul {
   list-style: none;
 }
-
 ul li {
   margin-bottom: 10px;
   color: var(--muted);
 }
-
 .highlight {
   font-style: italic;
   font-size: 1.32rem;
@@ -190,14 +168,12 @@ ul li {
   margin: 25px 0;
   border-radius: 0 12px 12px 0;
 }
-
 /* Video Section */
 .video-section {
   padding: 30px 0 0;
   max-width: 800px;
   margin: 0 auto;
 }
-
 .video-section h3 {
   font-size: 1.8rem;
   font-weight: 600;
@@ -205,7 +181,6 @@ ul li {
   margin-bottom: 16px;
   text-align: center;
 }
-
 .video-container {
   position: relative;
   padding-bottom: 56.25%;
@@ -215,13 +190,11 @@ ul li {
   box-shadow: 0 0 24px var(--accent-soft);
   border: 1px solid var(--border);
 }
-
 .video-container iframe {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
 }
-
 .slider-nav {
   display: flex;
   justify-content: center;
@@ -229,7 +202,6 @@ ul li {
   margin-top: 20px;
   align-items: center;
 }
-
 .nav-btn {
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border);
@@ -238,9 +210,7 @@ ul li {
   height: 12px;
   cursor: pointer;
 }
-
 .nav-btn.active { background: var(--accent); }
-
 .pause-btn {
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border);
@@ -250,7 +220,6 @@ ul li {
   cursor: pointer;
   font-size: 0.9rem;
 }
-
 .prev-btn, .next-btn {
   position: absolute;
   top: 50%;
@@ -266,14 +235,11 @@ ul li {
 }
 .prev-btn { left: 10px; }
 .next-btn { right: 10px; }
-
 .prev-btn:hover, .next-btn:hover { opacity: 1; }
-
 @keyframes slide-in {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
-
 footer {
   padding: 40px 16px;
   text-align: center;
@@ -284,23 +250,20 @@ footer {
 </style>
 </head>
 <body>
-
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
   <a href="index.html" class="back-btn">⬅️ Back</a>
 </header>
-
 <section class="hero">
   <div class="hero-content">
     <h1 class="hero-title">Super Segregator of the Month</h1>
   </div>
 </section>
-
 <div class="slider-section">
   <div class="slider">
     <button class="prev-btn">❮</button>
     <button class="next-btn">❯</button>
-
+    
     <!-- January Slide -->
     <div class="slide active" id="slide-1">
       <div class="month-display">January 2026</div>
@@ -328,8 +291,8 @@ footer {
         </div>
       </div>
     </div>
-
-    <!-- February Slide (Unchanged) -->
+    
+    <!-- February Slide -->
     <div class="slide" id="slide-2">
       <div class="month-display">February 2026</div>
       <div class="profile-section">
@@ -349,7 +312,7 @@ footer {
         </div>
       </div>
     </div>
-
+    
     <!-- March Slide -->
     <div class="slide" id="slide-3">
       <div class="month-display">March 2026</div>
@@ -361,11 +324,9 @@ footer {
           <h2>Mehr The Recycle Ranger</h2>
           <p>Mehr Kaur Chawla, an inspiring 11-year-old from Gurugram, has been recognized as our Super Segregator of the Month!</p>
           <p>She has successfully learned and implemented proper waste segregation into four categories—wet, dry, sanitary, and special care—in accordance with the SWM Rules 2026. Going a step further, Mehr educated five more people on correct waste segregation practices and encouraged them to take a pledge to adopt these habits in their daily lives.</p>
-          
           <div class="highlight">
             “Always segregate, and you will move closer to zero waste!”
           </div>
-
           <ul>
             <li><strong>Age:</strong> 11</li>
             <li><strong>Location:</strong> Gurugram, India</li>
@@ -380,16 +341,47 @@ footer {
         </div>
       </div>
     </div>
+    
+    <!-- April Slide — FIXED -->
+    <div class="slide" id="slide-4">
+      <div class="month-display">April 2026</div>
+      <div class="profile-section">
+        <div class="profile-image">
+          <img src="apr.png" alt="Dhairya Rana" />
+        </div>
+        <div class="profile-bio">
+          <h2>Dhairya The Waste Master</h2>
+          <p>🌟 Super Segregator of the Month: Dhairya Rana 🌟</p>
+          <p>Dhairya Rana has been recognized as our Super Segregator of the Month for April! With great commitment and responsibility, Dhairya has learned and practiced proper waste segregation into four categories—wet, dry, sanitary, and special care—in line with the SWM Rules 2026. By adopting these practices consistently, Dhairya is contributing to a cleaner and more sustainable environment.</p>
+          <p>Going beyond personal action, Dhairya has also helped spread awareness by encouraging others to follow proper waste segregation, inspiring positive change within the community.</p>
+          <div class="highlight">
+            “Segregate today, Segregate Tomorow, Segregate everyday For a brighter cleaner days! ”
+          </div>
+          <ul>
+            <li><strong>Age:</strong> 11</li>
+            <li><strong>Location:</strong> Gurugram, India</li>
+            <li><strong>Achievement:</strong> Successfully learned and practiced proper waste segregation into four categories through the Super Segregator Contest.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="video-section">
+        <h3>Dhairya's Segregation Techniques</h3>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/video-id-apr" title="April Video" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
   </div>
-
+  
+  <!-- Updated nav buttons (4 slides) -->
   <div class="slider-nav">
     <label class="nav-btn active"></label>
+    <label class="nav-btn"></label>
     <label class="nav-btn"></label>
     <label class="nav-btn"></label>
     <button class="pause-btn">Pause</button>
   </div>
 </div>
-
 <footer>
   <p>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</p>
   <p style="margin-top: 8px; font-size: 0.9rem;">
@@ -400,7 +392,7 @@ footer {
 </footer>
 
 <script>
-// Slider Logic (kept exactly as original)
+// Slider Logic (unchanged — now works with 4 slides)
 const slides = document.querySelectorAll('.slide');
 const navBtns = document.querySelectorAll('.nav-btn');
 const prevBtn = document.querySelector('.prev-btn');
@@ -425,7 +417,10 @@ function startAutoPlay() {
 }
 
 navBtns.forEach((btn, index) => {
-  btn.addEventListener('click', () => { currentSlide = index; showSlide(currentSlide); });
+  btn.addEventListener('click', () => { 
+    currentSlide = index; 
+    showSlide(currentSlide); 
+  });
 });
 
 prevBtn.addEventListener('click', () => {
@@ -441,12 +436,12 @@ nextBtn.addEventListener('click', () => {
 pauseBtn.addEventListener('click', () => {
   isAutoPlaying = !isAutoPlaying;
   pauseBtn.textContent = isAutoPlaying ? 'Pause' : 'Play';
-  if (isAutoPlaying) startAutoPlay(); else clearInterval(intervalId);
+  if (isAutoPlaying) startAutoPlay(); 
+  else clearInterval(intervalId);
 });
 
 showSlide(currentSlide);
 startAutoPlay();
 </script>
-
 </body>
 </html>
