@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Articles — Mr. Segregator</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+:root{--bg:#0b0f1a;--mid:#141a2f;--accent:#00ffd0;--border:rgba(255,255,255,.12);--text:#f4f6ff;--muted:#aab0d4}*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;display:flex;flex-direction:column;padding-top:52px;font-family:Poppins,system-ui,sans-serif;color:var(--text);background:radial-gradient(800px 400px at top,#1a2142,transparent),linear-gradient(135deg,var(--bg),var(--mid))}.ribbon{position:fixed;inset:0 0 auto;height:52px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00d4ff,#00ffd0,#7cff00);font-weight:600}header{padding:14px 18px;border-bottom:1px solid var(--border);font-weight:700;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center}header a{color:var(--accent);text-decoration:none}.back-btn{font-size:.95rem;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.4rem;letter-spacing:0;font-weight:400}.back-btn:hover{color:var(--accent)}main{width:min(calc(100% - 32px),1000px);margin:auto;padding:38px 0 70px;flex:1}h1{text-align:center;margin-bottom:8px;font-size:clamp(2.4rem,7vw,4rem);background:linear-gradient(90deg,#00ffd0,#6ddcff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.intro{text-align:center;color:var(--muted);margin-bottom:30px}.category-buttons{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:24px 0 30px}.category-button{border:1px solid rgba(0,255,208,.35);border-radius:999px;padding:11px 20px;background:rgba(255,255,255,.04);color:var(--muted);font:inherit;font-weight:600;cursor:pointer;transition:all .2s}.category-button:hover,.category-button[aria-pressed="true"]{background:rgba(0,255,208,.14);color:var(--accent);box-shadow:0 0 18px rgba(0,255,208,.12)}.empty-state{display:none;text-align:center;padding:38px 20px;border:1px solid var(--border);border-radius:20px;color:var(--muted);background:rgba(255,255,255,.03)}.empty-state strong{display:block;color:var(--accent);font-size:1.2rem;margin-bottom:8px}.carousel{border:1px solid rgba(0,255,208,.35);border-radius:24px;background:rgba(255,255,255,.035);overflow:hidden;box-shadow:0 12px 50px rgba(0,0,0,.25)}.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}.track::-webkit-scrollbar{display:none}.article{flex:0 0 100%;max-height:70vh;overflow-y:auto;scroll-snap-align:start;padding:clamp(22px,5vw,52px);line-height:1.8;color:#e8ebfa}.article h2{font-size:clamp(1.7rem,4vw,2.3rem);color:var(--accent);line-height:1.2;margin-bottom:22px}.article p{margin-bottom:18px}.article h3{margin:30px 0 12px;color:#6ddcff;font-size:1.35rem}.references{border-top:1px solid var(--border);margin-top:28px;padding-top:20px;color:var(--muted);font-size:.94rem}.references p{overflow-wrap:anywhere;margin-bottom:12px}.references a{color:var(--accent)}.controls{display:flex;justify-content:center;align-items:center;gap:18px;padding:18px;border-top:1px solid var(--border)}.controls button{border:1px solid rgba(0,255,208,.35);border-radius:999px;padding:10px 18px;background:rgba(0,255,208,.08);color:var(--accent);font:inherit;font-weight:600;cursor:pointer}.controls button:disabled{opacity:.4;cursor:default}#counter{min-width:55px;text-align:center;color:var(--muted);font-size:.9rem}footer{padding:28px 16px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:.85rem}@media(max-width:600px){.article{max-height:68vh}.controls{gap:10px}.controls button{padding:9px 13px}}
+</style></head><body><div class="ribbon">Explore ideas for a cleaner, healthier environment</div><header><a href="index.html">MR.SEGREGATOR</a><a href="index.html" class="back-btn">⬅️ Back</a></header><main><h1>Articles</h1><p class="intro">Choose a category to explore related articles.</p><nav class="category-buttons" aria-label="Article categories"><button class="category-button" type="button" data-category="waste-segregation" aria-pressed="false">Waste Segregation</button><button class="category-button" type="button" data-category="river-pollution" aria-pressed="true">River Pollution</button></nav><div class="empty-state" id="emptyState"><strong>More articles coming soon</strong>There are no articles in this category yet. Check back soon!</div><section class="carousel" id="articleCarousel" aria-label="Articles carousel"><div class="track" id="articleTrack" aria-live="polite"><article class="article" data-category="river-pollution" aria-label="Article 1 of 1"><h2>River Pollution</h2>
+<p>Every day, over 800 million litres of largely untreated sewage flows into the Yamuna River, along with another 44 million litres of industrial effluent.</p>
+<p>More than 800 million litres of largely untreated sewage is pumped into the Yamuna each day, plus another 44 million litres of industrial effluents [1]. India generates around 62 million tonnes of scattered municipal solid waste annually [2], with a significant fraction leaking directly into aquatic ecosystems. (Earth5R)</p>
+<p>Unsegregated waste is a major threat to rivers because it often ends up in drains, canals, and waterways. Plastic packaging, food waste, paper, and other discarded materials can be carried by rainwater and drainage systems into rivers, where they accumulate and pollute the water. As this waste breaks down, it can release harmful substances and microplastics, affecting aquatic plants, animals, and the wider food chain.</p>
+<p>Unsegregated waste can also collect along riverbanks and obstruct the natural flow of water. Organic waste can decompose in the water and reduce dissolved oxygen levels, creating aquatic “dead zones” that are harmful to fish and other aquatic organisms. Plastic waste and other debris can block waterways, increasing the risk of waterlogging and flooding during heavy rainfall. Polluted water sources can also create conditions where disease-causing organisms can thrive.</p>
+<p>The pollution of the Yamuna does not only affect the river itself; it also threatens the people, animals, and communities that depend on it. When waste is improperly disposed of, pollutants can travel through drains and waterways, making their way into rivers and surrounding ecosystems. By properly segregating waste at the source, we can reduce the amount of plastic, organic waste, and other materials that reach our rivers. Recycling and responsible disposal can help protect aquatic life and contribute to cleaner and healthier waterways.</p>
+<h3>Here's How You Can Make a Positive Impact</h3>
+<p><strong>Take the pledge to segregate your waste every day and be part of the change!</strong> To get started, open your web browser and type <strong>mrsegregator.com</strong> into the address bar, then press Enter to visit the website. <strong>Explore the different activities</strong>, play fun waste-segregation games, take interactive quizzes, and learn how small changes in the way you handle waste can make a big difference.</p>
+<p>You can also take part in our <strong>monthly waste-segregation competitions</strong> and put your knowledge to the test. <strong>Compete</strong> with others, complete the challenges, and get a chance to <strong>win ₹1,000!</strong></p>
+<p><strong>So don’t wait</strong>—open your browser, visit <strong>mrsegregator.com</strong>, take the pledge, play the games, complete the quizzes, and join the competition today! Encourage your friends and family to participate too and help us build a cleaner, healthier environment together.</p>
+<div class="references"><h3>References</h3><p><strong>[1] Earth5R</strong>, <em>“Yamuna River Pollution and Sustainable Solutions for the Future”</em>:<br><a href="https://earth5r.org/yamuna-river-pollution-and-sustainable-solutions-for-the-future/" target="_blank" rel="noopener noreferrer">Earth5R — Yamuna River Pollution</a></p><p>The same CPCB-attributed figures appear in JETIR, 2024:<br><a href="https://www.jetir.org/papers/JETIR2410382.pdf" target="_blank" rel="noopener noreferrer">JETIR 2024 paper (PDF)</a></p><p><strong>[2] PIB / MoEFCC</strong>, 8 Feb 2024, citing the CPCB Annual Report 2021–22: India's average solid waste generation is 1,70,338 tonnes per day, which is about 62 million tonnes a year.<br><a href="https://www.pib.gov.in/PressReleaseIframePage.aspx?PRID=2003989&amp;reg=48&amp;lang=2" target="_blank" rel="noopener noreferrer">PIB / MoEFCC press release</a></p></div></article></div><nav class="controls" aria-label="Article navigation"><button id="previousArticle" type="button" aria-label="Previous article">← Previous</button><span id="counter" aria-live="polite">1 / 1</span><button id="nextArticle" type="button" aria-label="Next article">Next →</button></nav></section></main><footer>Mr. Segregator © 2026 • Segregate Today, Sustain Tomorrow</footer>
+<script>
+const track=document.getElementById('articleTrack');
+const allArticles=[...track.querySelectorAll('.article')];
+const carousel=document.getElementById('articleCarousel');
+const emptyState=document.getElementById('emptyState');
+const counter=document.getElementById('counter');
+let articles=[];
+let activeIndex=0;
+function updateControls(){
+  counter.textContent=articles.length?`${activeIndex+1} / ${articles.length}`:'0 / 0';
+  document.getElementById('previousArticle').disabled=activeIndex===0||!articles.length;
+  document.getElementById('nextArticle').disabled=activeIndex>=articles.length-1;
+}
+function showArticle(index){
+  if(!articles.length)return;
+  activeIndex=Math.max(0,Math.min(index,articles.length-1));
+  track.scrollTo({left:articles[activeIndex].offsetLeft,behavior:'smooth'});
+  updateControls();
+}
+function selectCategory(category){
+  document.querySelectorAll('.category-button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.category===category)));
+  articles=allArticles.filter(article=>article.dataset.category===category);
+  allArticles.forEach(article=>article.hidden=!articles.includes(article));
+  activeIndex=0;
+  track.scrollLeft=0;
+  carousel.hidden=articles.length===0;
+  emptyState.style.display=articles.length?'none':'block';
+  updateControls();
+}
+document.querySelectorAll('.category-button').forEach(button=>button.addEventListener('click',()=>selectCategory(button.dataset.category)));
+document.getElementById('previousArticle').addEventListener('click',()=>showArticle(activeIndex-1));
+document.getElementById('nextArticle').addEventListener('click',()=>showArticle(activeIndex+1));
+let scrollTimer;
+track.addEventListener('scroll',()=>{
+  clearTimeout(scrollTimer);
+  scrollTimer=setTimeout(()=>{
+    if(!articles.length)return;
+    activeIndex=Math.max(0,Math.min(Math.round(track.scrollLeft/(track.clientWidth||1)),articles.length-1));
+    updateControls();
+  },80);
+});
+selectCategory('river-pollution');
+</script></body></html>

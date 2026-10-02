@@ -243,6 +243,10 @@ header {
 .tile.super { --hue-color: rgba(200,0,100,0.85); }
 .tile.bags { --hue-color: rgba(0,150,100,0.85); }
 .tile.cans { --hue-color: rgba(150,100,0,0.85); }
+.tile.articles { grid-column: span 4; aspect-ratio: 4 / 1; --hue-color: rgba(0,120,150,0.85); }
+@media (max-width: 500px) {
+  .tile.articles { grid-column: span 2; aspect-ratio: 2 / 1; }
+}
 @media (min-width: 768px) {
   .tiles-wrapper { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; }
   .tile span { font-size: 3rem; }
@@ -359,6 +363,7 @@ footer {
     <a class="tile super" href="SuperSegregator.html"><span>🦸</span><p>SUPER SEGREGATOR</p></a>
     <a class="tile bags" href="TheSegregationGame.html"><span>🕹️</span><p>SEGREGATION GAME</p></a>
     <a class="tile cans" href="wastequiz.html"><span>🤔</span><p>WASTE SEGREGATION QUIZ</p></a>
+    <a class="tile articles" href="articles.html"><span>📚</span><p>Articles</p></a>
   </div>
 </section>
 
