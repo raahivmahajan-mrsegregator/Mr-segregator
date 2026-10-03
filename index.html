@@ -245,7 +245,8 @@ header {
 .tile.cans { --hue-color: rgba(150,100,0,0.85); }
 .tile.articles { grid-column: span 4; aspect-ratio: 4 / 1; --hue-color: rgba(0,120,150,0.85); }
 @media (max-width: 500px) {
-  .tile.articles { grid-column: span 2; aspect-ratio: 2 / 1; }
+  .tiles-wrapper { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tile.articles { grid-column: span 3; aspect-ratio: 3 / 1; }
 }
 @media (min-width: 768px) {
   .tiles-wrapper { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; }
