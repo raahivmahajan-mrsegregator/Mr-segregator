@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#160d27" />
+  <title>Halloween Waste Segregation Infographic — Mr. Segregator</title>
+  <meta name="description" content="A Halloween-themed guide to sorting wet, dry, sanitary, and special care waste." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { color-scheme: dark; --bg:#100b1c; --panel:#191329; --accent:#ff9b35; --teal:#22d6cf; --text:#f7f3ff; --muted:#b9b0cc; --border:rgba(255,255,255,.14); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; min-height:100vh; color:var(--text); font-family:Poppins,system-ui,sans-serif; background:radial-gradient(ellipse at 50% -10%,#39204c 0,transparent 55%),var(--bg); display:flex; flex-direction:column; }
+    header { min-height:68px; padding:14px clamp(16px,4vw,48px); display:flex; align-items:center; justify-content:space-between; gap:16px; background:rgba(16,11,28,.9); border-bottom:1px solid var(--border); }
+    .logo { color:#72f2d1; font-weight:700; letter-spacing:.06em; text-decoration:none; }
+    .back-btn { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; color:#eaffff; background:linear-gradient(135deg,#087f98,#16b8b1); border:1px solid rgba(116,255,242,.55); border-radius:999px; text-decoration:none; font-size:.92rem; font-weight:600; box-shadow:0 5px 20px rgba(13,187,190,.24); transition:transform .2s,filter .2s; }
+    .back-btn:hover,.back-btn:focus-visible { filter:brightness(1.16); transform:translateY(-1px); }
+    main { width:min(100% - 32px,1000px); margin:0 auto; padding:clamp(24px,5vw,48px) 0; flex:1; }
+    h1 { margin:0 0 8px; text-align:center; font-size:clamp(1.6rem,4vw,2.5rem); }
+    .intro { margin:0 auto 24px; color:var(--muted); text-align:center; }
+    .category-section { margin:0 0 28px; padding:clamp(16px,3vw,26px); border:1px solid rgba(255,155,53,.36); border-radius:18px; background:linear-gradient(145deg,rgba(255,155,53,.1),rgba(115,60,160,.14)),var(--panel); box-shadow:0 16px 52px rgba(0,0,0,.28); }
+    .tabs { display:flex; gap:10px; overflow-x:auto; overscroll-behavior-x:contain; padding:4px 2px 14px; scrollbar-color:var(--accent) rgba(255,255,255,.08); scrollbar-width:thin; }
+    .tab { flex:0 0 auto; min-height:44px; padding:10px 16px; border:1px solid rgba(255,255,255,.18); border-radius:999px; color:var(--muted); background:rgba(255,255,255,.045); font:600 .9rem Poppins,system-ui,sans-serif; cursor:pointer; transition:background .2s,color .2s,border-color .2s,transform .2s; }
+    .tab:hover { color:#fff; border-color:rgba(255,155,53,.6); transform:translateY(-1px); }
+    .tab[aria-selected="true"] { color:#241009; background:linear-gradient(135deg,#ffce62,#ff8635); border-color:#ffc75b; box-shadow:0 5px 20px rgba(255,137,44,.25); }
+    .tab-panel { min-height:150px; padding:14px 4px 4px; }
+    .tab-panel[hidden] { display:none; }
+    .tab-panel h2 { margin:0 0 8px; font-size:clamp(1.2rem,3vw,1.65rem); }
+    .tab-panel p { margin:0 0 10px; color:#ded7eb; }
+    .tab-panel .tip { color:#ffd18a; font-weight:500; }
+    .poster-title { margin:0 0 12px; text-align:center; font-size:1.1rem; color:#f8d69a; }
+    figure { margin:0; padding:clamp(8px,2vw,16px); border:1px solid rgba(255,155,53,.48); border-radius:18px; background:linear-gradient(145deg,rgba(255,155,53,.12),rgba(115,60,160,.16)),var(--panel); box-shadow:0 20px 70px rgba(0,0,0,.4),0 0 36px rgba(255,115,35,.13); }
+    figure img { display:block; width:100%; height:auto; max-height:78vh; object-fit:contain; border-radius:10px; }
+    footer { padding:20px 16px; color:var(--muted); text-align:center; border-top:1px solid var(--border); font-size:.9rem; line-height:1.9; }
+    footer strong { color:#e8e0f1; font-weight:600; }
+    footer a { color:#65e5db; text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+    @media(max-width:480px) { header{min-height:60px}.logo{font-size:.95rem}.back-btn{font-size:.85rem;padding:8px 13px}main{width:min(100% - 20px,1000px)}figure img{max-height:none}.tab{font-size:.84rem;padding:9px 13px} }
+    @media(prefers-reduced-motion:reduce) { html{scroll-behavior:auto} *,*::before,*::after{transition:none!important} }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="index.html">MR. SEGREGATOR</a>
+    <a class="back-btn" href="index.html" aria-label="Back to home">← Back</a>
+  </header>
+  <main>
+    <h1>Halloween Waste Segregation Guide</h1>
+    <p class="intro">Sort the spooky and sustainable. Keep our haunted world clean and green!</p>
+
+    <section class="category-section" aria-label="Waste category guide">
+      <div class="tabs" role="tablist" aria-label="Waste categories">
+        <button class="tab" id="tab-wet" type="button" role="tab" aria-selected="true" aria-controls="panel-wet" tabindex="0">🌱 Wet Waste</button>
+        <button class="tab" id="tab-dry" type="button" role="tab" aria-selected="false" aria-controls="panel-dry" tabindex="-1">♻️ Dry Waste</button>
+        <button class="tab" id="tab-sanitary" type="button" role="tab" aria-selected="false" aria-controls="panel-sanitary" tabindex="-1">🧻 Sanitary Waste</button>
+        <button class="tab" id="tab-special" type="button" role="tab" aria-selected="false" aria-controls="panel-special" tabindex="-1">⚠️ Special Care</button>
+      </div>
+      <div class="tab-panel" id="panel-wet" role="tabpanel" aria-labelledby="tab-wet" tabindex="0">
+        <h2>Wet Waste <span aria-hidden="true">(Biodegradable)</span></h2>
+        <p>Food scraps, garden waste, and coffee grounds belong in wet waste.</p>
+        <p class="tip">Haunt tip: Compost scraps at home. Keep bones and dairy out of home compost.</p>
+      </div>
+      <div class="tab-panel" id="panel-dry" role="tabpanel" aria-labelledby="tab-dry" tabindex="0" hidden>
+        <h2>Dry Waste <span aria-hidden="true">(Recyclable)</span></h2>
+        <p>Paper, cardboard, clean and dry plastics, glass bottles, and metal cans.</p>
+        <p class="tip">Haunt tip: Rinse, dry, and crush recyclables before sorting.</p>
+      </div>
+      <div class="tab-panel" id="panel-sanitary" role="tabpanel" aria-labelledby="tab-sanitary" tabindex="0" hidden>
+        <h2>Sanitary Waste <span aria-hidden="true">(Non-recyclable)</span></h2>
+        <p>Diapers, pads, tissues, and medical waste. Wrap securely and use the designated bin.</p>
+        <p class="tip">Haunt tip: Seal waste tightly to prevent leaks and odors.</p>
+      </div>
+      <div class="tab-panel" id="panel-special" role="tabpanel" aria-labelledby="tab-special" tabindex="0" hidden>
+        <h2>Special Care Waste <span aria-hidden="true">(Hazardous)</span></h2>
+        <p>Batteries, e-waste, bulbs, hazardous chemicals, and sharps need careful handling.</p>
+        <p class="tip">Haunt tip: Never mix these items. Take them to a designated drop-off point.</p>
+      </div>
+    </section>
+
+    <h2 class="poster-title">The full Halloween PSA</h2>
+    <figure>
+      <img src="images/halloween-waste-segregation-psa.jpg" alt="Halloween waste segregation poster showing wet, dry, sanitary, and special care waste with examples and disposal tips." />
+    </figure>
+  </main>
+  <footer>
+    <strong>© 2026 Mr. Segregator</strong><br />
+    Segregate today, sustain tomorrow<br />
+    <a href="mailto:mrsegregator@gmail.com">mrsegregator@gmail.com</a>
+  </footer>
+  <script>
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+
+    function activateTab(tab, moveFocus = false) {
+      tabs.forEach((item) => {
+        const selected = item === tab;
+        item.setAttribute('aria-selected', String(selected));
+        item.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.id !== tab.getAttribute('aria-controls');
+      });
+      tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      if (moveFocus) tab.focus();
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activateTab(tab));
+      tab.addEventListener('keydown', (event) => {
+        let nextIndex;
+        if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabs.length;
+        if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === 'Home') nextIndex = 0;
+        if (event.key === 'End') nextIndex = tabs.length - 1;
+        if (nextIndex !== undefined) {
+          event.preventDefault();
+          activateTab(tabs[nextIndex], true);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
