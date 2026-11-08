@@ -17,5 +17,6 @@ The following CC0 PBR texture sets from Poly Haven add asphalt, pavement, brick,
 - Concrete Pavement — https://polyhaven.com/a/concrete_pavement
 - Brick Wall 001 — https://polyhaven.com/a/brick_wall_001
 - Concrete Wall 001 — https://polyhaven.com/a/concrete_wall_001
+- Urban Street 01 — photo-based 360° city environment, https://polyhaven.com/a/urban_street_01
 
 The local `vendor/` folder includes the Three.js runtime and GLTFLoader (MIT licenses) and PeerJS client (MIT license); their license texts are included alongside the files.
