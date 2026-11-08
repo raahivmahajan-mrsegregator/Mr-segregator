@@ -243,11 +243,12 @@ header {
 .tile.super { --hue-color: rgba(200,0,100,0.85); }
 .tile.bags { --hue-color: rgba(0,150,100,0.85); }
 .tile.cans { --hue-color: rgba(150,100,0,0.85); }
+.tile.diwali { grid-column: span 4; aspect-ratio: 4 / 1; --hue-color: rgba(255,145,35,0.9); background: linear-gradient(135deg, rgba(255,145,35,0.16), rgba(190,65,35,0.22)); }
 .tile.infographic { grid-column: span 4; aspect-ratio: 4 / 1; --hue-color: rgba(255,80,20,0.98); background: linear-gradient(135deg, rgba(255,115,35,0.24), rgba(143,49,205,0.28)); }
 .tile.articles { grid-column: span 4; aspect-ratio: 4 / 1; --hue-color: rgba(0,120,150,0.85); }
 @media (max-width: 500px) {
   .tiles-wrapper { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .tile.articles, .tile.infographic { grid-column: span 3; aspect-ratio: 3 / 1; }
+  .tile.articles, .tile.infographic, .tile.diwali { grid-column: span 3; aspect-ratio: 3 / 1; }
 }
 @media (min-width: 768px) {
   .tiles-wrapper { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; }
@@ -365,6 +366,7 @@ footer {
     <a class="tile super" href="SuperSegregator.html"><span>🦸</span><p>SUPER SEGREGATOR</p></a>
     <a class="tile bags" href="TheSegregationGame.html"><span>🕹️</span><p>SEGREGATION GAME</p></a>
     <a class="tile cans" href="wastequiz.html"><span>🤔</span><p>WASTE SEGREGATION QUIZ</p></a>
+    <a class="tile diwali" href="meaningfulDiwaliGifting.html"><span>🪔</span><p>MEANINGFUL DIWALI GIFTING</p></a>
     <a class="tile infographic" href="infographic.html"><span>🕸️</span><p>INFOGRAPHIC</p></a>
     <a class="tile articles" href="articles.html"><span>📚</span><p>Articles</p></a>
   </div>
