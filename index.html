@@ -284,11 +284,16 @@ header {
 .tile.bags { --hue-color: rgba(0,150,100,0.85); }
 .tile.cans { --hue-color: rgba(150,100,0,0.85); }
 .tile.diwali { grid-column: span 4; aspect-ratio: 4 / 1; --hue-color: rgba(255,145,35,0.9); background: linear-gradient(135deg, rgba(255,145,35,0.16), rgba(190,65,35,0.22)); }
+.tile.citygame { grid-column: span 4; aspect-ratio: 4 / 1; flex-direction: row; gap: 22px; --hue-color: rgba(0,222,200,0.95); background: linear-gradient(120deg, rgba(10,190,155,.3), rgba(24,115,180,.32), rgba(113,75,205,.3)); }
+.tile.citygame span { font-size: clamp(2.5rem, 5vw, 4rem); text-shadow: 0 0 24px rgba(105,240,220,.55); }
+.tile.citygame p { font-size: clamp(.9rem, 1.6vw, 1.2rem); letter-spacing: 1.2px; }
+.tile.citygame p::after { content: 'Explore Greenview · learn by playing'; display: block; margin-top: 7px; color: rgba(244,246,255,.82); font-size: .72rem; font-weight: 500; letter-spacing: .2px; text-transform: none; }
 .tile.infographic { grid-column: span 4; aspect-ratio: 4 / 1; --hue-color: rgba(255,80,20,0.98); background: linear-gradient(135deg, rgba(255,115,35,0.24), rgba(143,49,205,0.28)); }
 .tile.articles { grid-column: span 4; aspect-ratio: 4 / 1; --hue-color: rgba(0,120,150,0.85); }
 @media (max-width: 500px) {
   .tiles-wrapper { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .tile.articles, .tile.infographic, .tile.diwali { grid-column: span 3; aspect-ratio: 3 / 1; }
+  .tile.citygame { grid-column: span 3; aspect-ratio: 3 / 1; }
 }
 @media (min-width: 768px) {
   .tiles-wrapper { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 24px; }
@@ -414,6 +419,7 @@ footer {
     <a class="tile super" href="SuperSegregator.html"><span>🦸</span><p>SUPER SEGREGATOR</p></a>
     <a class="tile bags" href="TheSegregationGame.html"><span>🕹️</span><p>SEGREGATION GAME</p></a>
     <a class="tile cans" href="wastequiz.html"><span>🤔</span><p>WASTE SEGREGATION QUIZ</p></a>
+    <a class="tile citygame" href="citySortGame.html"><span>🏙️</span><p>CITY SORT 3D · PLAY &amp; LEARN</p></a>
     <a class="tile diwali" href="meaningfulDiwaliGifting.html"><span>🪔</span><p>MEANINGFUL DIWALI GIFTING</p></a>
     <a class="tile infographic" href="infographic.html"><span>🕸️</span><p>INFOGRAPHIC</p></a>
     <a class="tile articles" href="articles.html"><span>📚</span><p>Articles</p></a>
