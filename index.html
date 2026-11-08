@@ -18,8 +18,15 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Poppins', system-ui, sans-serif;
-  background: radial-gradient(800px 400px at top, #1a2142, transparent),
-              linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+  background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(ellipse at 8% 32%, rgba(0,255,208,0.34), transparent 32%),
+    radial-gradient(ellipse at 92% 18%, rgba(153,83,255,0.36), transparent 33%),
+    radial-gradient(ellipse at 78% 76%, rgba(255,63,132,0.24), transparent 35%),
+    radial-gradient(ellipse at 24% 88%, rgba(255,151,46,0.25), transparent 34%),
+    radial-gradient(1000px 560px at 50% 0%, #2c3c6b 0%, transparent 80%),
+    linear-gradient(135deg, #14213b 0%, #1b2744 46%, #281b39 100%);
+  background-attachment: fixed;
   color: var(--text);
   min-height: 100vh;
   display: flex;
@@ -135,6 +142,39 @@ header {
   color: var(--accent);
   text-decoration: none;
 }
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 18px 0;
+}
+.quick-links a {
+  --link-glow: rgba(0,255,208,.38);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 9px 16px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(0,255,208,.24), rgba(30,115,130,.34));
+  box-shadow: 0 0 13px var(--link-glow), inset 0 1px rgba(255,255,255,.18);
+  text-shadow: 0 1px 5px rgba(0,0,0,.45);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.quick-links a:hover, .quick-links a:focus-visible {
+  color: #fff;
+  border-color: rgba(255,255,255,.7);
+  box-shadow: 0 0 22px var(--link-glow), 0 0 38px var(--link-glow), inset 0 1px rgba(255,255,255,.3);
+  transform: translateY(-2px);
+  filter: brightness(1.18);
+}
+.quick-links .wet-link { --link-glow: rgba(0,255,145,.42); background: linear-gradient(135deg, #087c50, #12b979); }
+.quick-links .dry-link { --link-glow: rgba(63,159,255,.48); background: linear-gradient(135deg, #1554a5, #258de0); }
+.quick-links .sanitary-link { --link-glow: rgba(255,92,190,.45); background: linear-gradient(135deg, #922e78, #d34b9e); }
+.quick-links .special-link { --link-glow: rgba(255,91,91,.45); background: linear-gradient(135deg, #9a3038, #df5148); }
+.quick-links .infographic-link { --link-glow: rgba(255,173,63,.48); background: linear-gradient(135deg, #a54a16, #e89029); }
 .hero-search {
   text-align: center;
   padding: 50px 20px 40px;
@@ -341,6 +381,14 @@ footer {
 <header>
   <a href="index.html" class="header-logo">MR.SEGREGATOR</a>
 </header>
+
+<nav class="quick-links" aria-label="Direct links to waste guides">
+  <a class="wet-link" href="wet.html">Wet waste</a>
+  <a class="dry-link" href="dry.html">Dry waste</a>
+  <a class="sanitary-link" href="sanitary.html">Sanitary waste</a>
+  <a class="special-link" href="special.html">Special care waste</a>
+  <a class="infographic-link" href="infographic.html">All infographics</a>
+</nav>
 
 <section class="categories-section">
   <div class="hero-search">
