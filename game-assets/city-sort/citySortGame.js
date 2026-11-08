@@ -2,7 +2,11 @@ const THREE=window.THREE;
 const GLTFLoader=THREE?.GLTFLoader;
 if(!THREE||!GLTFLoader){document.getElementById('loadingNote').textContent='The 3D engine could not start. Refresh this page to try again.';throw new Error('City Sort 3D dependencies did not load.');}
 
-const ASSETS='game-assets/city-sort/models/';
+// Resolve assets relative to this script so the game works both at the site root
+// and when hosted from a nested path (for example, a repository Pages URL).
+const ASSET_ROOT=new URL('./',document.currentScript.src);
+const ASSETS=new URL('models/',ASSET_ROOT).href;
+const TEXTURES=new URL('textures/',ASSET_ROOT).href;
 const streams={wet:{name:'Wet waste',short:'WET',color:0x32c983},dry:{name:'Dry / recyclable',short:'DRY',color:0x43a9ff},sanitary:{name:'Sanitary waste',short:'SANITARY',color:0xe16db7},special:{name:'Special care',short:'SPECIAL',color:0xf3aa4d}};
 const lessons=[
  {id:'apple',name:'Apple core',stream:'wet',hint:'Food scraps and garden waste belong in the wet stream. They can be composted.'},
@@ -151,7 +155,14 @@ function finish(which){active=false;paused=false;$('pauseBtn').hidden=true;$('hu
   else if(which==='campaign'){$('resultIcon').textContent='🏆';$('resultTitle').textContent='Greenview restored';$('resultCopy').textContent='Every dispatch cleared. Five districts are safer, cleaner and ready for the next day.';}
   else{$('resultIcon').textContent='🏙️';$('resultTitle').textContent='Greenview, restored';$('resultCopy').textContent='You found every misplaced item and returned valuable materials to the right stream.';}}
 function toMenu(){$('resultScreen').classList.add('hidden');$('pauseScreen').classList.add('hidden');$('hud').classList.remove('active');$('menuScreen').classList.remove('hidden');$('pauseBtn').hidden=true;active=false;paused=false;cleanupItems();}
-function addModel(model,x,z,height,rotation=0,parent=staticWorld){const clone=model.scene.clone(true);setModelSize(clone,height);clone.rotation.y=rotation;clone.position.x=x;clone.position.z=z;parent.add(clone);return clone;}
+function cloneModelScene(source){
+ const clone=source.clone(true),cloneLookup=new Map();
+ const pair=(original,copy)=>{cloneLookup.set(original,copy);for(let i=0;i<original.children.length;i++)pair(original.children[i],copy.children[i]);};
+ pair(source,clone);
+ clone.traverse(copy=>{if(!copy.isSkinnedMesh)return;let original=null;for(const [sourceNode,cloneNode] of cloneLookup)if(cloneNode===copy){original=sourceNode;break;}if(!original?.skeleton)return;const skeleton=original.skeleton.clone();skeleton.bones=original.skeleton.bones.map(bone=>cloneLookup.get(bone));copy.bind(skeleton,original.bindMatrix);});
+ return clone;
+}
+function addModel(model,x,z,height,rotation=0,parent=staticWorld){const clone=cloneModelScene(model.scene);setModelSize(clone,height);clone.rotation.y=rotation;clone.position.x=x;clone.position.z=z;parent.add(clone);return clone;}
 function setupPlayer(){if(playerRoot){if(!assets.player||playerRoot.userData.imported)return;const position=playerRoot.position.clone(),rotation=playerRoot.rotation.y;dynamicWorld.remove(playerRoot);playerRoot=addModel(assets.player,position.x,position.z,1.9,rotation,dynamicWorld);playerRoot.position.copy(position);playerRoot.rotation.y=rotation;playerRoot.userData.imported=true;vacuumTool=null;buildVacuumTool(playerRoot);}else{playerRoot=assets.player?addModel(assets.player,0,27,1.9,Math.PI,dynamicWorld):createActor(0,27,0x337aa6,dynamicWorld);playerRoot.userData.imported=!!assets.player;buildVacuumTool(playerRoot);}if(assets.player?.animations?.length&&!playerMixer){playerMixer=new THREE.AnimationMixer(playerRoot);const idle=assets.player.animations.find(a=>/idle|stand/i.test(a.name))||assets.player.animations[0],walk=assets.player.animations.find(a=>/walk/i.test(a.name))||assets.player.animations.find(a=>/run|jog/i.test(a.name));playerIdleAction=playerMixer.clipAction(idle);playerIdleAction.play();if(walk||assets.player.animations.length>1)playerWalkAction=playerMixer.clipAction(walk||assets.player.animations.find(a=>a!==idle));}if(networked&&!remotePlayer)remotePlayer=createActor(1,1.3,0xd28d53,dynamicWorld);}
 function addStreetFurniture(x,z,kind='bench'){
  const g=new THREE.Group();staticWorld.add(g);g.position.set(x,0,z);
@@ -206,7 +217,7 @@ function buildProceduralCity(){
 }
 function rebuildBins(){for(const old of binRoots)staticWorld.remove(old);binRoots.length=0;cityHubs.forEach(station=>Object.keys(streams).forEach((key,i)=>buildBin(i,key,station)));for(const station of [-150,150])for(const laneX of [-52,52])Object.keys(streams).forEach((key,i)=>buildBin(i,key,station,laneX));}
 function loadAsset(name){return new Promise(resolve=>{try{loader.load(ASSETS+`${name}.glb`,g=>{assets[name]=g;resolve(true)},undefined,()=>resolve(false));}catch{resolve(false);}});}
-function loadTexture(name){return new Promise(resolve=>{textureLoader.load(`${ASSETS.replace('models/','textures/')}${name}.jpg`,t=>{t.colorSpace=/_nor_gl|_rough$/.test(name)?THREE.NoColorSpace:THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;resolve(t)},undefined,()=>resolve(null));});}
+function loadTexture(name){return new Promise(resolve=>{textureLoader.load(`${TEXTURES}${name}.jpg`,t=>{t.colorSpace=/_nor_gl|_rough$/.test(name)?THREE.NoColorSpace:THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;resolve(t)},undefined,()=>resolve(null));});}
 async function loadCity(){const textureNames=['asphalt_07','asphalt_07_nor_gl','asphalt_07_rough','concrete_pavement','concrete_pavement_nor_gl','concrete_pavement_rough','brick_wall_001','brick_wall_001_nor_gl','brick_wall_001_rough','concrete_wall_001','concrete_wall_001_nor_gl','concrete_wall_001_rough'];const textureLoads=Promise.all(textureNames.map(loadTexture));if(location.protocol!=='file:')await Promise.all([...['building','tree','car','trash','instructor','player'].map(loadAsset),textureLoads]);else await textureLoads;const loadedTextures=await textureLoads;textureNames.forEach((name,i)=>surfaces[name]=loadedTextures[i]);
  if(surfaces.asphalt_07){asphalt.map=surfaces.asphalt_07;asphalt.normalMap=surfaces.asphalt_07_nor_gl;asphalt.roughnessMap=surfaces.asphalt_07_rough;asphalt.normalScale.set(.62,.62);for(const name of ['asphalt_07','asphalt_07_nor_gl','asphalt_07_rough'])if(surfaces[name])surfaces[name].repeat.set(2,115);asphalt.needsUpdate=true;}if(surfaces.concrete_pavement){concrete.map=surfaces.concrete_pavement;concrete.normalMap=surfaces.concrete_pavement_nor_gl;concrete.roughnessMap=surfaces.concrete_pavement_rough;concrete.normalScale.set(.5,.5);for(const name of ['concrete_pavement','concrete_pavement_nor_gl','concrete_pavement_rough'])if(surfaces[name])surfaces[name].repeat.set(2.5,92);concrete.needsUpdate=true;}if(surfaces.brick_wall_001||surfaces.concrete_wall_001){for(const [base,normal,rough] of [['brick_wall_001','brick_wall_001_nor_gl','brick_wall_001_rough'],['concrete_wall_001','concrete_wall_001_nor_gl','concrete_wall_001_rough']]){for(const name of [base,normal,rough])if(surfaces[name])surfaces[name].repeat.set(2.4,6);}buildingMaterials.forEach((m,i)=>{const brick=i%4===0;m.map=surfaces[brick?'brick_wall_001':'concrete_wall_001']||surfaces.brick_wall_001||surfaces.concrete_wall_001;m.normalMap=surfaces[brick?'brick_wall_001_nor_gl':'concrete_wall_001_nor_gl'];m.roughnessMap=surfaces[brick?'brick_wall_001_rough':'concrete_wall_001_rough'];m.normalScale.set(.42,.42);m.needsUpdate=true;});}
  rebuildBins();
